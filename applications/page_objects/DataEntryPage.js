@@ -1,0 +1,1 @@
+class DataEntryPage { enterStudyId(studyId) { cy.get('#studyId').type(studyId); } enterPatientId(patientId) { cy.get('#patientId').type(patientId); } enterLargeData(data) { cy.get('#largeDataField').type(data); } submitForm() { cy.get('#submitButton').click(); } }
