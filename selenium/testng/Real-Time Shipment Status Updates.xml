@@ -1,0 +1,7 @@
+<suite name="ShipmentStatusSuite">
+    <test name="ShipmentStatusTest">
+        <classes>
+            <class name="com.tests.ShipmentStatusTest"/>
+        </classes>
+    </test>
+</suite>
