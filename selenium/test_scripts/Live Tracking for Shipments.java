@@ -61,4 +61,140 @@ public class LiveTrackingTest {
     public void tearDown() {
         liveTrackingPage.logout();
     }
+}```java
+// LiveTrackingPage.java (Page Object Model)
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class LiveTrackingPage {
+    WebDriver driver;
+
+    @FindBy(id = "shipmentIdField")
+    WebElement shipmentIdField;
+
+    @FindBy(id = "currentLocation")
+    WebElement currentLocation;
+
+    @FindBy(id = "estimatedDeliveryTime")
+    WebElement estimatedDeliveryTime;
+
+    @FindBy(id = "refreshButton")
+    WebElement refreshButton;
+
+    @FindBy(id = "logoutButton")
+    WebElement logoutButton;
+
+    @FindBy(id = "loginButton")
+    WebElement loginButton;
+
+    @FindBy(id = "notificationSettings")
+    WebElement notificationSettings;
+
+    @FindBy(id = "updateLocationButton")
+    WebElement updateLocationButton;
+
+    @FindBy(id = "trackingHistoryLog")
+    WebElement trackingHistoryLog;
+
+    @FindBy(id = "errorMessages")
+    WebElement errorMessages;
+
+    public LiveTrackingPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+
+    public void enterShipmentId(String shipmentId) {
+        shipmentIdField.sendKeys(shipmentId);
+    }
+
+    public String getCurrentLocation() {
+        return currentLocation.getText();
+    }
+
+    public String getEstimatedDeliveryTime() {
+        return estimatedDeliveryTime.getText();
+    }
+
+    public void refreshPage() {
+        refreshButton.click();
+    }
+
+    public void logout() {
+        logoutButton.click();
+    }
+
+    public void login() {
+        loginButton.click();
+    }
+
+    public void checkNotificationSettings() {
+        notificationSettings.click();
+    }
+
+    public void simulateNetworkIssue() {
+        driver.setNetworkConditions(new NetworkConditions(false, false, 0, 0));
+    }
+
+    public void updateLocation() {
+        updateLocationButton.click();
+    }
+
+    public String getTrackingHistoryLog() {
+        return trackingHistoryLog.getText();
+    }
+
+    public String getErrorMessages() {
+        return errorMessages.getText();
+    }
 }
+
+// LiveTrackingTest.java (Test Script)
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class LiveTrackingTest {
+    WebDriver driver;
+    LiveTrackingPage liveTrackingPage;
+
+    @BeforeClass
+    public void setUp() {
+        driver = new ChromeDriver();
+        driver.get("https://example.com/live-tracking");
+        liveTrackingPage = new LiveTrackingPage(driver);
+    }
+
+    @Test
+    public void testLiveTracking() {
+        liveTrackingPage.enterShipmentId("54321");
+        String initialLocation = liveTrackingPage.getCurrentLocation();
+        liveTrackingPage.updateLocation();
+        Assert.assertNotEquals(liveTrackingPage.getCurrentLocation(), initialLocation);
+        Assert.assertNotNull(liveTrackingPage.getEstimatedDeliveryTime());
+        liveTrackingPage.refreshPage();
+        liveTrackingPage.logout();
+        liveTrackingPage.login();
+        liveTrackingPage.checkNotificationSettings();
+        liveTrackingPage.simulateNetworkIssue();
+        liveTrackingPage.updateLocation();
+        Assert.assertNotNull(liveTrackingPage.getTrackingHistoryLog());
+        Assert.assertNull(liveTrackingPage.getErrorMessages());
+        liveTrackingPage.updateLocation();
+        Assert.assertTrue(liveTrackingPage.getCurrentLocation().contains("Mobile"));
+        liveTrackingPage.refreshPage();
+        Assert.assertTrue(liveTrackingPage.getCurrentLocation().contains("Reboot"));
+        Assert.assertTrue(liveTrackingPage.getCurrentLocation().contains("Accurate"));
+    }
+
+    @AfterClass
+    public void tearDown() {
+        driver.quit();
+    }
+}
+```
