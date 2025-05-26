@@ -1,10 +1,10 @@
-package com.tests;
-
 import com.pageobjects.ShipmentPage;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.Assert;
+package com.tests;
+
 
 public class ShipmentStatusTest {
     private ShipmentPage shipmentPage;
@@ -16,7 +16,7 @@ public class ShipmentStatusTest {
     }
 
     @Test
-    public void testRealTimeShipmentStatusUpdates() {
+    public void testRealTimeShipmentStatusUpdatesViaSMS() {
         shipmentPage.navigateToShipmentTrackingPage();
         Assert.assertTrue(shipmentPage.isTrackingPageDisplayed());
 
@@ -26,8 +26,8 @@ public class ShipmentStatusTest {
         String currentStatus = shipmentPage.checkCurrentStatus();
         Assert.assertEquals(currentStatus, "In Transit");
 
-        shipmentPage.simulateStatusUpdate("Out for Delivery");
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Out for Delivery");
+        shipmentPage.simulateStatusUpdate("To be delivered");
+        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "To be delivered");
 
         shipmentPage.simulateStatusUpdate("Delivered");
         Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
@@ -58,6 +58,8 @@ public class ShipmentStatusTest {
 
         shipmentPage.rebootSystem();
         Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
+
+        Assert.assertTrue(shipmentPage.verifyShipmentStatusViaSMS());
     }
 
     @AfterMethod
