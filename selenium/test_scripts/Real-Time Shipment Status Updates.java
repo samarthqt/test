@@ -65,3 +65,24 @@ public class ShipmentStatusTest {
         shipmentPage.logout();
     }
 }
+```java
+shipmentPage.simulateStatusUpdate("To be Delivered");
+Assert.assertEquals(shipmentPage.checkCurrentStatus(), "To be Delivered");
+
+shipmentPage.simulateStatusUpdate("Delivered");
+Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
+
+shipmentPage.simulateNetworkIssue();
+shipmentPage.attemptStatusUpdateDuringNetworkIssue();
+Assert.assertTrue(shipmentPage.isNetworkIssueHandledGracefully());
+
+shipmentPage.attemptStatusUpdateFromDifferentDevice();
+Assert.assertTrue(shipmentPage.isStatusSynchronizedAcrossDevices());
+
+shipmentPage.verifyStatusUsingSMSOnMobileDevice();
+Assert.assertTrue(shipmentPage.isSMSStatusCorrect());
+
+shipmentPage.rebootSystem();
+shipmentPage.verifyShipmentStatusPostReboot();
+Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
+```
