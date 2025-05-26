@@ -1,4 +1,5 @@
 package com.tests;
+import java.util.concurrent.TimeUnit;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -31,5 +32,16 @@ public class ShipmentTrackingTest extends WebReusableComponents {
     @AfterMethod
     public void tearDown() {
         closeDriver();
+    }
+}
+
+public class ShipmentTrackingTest extends WebReusableComponents {
+
+    @BeforeMethod
+    public void setUp() {
+        initializeDriver();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); // Added implicit wait for better synchronization
+        shipmentTrackingPage = new ShipmentTrackingPage(driver);
+        loginToSystem("validUsername", "validPassword");
     }
 }
