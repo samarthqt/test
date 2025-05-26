@@ -33,3 +33,4 @@ public class ShipmentTrackingTest extends WebReusableComponents {
         closeDriver();
     }
 }
+shipmentTrackingPage.selectOrderById("98765");
