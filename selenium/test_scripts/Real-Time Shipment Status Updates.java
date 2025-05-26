@@ -1,67 +1,75 @@
-package com.tests;
-
-import com.pageobjects.ShipmentPage;
+import com.pageobjects.ShipmentTrackingPage;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.Assert;
+import org.openqa.selenium.WebDriver;
+```java
+package com.tests;
 
-public class ShipmentStatusTest {
-    private ShipmentPage shipmentPage;
+
+public class ShipmentStatusSMSUpdatesTest {
+    private WebDriver driver;
+    private ShipmentTrackingPage shipmentTrackingPage;
 
     @BeforeMethod
     public void setUp() {
-        shipmentPage = new ShipmentPage();
-        shipmentPage.login("67890");
+        shipmentTrackingPage = new ShipmentTrackingPage(driver);
+        shipmentTrackingPage.navigateToShipmentTrackingPage("http://shipmenttracking.com");
+        shipmentTrackingPage.logoutAndLogin("67890", "password"); // Assuming password is needed
     }
 
     @Test
-    public void testRealTimeShipmentStatusUpdates() {
-        shipmentPage.navigateToShipmentTrackingPage();
-        Assert.assertTrue(shipmentPage.isTrackingPageDisplayed());
+    public void testRealTimeShipmentStatusUpdatesViaSMS() {
+        shipmentTrackingPage.navigateToShipmentTrackingPage("http://shipmenttracking.com");
+        Assert.assertTrue(shipmentTrackingPage.getCurrentStatus().contains("Tracking Page"));
 
-        shipmentPage.enterShipmentID("12345");
-        Assert.assertTrue(shipmentPage.isShipmentDetailsDisplayed("12345"));
+        shipmentTrackingPage.enterShipmentID("12345");
+        Assert.assertTrue(shipmentTrackingPage.getCurrentStatus().contains("12345"));
 
-        String currentStatus = shipmentPage.checkCurrentStatus();
+        String currentStatus = shipmentTrackingPage.getCurrentStatus();
         Assert.assertEquals(currentStatus, "In Transit");
 
-        shipmentPage.simulateStatusUpdate("Out for Delivery");
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Out for Delivery");
+        shipmentTrackingPage.simulateStatusUpdate("To be delivered");
+        Assert.assertEquals(shipmentTrackingPage.getCurrentStatus(), "To be delivered");
 
-        shipmentPage.simulateStatusUpdate("Delivered");
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
+        shipmentTrackingPage.simulateStatusUpdate("Delivered");
+        Assert.assertEquals(shipmentTrackingPage.getCurrentStatus(), "Delivered");
 
-        String timestamp = shipmentPage.verifyLatestStatusTimestamp();
-        Assert.assertTrue(shipmentPage.isTimestampCurrent(timestamp));
+        String timestamp = shipmentTrackingPage.getTimestampOfLatestUpdate();
+        Assert.assertTrue(timestamp.contains("Current Timestamp"));
 
-        shipmentPage.refreshPage();
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
+        shipmentTrackingPage.refreshPage();
+        Assert.assertEquals(shipmentTrackingPage.getCurrentStatus(), "Delivered");
 
-        shipmentPage.logout();
-        shipmentPage.login("67890");
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
+        shipmentTrackingPage.logoutAndLogin("67890", "password");
+        Assert.assertEquals(shipmentTrackingPage.getCurrentStatus(), "Delivered");
 
-        Assert.assertTrue(shipmentPage.areNotificationsEnabled());
+        shipmentTrackingPage.checkNotificationSettings();
+        Assert.assertTrue(shipmentTrackingPage.getCurrentStatus().contains("Notifications Enabled"));
 
-        shipmentPage.simulateNetworkIssue();
-        Assert.assertTrue(shipmentPage.isNetworkIssueHandledGracefully());
+        shipmentTrackingPage.simulateNetworkIssue();
+        Assert.assertTrue(shipmentTrackingPage.getCurrentStatus().contains("Network Issue Handled"));
 
-        Assert.assertTrue(shipmentPage.verifyShipmentHistoryLog());
+        String historyLog = shipmentTrackingPage.verifyShipmentHistoryLog();
+        Assert.assertTrue(historyLog.contains("History Verified"));
 
-        Assert.assertFalse(shipmentPage.areErrorMessagesDisplayed());
+        String errorMessages = shipmentTrackingPage.checkForErrorMessages();
+        Assert.assertFalse(errorMessages.contains("Error"));
 
-        shipmentPage.updateStatusFromDifferentDevice();
-        Assert.assertTrue(shipmentPage.isStatusSynchronizedAcrossDevices());
+        shipmentTrackingPage.attemptUpdateFromDifferentDevice();
+        Assert.assertTrue(shipmentTrackingPage.getCurrentStatus().contains("Synchronized"));
 
-        Assert.assertTrue(shipmentPage.verifyStatusOnMobileDevice());
+        shipmentTrackingPage.verifyShipmentStatusUsingSMS();
+        Assert.assertTrue(shipmentTrackingPage.getCurrentStatus().contains("SMS Verified"));
 
-        shipmentPage.rebootSystem();
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
+        shipmentTrackingPage.checkShipmentStatusAfterSystemReboot();
+        Assert.assertEquals(shipmentTrackingPage.getCurrentStatus(), "Delivered");
     }
 
     @AfterMethod
     public void tearDown() {
-        shipmentPage.logout();
+        shipmentTrackingPage.logoutAndLogin("67890", "password");
     }
 }
+```
