@@ -61,4 +61,129 @@ public class LiveTrackingTest {
     public void tearDown() {
         liveTrackingPage.logout();
     }
+}```java
+// LiveTrackingPage.java (Page Object Model file)
+package com.example.pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+public class LiveTrackingPage {
+    private WebDriver driver;
+
+    private By shipmentIdField = By.id("shipmentId");
+    private By currentLocation = By.id("currentLocation");
+    private By estimatedDeliveryTime = By.id("estimatedDeliveryTime");
+    private By notificationSettings = By.id("notificationSettings");
+    private By trackingHistoryLog = By.id("trackingHistoryLog");
+    private By errorMessages = By.id("errorMessages");
+
+    public LiveTrackingPage(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public void navigateToTrackingPage(String url) {
+        driver.get(url);
+    }
+
+    public void enterShipmentId(String shipmentId) {
+        driver.findElement(shipmentIdField).sendKeys(shipmentId);
+    }
+
+    public String getCurrentLocation() {
+        return driver.findElement(currentLocation).getText();
+    }
+
+    public void simulateLocationChange(String newLocation) {
+        WebElement locationField = driver.findElement(currentLocation);
+        locationField.clear();
+        locationField.sendKeys(newLocation);
+    }
+
+    public String getEstimatedDeliveryTime() {
+        return driver.findElement(estimatedDeliveryTime).getText();
+    }
+
+    public void refreshPage() {
+        driver.navigate().refresh();
+    }
+
+    public void logOut() {
+        driver.findElement(By.id("logout")).click();
+    }
+
+    public void logIn(String username, String password) {
+        driver.findElement(By.id("username")).sendKeys(username);
+        driver.findElement(By.id("password")).sendKeys(password);
+        driver.findElement(By.id("login")).click();
+    }
+
+    public String getNotificationSettings() {
+        return driver.findElement(notificationSettings).getText();
+    }
+
+    public void simulateNetworkIssue() {
+        // Simulate network issue logic here
+    }
+
+    public String getTrackingHistoryLog() {
+        return driver.findElement(trackingHistoryLog).getText();
+    }
+
+    public String getErrorMessages() {
+        return driver.findElement(errorMessages).getText();
+    }
+
+    public void updateLocationFromDifferentDevice(String newLocation) {
+        WebElement locationField = driver.findElement(currentLocation);
+        locationField.clear();
+        locationField.sendKeys(newLocation);
+    }
+
+    public void verifyLiveTrackingOnMobile() {
+        // Mobile device specific logic here
+    }
+
+    public void verifyLiveTrackingAfterReboot() {
+        // System reboot logic here
+    }
+
+    public boolean verifyTrackingAccuracy(String expectedLocation) {
+        return getCurrentLocation().equals(expectedLocation);
+    }
 }
+
+// LiveTrackingTest.java (Test script)
+package com.example.tests;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import com.example.pages.LiveTrackingPage;
+
+public class LiveTrackingTest {
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+        LiveTrackingPage trackingPage = new LiveTrackingPage(driver);
+
+        trackingPage.navigateToTrackingPage("http://example.com/live-tracking");
+        trackingPage.enterShipmentId("54321");
+        String currentLocation = trackingPage.getCurrentLocation();
+        trackingPage.simulateLocationChange("New Location");
+        String estimatedDeliveryTime = trackingPage.getEstimatedDeliveryTime();
+        trackingPage.refreshPage();
+        trackingPage.logOut();
+        trackingPage.logIn("user", "password");
+        String notificationSettings = trackingPage.getNotificationSettings();
+        trackingPage.simulateNetworkIssue();
+        String trackingHistoryLog = trackingPage.getTrackingHistoryLog();
+        String errorMessages = trackingPage.getErrorMessages();
+        trackingPage.updateLocationFromDifferentDevice("Another Location");
+        trackingPage.verifyLiveTrackingOnMobile();
+        trackingPage.verifyLiveTrackingAfterReboot();
+        boolean isTrackingAccurate = trackingPage.verifyTrackingAccuracy("Expected Location");
+
+        driver.quit();
+    }
+}
+```
