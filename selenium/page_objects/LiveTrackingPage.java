@@ -1,4 +1,7 @@
 package com.pageobjects;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriverException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -151,5 +154,44 @@ public class LiveTrackingPage extends WebReusableComponents {
     public boolean isLiveTrackingAccurate() {
         // Implement accuracy check
         return driver.findElement(currentLocation).getText().contains(Accurate);
+    }
+}
+
+public class LiveTrackingPage extends WebReusableComponents {
+    // Existing code...
+
+    public void simulateNetworkIssue() {
+        try {
+            // Implement network issue simulation using JavaScript to disable network
+            JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+            jsExecutor.executeScript("window.navigator.connection.type = 'none';");
+            Assert.assertTrue(isNetworkIssueHandledGracefully(), "Network issue not handled gracefully.");
+        } catch (WebDriverException e) {
+            Assert.fail("Failed to simulate network issue: " + e.getMessage());
+        }
+    }
+
+    public void simulateLocationChange() {
+        try {
+            // Implement location change simulation using JavaScript for more control
+            JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+            jsExecutor.executeScript("document.querySelector('#simulateLocationChange').click();");
+            Assert.assertTrue(isLocationUpdatedInRealTime(), "Location not updated in real-time after simulation.");
+        } catch (NoSuchElementException e) {
+            Assert.fail("Element for location change simulation not found: " + e.getMessage());
+        }
+    }
+
+    public boolean areErrorMessagesDisplayed() {
+        try {
+            // Improved error message check with logging
+            int errorMessageCount = driver.findElements(By.className("errorMessage")).size();
+            if (errorMessageCount > 0) {
+                System.out.println("Error messages displayed: " + errorMessageCount);
+            }
+            return errorMessageCount > 0;
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 }
