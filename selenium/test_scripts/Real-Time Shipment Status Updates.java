@@ -1,67 +1,71 @@
-package com.tests;
-
-import com.pageobjects.ShipmentPage;
+import com.pageobjects.ShipmentTrackingPage;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 
+package com.tests;
+
+
 public class ShipmentStatusTest {
-    private ShipmentPage shipmentPage;
+    private WebDriver driver;
+    private ShipmentTrackingPage shipmentPage;
 
     @BeforeMethod
     public void setUp() {
-        shipmentPage = new ShipmentPage();
-        shipmentPage.login("67890");
+        driver = // Initialize WebDriver here
+        shipmentPage = new ShipmentTrackingPage(driver);
+        shipmentPage.logoutAndLogin("67890", "password"); // Assuming password is needed
     }
 
     @Test
     public void testRealTimeShipmentStatusUpdates() {
-        shipmentPage.navigateToShipmentTrackingPage();
-        Assert.assertTrue(shipmentPage.isTrackingPageDisplayed());
+        shipmentPage.navigateToShipmentTrackingPage("http://example.com/shipment-tracking"); // Assuming URL needed
+        Assert.assertTrue(driver.findElement(By.id("trackingPage")).isDisplayed()); // Assuming trackingPage locator
 
         shipmentPage.enterShipmentID("12345");
-        Assert.assertTrue(shipmentPage.isShipmentDetailsDisplayed("12345"));
+        Assert.assertTrue(driver.findElement(By.id("shipmentDetails")).isDisplayed()); // Assuming shipmentDetails locator
 
-        String currentStatus = shipmentPage.checkCurrentStatus();
+        String currentStatus = shipmentPage.getCurrentStatus();
         Assert.assertEquals(currentStatus, "In Transit");
 
-        shipmentPage.simulateStatusUpdate("Out for Delivery");
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Out for Delivery");
+        shipmentPage.simulateStatusUpdate("To be delivered");
+        Assert.assertEquals(shipmentPage.getCurrentStatus(), "To be delivered");
 
         shipmentPage.simulateStatusUpdate("Delivered");
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
+        Assert.assertEquals(shipmentPage.getCurrentStatus(), "Delivered");
 
-        String timestamp = shipmentPage.verifyLatestStatusTimestamp();
-        Assert.assertTrue(shipmentPage.isTimestampCurrent(timestamp));
+        String timestamp = shipmentPage.getTimestampOfLatestStatusUpdate();
+        Assert.assertTrue(driver.findElement(By.id("timestamp")).getText().equals(timestamp)); // Assuming timestamp locator
 
         shipmentPage.refreshPage();
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
+        Assert.assertEquals(shipmentPage.getCurrentStatus(), "Delivered");
 
-        shipmentPage.logout();
-        shipmentPage.login("67890");
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
+        shipmentPage.logoutAndLogin("67890", "password"); // Assuming password is needed
+        Assert.assertEquals(shipmentPage.getCurrentStatus(), "Delivered");
 
-        Assert.assertTrue(shipmentPage.areNotificationsEnabled());
+        Assert.assertTrue(shipmentPage.checkNotificationSettings());
 
-        shipmentPage.simulateNetworkIssue();
-        Assert.assertTrue(shipmentPage.isNetworkIssueHandledGracefully());
+        shipmentPage.simulateNetworkIssueAndAttemptUpdate("Delivered");
+        Assert.assertTrue(driver.findElement(By.id("networkIssueHandled")).isDisplayed()); // Assuming networkIssueHandled locator
 
-        Assert.assertTrue(shipmentPage.verifyShipmentHistoryLog());
+        Assert.assertTrue(driver.findElement(By.id("shipmentHistoryLog")).getText().contains("Delivered")); // Assuming shipmentHistoryLog locator
 
-        Assert.assertFalse(shipmentPage.areErrorMessagesDisplayed());
+        Assert.assertFalse(shipmentPage.checkForErrorMessages());
 
-        shipmentPage.updateStatusFromDifferentDevice();
-        Assert.assertTrue(shipmentPage.isStatusSynchronizedAcrossDevices());
+        shipmentPage.attemptStatusUpdateFromDifferentDevice("Delivered");
+        Assert.assertTrue(driver.findElement(By.id("statusSynchronized")).isDisplayed()); // Assuming statusSynchronized locator
 
-        Assert.assertTrue(shipmentPage.verifyStatusOnMobileDevice());
+        Assert.assertTrue(shipmentPage.verifyShipmentStatusUsingSMS());
 
-        shipmentPage.rebootSystem();
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
+        Assert.assertTrue(shipmentPage.checkShipmentStatusAfterSystemReboot());
     }
 
     @AfterMethod
     public void tearDown() {
-        shipmentPage.logout();
+        shipmentPage.logoutAndLogin("67890", "password"); // Assuming logout process requires re-login
+        driver.quit();
     }
 }
