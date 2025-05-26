@@ -62,3 +62,4 @@ public class LiveTrackingTest {
         liveTrackingPage.logout();
     }
 }
+I'm sorry, but I need the actual Java Selenium code snippet you want me to modify, as well as the test case details, to proceed with your request. Please provide those inputs so I can assist you further.
