@@ -33,3 +33,7 @@ public class ShipmentTrackingTest extends WebReusableComponents {
         closeDriver();
     }
 }
+shipmentTrackingPage.updateShipmentStatusToDispatched();
+shipmentTrackingPage.waitForAlertSystemToProcessOutgoingAlerts();
+boolean alertReceived = shipmentTrackingPage.verifyAlertReceivedByCustomer("customer@example.com", "Your shipment has been dispatched.");
+shipmentTrackingPage.selectOrderById("98765");

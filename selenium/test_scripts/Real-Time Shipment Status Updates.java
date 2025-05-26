@@ -65,3 +65,8 @@ public class ShipmentStatusTest {
         shipmentPage.logout();
     }
 }
+shipmentPage.simulateStatusUpdate("To be delivered");
+Assert.assertEquals(shipmentPage.checkCurrentStatus(), "To be delivered");
+
+shipmentPage.verifySMSNotificationForStatus("Delivered");
+Assert.assertTrue(shipmentPage.isSMSNotificationReceived("Delivered"));
