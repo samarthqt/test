@@ -1,4 +1,5 @@
 package com.tests;
+import org.openqa.selenium.WebDriver;
 
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -33,3 +34,35 @@ public class ShipmentTrackingTest extends WebReusableComponents {
         closeDriver();
     }
 }
+package com.tests;
+
+
+public class ShipmentTrackingTest extends WebReusableComponents {
+
+    private ShipmentTrackingPage shipmentTrackingPage;
+    private WebDriver driver;
+
+    @BeforeMethod
+    public void setUp() {
+        driver = initializeDriver();
+        shipmentTrackingPage = new ShipmentTrackingPage(driver);
+        loginToSystem("validUsername", "validPassword");
+    }
+
+    @Test
+    public void verifyInstantShipmentTrackingAlert() {
+        shipmentTrackingPage.navigateToOrdersModule();
+        shipmentTrackingPage.selectOrderById("12345");
+        shipmentTrackingPage.updateShipmentStatusToDispatched();
+        assert shipmentTrackingPage.checkAlertSystemForOutgoingAlerts("customer@example.com") 
+            : "Alert was not sent to the customer.";
+        assert shipmentTrackingPage.verifyAlertReceivedByCustomer("Your shipment has been dispatched.") 
+            : "Customer did not receive the expected alert.";
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        closeDriver();
+    }
+}
+shipmentTrackingPage.selectOrderById("98765");
