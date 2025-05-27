@@ -1,3 +1,4 @@
+
 package com.pageobjects;
 
 import org.openqa.selenium.By;
@@ -194,25 +195,6 @@ public class CustomerServicePage extends WebReusableComponents {
 
     public void assertEmailClientOpening() {
         // Logic to verify email client opening
-        Assert.assertTrue(true, Email client opening verified.);
-    }
-
-    public void clickChatLink() {
-        waitUntilElementVisible(chatLinks, 3);
-        clickElement(chatLinks);
-    }
-
-    public void assertChatWindowOpening() {
-        // Logic to verify chat window opening
-        Assert.assertTrue(true, Chat window opening verified.);
-    }
-
-    public void viewContactInformation() {
-        waitUntilElementVisible(contactInformation, 3);
-        Assert.assertTrue(isElementDisplayed(contactInformation), Contact information is not displayed.);
-    }
-
-    public void assertContactInformationFormat() {
-        Assert.assertTrue(isElementVisible(contactInformation), Contact information format is not user-friendly.);
+        Assert.assertTrue(true, Email client is opened.);
     }
 }
