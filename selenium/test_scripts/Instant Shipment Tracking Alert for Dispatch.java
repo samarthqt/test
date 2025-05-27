@@ -1,10 +1,10 @@
-package com.tests;
-
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import com.pageobjects.ShipmentTrackingPage;
 import com.framework.reusable.WebReusableComponents;
+
+package com.tests;
 
 public class ShipmentTrackingTest extends WebReusableComponents {
 
@@ -20,7 +20,7 @@ public class ShipmentTrackingTest extends WebReusableComponents {
     @Test
     public void verifyInstantShipmentTrackingAlert() {
         shipmentTrackingPage.navigateToOrdersModule();
-        shipmentTrackingPage.selectOrderById("12345");
+        shipmentTrackingPage.selectOrderById("98765");
         shipmentTrackingPage.updateShipmentStatusToDispatched();
         boolean alertSent = shipmentTrackingPage.checkAlertSystemForOutgoingAlerts("customer@example.com");
         assert alertSent : "Alert was not sent to the customer.";
