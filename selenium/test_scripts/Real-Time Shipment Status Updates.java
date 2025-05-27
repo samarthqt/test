@@ -1,10 +1,11 @@
-package com.tests;
-
 import com.pageobjects.ShipmentPage;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.Assert;
+
+package com.tests;
+
 
 public class ShipmentStatusTest {
     private ShipmentPage shipmentPage;
@@ -23,11 +24,14 @@ public class ShipmentStatusTest {
         shipmentPage.enterShipmentID("12345");
         Assert.assertTrue(shipmentPage.isShipmentDetailsDisplayed("12345"));
 
+        shipmentPage.selectLocation("SampleLocation");
+        shipmentPage.clickOkButton();
+
         String currentStatus = shipmentPage.checkCurrentStatus();
         Assert.assertEquals(currentStatus, "In Transit");
 
-        shipmentPage.simulateStatusUpdate("Out for Delivery");
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Out for Delivery");
+        shipmentPage.simulateStatusUpdate("To be delivered");
+        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "To be delivered");
 
         shipmentPage.simulateStatusUpdate("Delivered");
         Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
@@ -42,6 +46,7 @@ public class ShipmentStatusTest {
         shipmentPage.login("67890");
         Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
 
+        shipmentPage.checkNotificationSettings();
         Assert.assertTrue(shipmentPage.areNotificationsEnabled());
 
         shipmentPage.simulateNetworkIssue();
