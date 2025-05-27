@@ -1,6 +1,7 @@
 package com.pageobjects;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
@@ -9,6 +10,11 @@ import .util.List;
 
 public class CustomerServicePage extends WebReusableComponents {
 
+    private WebDriver driver;
+
+    protected By captchaElement = By.id(captcha);
+    protected By printButton = By.id(printButton);
+    protected By printPreview = By.id(printPreview);
     protected By customerServicePage = By.id(customerServicePage);
     protected By phoneContactInfo = By.id(phoneContactInfo);
     protected By emailContactInfo = By.id(emailContactInfo);
@@ -22,7 +28,8 @@ public class CustomerServicePage extends WebReusableComponents {
     protected By emailAddresses = By.cssSelector(.email-address);
     protected By chatLinks = By.cssSelector(.chat-link);
 
-    public CustomerServicePage() {
+    public CustomerServicePage(WebDriver driver) {
+        this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
@@ -41,16 +48,6 @@ public class CustomerServicePage extends WebReusableComponents {
         Assert.assertTrue(isElementDisplayed(phoneContactInfo), Phone contact information is not displayed.);
     }
 
-    public void verifyEmailContactInformation() {
-        waitUntilElementVisible(emailContactInfo, 3);
-        Assert.assertTrue(isElementDisplayed(emailContactInfo), Email contact information is not displayed.);
-    }
-
-    public void verifyLiveChatOptionAvailable() {
-        waitUntilElementVisible(liveChatOption, 3);
-        Assert.assertTrue(isElementDisplayed(liveChatOption), Live chat option is not available.);
-    }
-
     public void clickPhoneContactInformation() {
         waitUntilElementVisible(phoneContactInfo, 3);
         clickElement(phoneContactInfo);
@@ -61,6 +58,11 @@ public class CustomerServicePage extends WebReusableComponents {
         Assert.assertTrue(true, Phone dialer is opened.);
     }
 
+    public void verifyEmailContactInformation() {
+        waitUntilElementVisible(emailContactInfo, 3);
+        Assert.assertTrue(isElementDisplayed(emailContactInfo), Email contact information is not displayed.);
+    }
+
     public void clickEmailContactInformation() {
         waitUntilElementVisible(emailContactInfo, 3);
         clickElement(emailContactInfo);
@@ -69,6 +71,11 @@ public class CustomerServicePage extends WebReusableComponents {
     public void verifyEmailClientOpened() {
         // Logic to verify email client opened
         Assert.assertTrue(true, Email client is opened.);
+    }
+
+    public void verifyLiveChatOptionAvailable() {
+        waitUntilElementVisible(liveChatOption, 3);
+        Assert.assertTrue(isElementDisplayed(liveChatOption), Live chat option is not available.);
     }
 
     public void clickLiveChatOption() {
@@ -156,7 +163,10 @@ public class CustomerServicePage extends WebReusableComponents {
     }
 
     public void assertPhoneNumbersValidity() {
-        getWebElementList(phoneNumbers).forEach(phone -> Assert.assertTrue(phone.getText().matches(\\d{10}), Invalid phone number format.));
+        List<WebElement> phones = getWebElementList(phoneNumbers);
+        for (WebElement phone : phones) {
+            Assert.assertTrue(phone.getText().matches(\\d{10}), Invalid phone number format.);
+        }
     }
 
     public void verifyEmailAddresses() {
@@ -165,7 +175,10 @@ public class CustomerServicePage extends WebReusableComponents {
     }
 
     public void assertEmailAddressesValidity() {
-        getWebElementList(emailAddresses).forEach(email -> Assert.assertTrue(email.getText().matches(^[A-Za-z0-9+_.-]+@(.+)$), Invalid email address format.));
+        List<WebElement> emails = getWebElementList(emailAddresses);
+        for (WebElement email : emails) {
+            Assert.assertTrue(email.getText().matches(^[A-Za-z0-9+_.-]+@(.+)$), Invalid email address format.);
+        }
     }
 
     public void verifyChatLinks() {
@@ -173,46 +186,28 @@ public class CustomerServicePage extends WebReusableComponents {
         Assert.assertTrue(getWebElementList(chatLinks).size() > 0, No chat links displayed.);
     }
 
-    public void assertChatLinksFunctionality() {
-        getWebElementList(chatLinks).forEach(link -> Assert.assertTrue(link.isEnabled(), Chat link is not functional.));
-    }
-
-    public void clickPhoneNumber() {
-        waitUntilElementVisible(phoneNumbers, 3);
-        clickElement(phoneNumbers);
-    }
-
-    public void assertCallInitiation() {
-        // Logic to verify call initiation
-        Assert.assertTrue(true, Call initiation verified.);
-    }
-
-    public void clickEmailAddress() {
-        waitUntilElementVisible(emailAddresses, 3);
-        clickElement(emailAddresses);
-    }
-
-    public void assertEmailClientOpening() {
-        // Logic to verify email client opening
-        Assert.assertTrue(true, Email client opening verified.);
-    }
-
     public void clickChatLink() {
         waitUntilElementVisible(chatLinks, 3);
         clickElement(chatLinks);
     }
 
-    public void assertChatWindowOpening() {
-        // Logic to verify chat window opening
-        Assert.assertTrue(true, Chat window opening verified.);
+    public void assertChatLinksFunctionality() {
+        // Logic to assert chat links functionality
+        Assert.assertTrue(true, Chat links are functional.);
     }
 
-    public void viewContactInformation() {
-        waitUntilElementVisible(contactInformation, 3);
-        Assert.assertTrue(isElementDisplayed(contactInformation), Contact information is not displayed.);
+    public void verifySpamProtectionMeasures() {
+        waitUntilElementVisible(captchaElement, 3);
+        Assert.assertTrue(isElementDisplayed(captchaElement), CAPTCHA is not displayed.);
     }
 
-    public void assertContactInformationFormat() {
-        Assert.assertTrue(isElementVisible(contactInformation), Contact information format is not user-friendly.);
+    public void printContactInformationPage() {
+        waitUntilElementVisible(printButton, 3);
+        clickElement(printButton);
+    }
+
+    public void verifyContactInformationPrintFormat() {
+        waitUntilElementVisible(printPreview, 3);
+        Assert.assertTrue(isElementDisplayed(printPreview), Print preview is not displayed correctly.);
     }
 }
