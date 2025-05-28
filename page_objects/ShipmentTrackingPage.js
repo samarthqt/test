@@ -1,70 +1,58 @@
-import { intercept } from 'cypress'; 
-class ShipmentTrackingPage { 
-  navigate() { 
-    cy.visit('/shipment-tracking'); 
-  } 
+import { simulateNetworkIssue, simulateSystemReboot } from '../utils/simulationHelpers';
+import { simulateStatusUpdate } from '../utils/statusUpdateHelpers';
 
-  verifyPageDisplayed() { 
-    cy.get('.shipment-tracking-page').should('be.visible'); 
-  } 
+class ShipmentTrackingPage {
+  visit() {
+    cy.visit('/shipment-tracking');
+  }
 
-  enterShipmentId(shipmentId) { 
-    cy.get('#shipment-id-input').type(shipmentId); 
-    cy.get('#track-shipment-button').click(); 
-  } 
+  enterShipmentId(id) {
+    cy.get('#trackingField').type(id);
+  }
 
-  verifyShipmentDetailsDisplayed(shipmentId) { 
-    cy.get('.shipment-details').should('contain', shipmentId); 
-  } 
+  clickTrackButton() {
+    cy.get('#trackButton').click();
+  }
 
-  verifyCurrentStatus(status) { 
-    cy.get('.shipment-status').should('contain', status); 
-  } 
+  getShipmentDetails() {
+    return cy.get('#shipmentDetails');
+  }
 
-  simulateStatusUpdate(status) { 
-    cy.intercept('POST', '/update-status', { status }).as('updateStatus'); 
-    cy.wait('@updateStatus'); 
-  } 
+  getShipmentStatus() {
+    return cy.get('#shipmentStatus');
+  }
 
-  verifyTimestampMatchesCurrentTime() { 
-    const currentTime = new Date().toLocaleString(); 
-    cy.get('.status-timestamp').should('contain', currentTime); 
-  } 
+  getStatusTimestamp() {
+    return cy.get('#statusTimestamp');
+  }
 
-  refreshPage() { 
-    cy.reload(); 
-  } 
+  getNotificationSettings() {
+    return cy.get('#notificationSettings');
+  }
 
-  verifyNotificationsEnabled() { 
-    cy.get('#notification-settings').should('be.checked'); 
-  } 
+  getHistoryLog() {
+    return cy.get('#historyLog');
+  }
 
-  simulateNetworkIssue() { 
-    cy.intercept('POST', '/update-status', { forceNetworkError: true }).as('networkIssue'); 
-    cy.wait('@networkIssue'); 
-  } 
+  getErrorMessages() {
+    return cy.get('#errorMessages');
+  }
 
-  verifyShipmentHistoryLog() { 
-    cy.get('.shipment-history-log').should('be.visible'); 
-  } 
+  simulateStatusUpdate(id, status) {
+    simulateStatusUpdate(id, status);
+  }
 
-  verifyNoErrorsDuringUpdate() { 
-    cy.get('.error-message').should('not.exist'); 
-  } 
+  simulateNetworkIssue() {
+    simulateNetworkIssue();
+  }
 
-  simulateStatusUpdateFromDifferentDevice(status) { 
-    cy.intercept('POST', '/update-status', { status }).as('updateStatusDifferentDevice'); 
-    cy.wait('@updateStatusDifferentDevice'); 
-  } 
+  simulateStatusUpdateFromDifferentDevice(id, status) {
+    simulateStatusUpdate(id, status, { device: 'different' });
+  }
 
-  verifyStatusOnMobileDevice(status) { 
-    cy.viewport('iphone-x'); 
-    cy.get('.shipment-status').should('contain', status); 
-  } 
-
-  simulateSystemReboot() { 
-    cy.exec('reboot'); 
-  } 
-} 
+  systemReboot() {
+    simulateSystemReboot();
+  }
+}
 
 export default ShipmentTrackingPage;
