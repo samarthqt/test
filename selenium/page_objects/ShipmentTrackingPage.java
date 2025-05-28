@@ -1,4 +1,6 @@
 package com.pageobjects;
+import java.util.List;
+import org.openqa.selenium.NoSuchElementException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -99,3 +101,75 @@ public class ShipmentTrackingPage extends WebReusableComponents {
         return driver.findElements(locator);
     }
 }
+```java
+
+private final By trackingField = By.id("trackingField");
+private final By locationField = By.id("locationField");
+private final By okButton = By.id("okButton");
+private final By statusText = By.id("statusText");
+private final By refreshButton = By.id("refreshButton");
+private final By logoutButton = By.id("logoutButton");
+private final By loginButton = By.id("loginButton");
+private final By notificationSettings = By.id("notificationSettings");
+private final By errorMessage = By.id("errorMessage");
+private final By shipmentHistoryLog = By.id("shipmentHistoryLog");
+
+public void enterShipmentId(String shipmentId) {
+    enterText(trackingField, shipmentId);
+}
+
+public void selectLocation(String location) {
+    enterText(locationField, location);
+}
+
+public void clickOkButton() {
+    clickElement(okButton);
+}
+
+public String getCurrentShipmentStatus() {
+    return getTextFromElement(statusText);
+}
+
+public void simulateStatusUpdate(String status) {
+    // Simulate status update logic
+    // This could be interacting with a mock server or API
+}
+
+public String getLatestStatusTimestamp() {
+    // Simulate retrieval of timestamp for the latest status update
+    return "2023-10-01T10:00:00";
+}
+
+public void refreshPage() {
+    clickElement(refreshButton);
+}
+
+public void logoutAndLogin() {
+    clickElement(logoutButton);
+    clickElement(loginButton);
+}
+
+public void checkNotificationSettings() {
+    waitUntilElementVisible(notificationSettings, 3);
+    Assert.assertTrue(driver.findElement(notificationSettings).isDisplayed(), "Notification settings are not visible.");
+}
+
+public void simulateNetworkIssueAndUpdateStatus() {
+    // Simulate network issue
+    // Attempt to update status during network issue
+}
+
+public void verifyShipmentHistoryLog() {
+    waitUntilElementVisible(shipmentHistoryLog, 3);
+    Assert.assertTrue(driver.findElement(shipmentHistoryLog).isDisplayed(), "Shipment history log is not visible.");
+}
+
+public void checkForErrorMessages() {
+    try {
+        waitUntilElementVisible(errorMessage, 3);
+        Assert.fail("Error message displayed: " + getTextFromElement(errorMessage));
+    } catch (NoSuchElementException e) {
+        // No error message displayed
+    }
+}
+```
