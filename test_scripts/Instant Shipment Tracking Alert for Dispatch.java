@@ -2,92 +2,130 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import java.util.concurrent.TimeUnit;
 
-public class LiveTrackingTest {
-    public static void main(String[] args) {
+
+public class LiveTrackingShipmentTest {
+    private WebDriver driver;
+
+    public LiveTrackingShipmentTest() {
         System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
-        WebDriver driver = new ChromeDriver();
-        WebDriverWait wait = new WebDriverWait(driver, 10);
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    }
 
-        try {
-            // Test Step 1
-            driver.get("https://example.com/live-tracking");
-            wait.until(ExpectedConditions.titleContains("Live Tracking"));
+    public void navigateToLiveTrackingPage() {
+        driver.get("http://example.com/live-tracking");
+        assert driver.getTitle().contains("Live Tracking");
+    }
 
-            // Test Step 2
-            WebElement trackingField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("trackingField")));
-            trackingField.sendKeys("54321");
-            WebElement trackButton = driver.findElement(By.id("trackButton"));
-            trackButton.click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("trackingDetails")));
+    public void enterShipmentID() {
+        WebElement trackingField = driver.findElement(By.id("trackingField"));
+        trackingField.sendKeys("54321");
+        WebElement trackButton = driver.findElement(By.id("trackButton"));
+        trackButton.click();
+        assert driver.findElement(By.id("shipmentDetails")).getText().contains("54321");
+    }
 
-            // Test Step 3
-            WebElement currentLocation = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("currentLocation")));
+    public void checkCurrentLocation() {
+        WebElement locationElement = driver.findElement(By.id("currentLocation"));
+        assert locationElement.getText().equals("Warehouse");
+    }
 
-            // Test Step 4
-            WebElement simulateLocationChangeButton = driver.findElement(By.id("simulateLocationChange"));
-            simulateLocationChangeButton.click();
-            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("locationUpdate"), "Updated"));
+    public void simulateLocationChange(String location) {
+        WebElement updateButton = driver.findElement(By.id("updateButton"));
+        updateButton.click();
+        WebElement locationElement = driver.findElement(By.id("currentLocation"));
+        assert locationElement.getText().equals(location);
+    }
 
-            // Test Step 5
-            WebElement estimatedDeliveryTime = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("estimatedDeliveryTime")));
+    public void verifyEstimatedDeliveryTime() {
+        WebElement deliveryTimeElement = driver.findElement(By.id("estimatedDeliveryTime"));
+        String deliveryTime = deliveryTimeElement.getText();
+        assert !deliveryTime.isEmpty();
+    }
 
-            // Test Step 6
-            driver.navigate().refresh();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("trackingDetails")));
+    public void refreshPage() {
+        driver.navigate().refresh();
+        WebElement locationElement = driver.findElement(By.id("currentLocation"));
+        assert locationElement.getText().equals("Warehouse");
+    }
 
-            // Test Step 7
-            WebElement logoutButton = driver.findElement(By.id("logout"));
-            logoutButton.click();
-            WebElement loginButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login")));
-            loginButton.click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("trackingDetails")));
+    public void logoutAndLogin() {
+        WebElement logoutButton = driver.findElement(By.id("logoutButton"));
+        logoutButton.click();
+        WebElement loginButton = driver.findElement(By.id("loginButton"));
+        loginButton.click();
+        WebElement locationElement = driver.findElement(By.id("currentLocation"));
+        assert locationElement.getText().equals("Warehouse");
+    }
 
-            // Test Step 8
-            WebElement notificationSettings = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("notificationSettings")));
-            notificationSettings.click();
-            wait.until(ExpectedConditions.elementToBeSelected(By.id("enableNotifications")));
+    public void checkNotificationSettings() {
+        WebElement notificationSettings = driver.findElement(By.id("notificationSettings"));
+        assert notificationSettings.getText().contains("Live Tracking Enabled");
+    }
 
-            // Test Step 9
-            WebElement simulateNetworkIssueButton = driver.findElement(By.id("simulateNetworkIssue"));
-            simulateNetworkIssueButton.click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("networkIssueHandled")));
+    public void simulateNetworkIssue() {
+        WebElement updateButton = driver.findElement(By.id("updateButton"));
+        updateButton.click();
+        WebElement locationElement = driver.findElement(By.id("currentLocation"));
+        assert locationElement.getText().equals("Warehouse");
+    }
 
-            // Test Step 10
-            WebElement trackingHistoryLog = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("trackingHistoryLog")));
+    public void verifyTrackingHistoryLog() {
+        WebElement historyLog = driver.findElement(By.id("historyLog"));
+        assert historyLog.getText().contains("54321");
+    }
 
-            // Test Step 11
-            WebElement errorMessages = driver.findElement(By.id("errorMessages"));
-            if (!errorMessages.isDisplayed()) {
-                System.out.println("No error messages displayed.");
-            }
+    public void checkForErrorMessages() {
+        WebElement errorMessage = driver.findElement(By.id("errorMessage"));
+        assert errorMessage.getText().isEmpty();
+    }
 
-            // Test Step 12
-            WebElement updateFromDifferentDeviceButton = driver.findElement(By.id("updateFromDifferentDevice"));
-            updateFromDifferentDeviceButton.click();
-            wait.until(ExpectedConditions.textToBePresentInElementLocated(By.id("synchronizedUpdates"), "Synchronized"));
+    public void updateLocationFromDifferentDevice() {
+        WebElement updateButton = driver.findElement(By.id("updateButton"));
+        updateButton.click();
+        WebElement locationElement = driver.findElement(By.id("currentLocation"));
+        assert locationElement.getText().equals("Warehouse");
+    }
 
-            // Test Step 13
-            WebElement mobileTrackingView = driver.findElement(By.id("mobileTrackingView"));
-            if (mobileTrackingView.isDisplayed()) {
-                System.out.println("Mobile tracking view is consistent.");
-            }
+    public void verifyMobileDeviceTracking() {
+        WebElement mobileLocationElement = driver.findElement(By.id("mobileLocation"));
+        assert mobileLocationElement.getText().equals("Warehouse");
+    }
 
-            // Test Step 14
-            WebElement systemRebootButton = driver.findElement(By.id("systemReboot"));
-            systemRebootButton.click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("trackingDetails")));
+    public void checkTrackingAfterReboot() {
+        driver.quit();
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.get("http://example.com/live-tracking");
+        WebElement locationElement = driver.findElement(By.id("currentLocation"));
+        assert locationElement.getText().equals("Warehouse");
+    }
 
-            // Test Step 15
-            WebElement accuracyCheck = driver.findElement(By.id("accuracyCheck"));
-            if (accuracyCheck.isDisplayed()) {
-                System.out.println("Live tracking information is accurate.");
-            }
+    public void verifyTrackingAccuracy() {
+        WebElement accuracyElement = driver.findElement(By.id("trackingAccuracy"));
+        assert accuracyElement.getText().equals("High");
+    }
 
-        } finally {
-            driver.quit();
-        }
+    public static void main(String[] args) {
+        LiveTrackingShipmentTest test = new LiveTrackingShipmentTest();
+        test.navigateToLiveTrackingPage();
+        test.enterShipmentID();
+        test.checkCurrentLocation();
+        test.simulateLocationChange("In Transit");
+        test.simulateLocationChange("Warehouse");
+        test.verifyEstimatedDeliveryTime();
+        test.refreshPage();
+        test.logoutAndLogin();
+        test.checkNotificationSettings();
+        test.simulateNetworkIssue();
+        test.verifyTrackingHistoryLog();
+        test.checkForErrorMessages();
+        test.updateLocationFromDifferentDevice();
+        test.verifyMobileDeviceTracking();
+        test.checkTrackingAfterReboot();
+        test.verifyTrackingAccuracy();
+        test.driver.quit();
     }
 }
