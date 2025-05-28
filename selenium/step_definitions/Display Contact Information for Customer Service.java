@@ -111,7 +111,7 @@ public class CustomerServiceSteps extends CustomerServicePage {
 
     @When("the user looks for the contact information")
     public void theUserLooksForTheContactInformation() {
-        searchContactInformation();
+        lookForContactInformation();
     }
 
     @Then("the contact information should be prominently displayed and easily accessible, ensuring users can quickly find and contact customer service")
@@ -125,8 +125,8 @@ public class CustomerServiceSteps extends CustomerServicePage {
     }
 
     @When("the user views the contact information")
-    public void theUserViewsTheContactInformation() {
-        viewContactInformation();
+    public void theUserViewsTheContactInformationFromDifferentPlatforms() {
+        viewContactInformationFromDifferentPlatforms();
     }
 
     @Then("the contact information should be consistent and displayed correctly regardless of the platform or device used to access the system")
@@ -134,19 +134,9 @@ public class CustomerServiceSteps extends CustomerServicePage {
         assertContactInformationConsistency();
     }
 
-    @When("the user views the contact information")
-    public void theUserViewsTheContactInformation() {
-        viewContactInformation();
-    }
-
     @Then("the contact information should be securely displayed, ensuring that only authorized users can view and access the information")
     public void theContactInformationShouldBeSecurelyDisplayedEnsuringThatOnlyAuthorizedUsersCanViewAndAccessTheInformation() {
         assertContactInformationSecurity();
-    }
-
-    @When("the user views the contact information")
-    public void theUserViewsTheContactInformation() {
-        viewContactInformation();
     }
 
     @Then("the contact information should be localized and displayed correctly for different regions or languages, ensuring that users can easily understand and use the information")
