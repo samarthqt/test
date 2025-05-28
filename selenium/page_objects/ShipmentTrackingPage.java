@@ -1,4 +1,7 @@
 package com.pageobjects;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.support.ui.Select;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -99,3 +102,90 @@ public class ShipmentTrackingPage extends WebReusableComponents {
         return driver.findElements(locator);
     }
 }
+```java
+
+private final By shipmentIdField = By.id("shipmentId");
+private final By locationField = By.id("location");
+private final By okButton = By.id("okButton");
+private final By statusUpdate = By.id("statusUpdate");
+private final By timestamp = By.id("timestamp");
+private final By notificationSettings = By.id("notificationSettings");
+private final By errorMessage = By.id("errorMessage");
+private final By logoutButton = By.id("logoutButton");
+private final By loginButton = By.id("loginButton");
+private final By usernameField = By.id("username");
+private final By passwordField = By.id("password");
+private final By shipmentHistoryLog = By.id("shipmentHistoryLog");
+
+public void enterShipmentId(String shipmentId) {
+    waitUntilElementVisible(shipmentIdField, 3);
+    enterText(shipmentIdField, shipmentId);
+}
+
+public void selectLocation(String location) {
+    waitUntilElementVisible(locationField, 3);
+    selectByValue(locationField, location);
+}
+
+public void clickOkButton() {
+    waitUntilElementVisible(okButton, 3);
+    clickElement(okButton);
+}
+
+public String getCurrentShipmentStatus() {
+    waitUntilElementVisible(statusUpdate, 3);
+    return getTextFromElement(statusUpdate);
+}
+
+public void simulateStatusUpdate(String status) {
+    waitUntilElementVisible(shipmentStatusDropdown, 3);
+    selectByValue(shipmentStatusDropdown, status);
+}
+
+public String getLatestStatusTimestamp() {
+    waitUntilElementVisible(timestamp, 3);
+    return getTextFromElement(timestamp);
+}
+
+public void refreshPage() {
+    driver.navigate().refresh();
+}
+
+public void logout() {
+    waitUntilElementVisible(logoutButton, 3);
+    clickElement(logoutButton);
+}
+
+public void login(String username, String password) {
+    waitUntilElementVisible(usernameField, 3);
+    enterText(usernameField, username);
+    enterText(passwordField, password);
+    clickElement(loginButton);
+}
+
+public boolean checkNotificationSettings() {
+    waitUntilElementVisible(notificationSettings, 3);
+    return driver.findElement(notificationSettings).isDisplayed();
+}
+
+public void simulateNetworkIssueAndAttemptStatusUpdate() {
+    try {
+        simulateStatusUpdate("NetworkIssue");
+    } catch (NoSuchElementException | TimeoutException e) {
+        Assert.assertTrue(driver.findElement(errorMessage).isDisplayed(), "Error message not displayed during network issue.");
+    }
+}
+
+public boolean verifyShipmentHistoryLog() {
+    waitUntilElementVisible(shipmentHistoryLog, 3);
+    return driver.findElement(shipmentHistoryLog).isDisplayed();
+}
+
+public boolean checkForErrorMessages() {
+    try {
+        return driver.findElement(errorMessage).isDisplayed();
+    } catch (NoSuchElementException e) {
+        return false;
+    }
+}
+```
