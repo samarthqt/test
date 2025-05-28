@@ -1,10 +1,11 @@
-package com.tests;
-
 import com.pageobjects.ShipmentPage;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.Assert;
+
+package com.tests;
+
 
 public class ShipmentStatusTest {
     private ShipmentPage shipmentPage;
@@ -22,6 +23,9 @@ public class ShipmentStatusTest {
 
         shipmentPage.enterShipmentID("12345");
         Assert.assertTrue(shipmentPage.isShipmentDetailsDisplayed("12345"));
+
+        shipmentPage.selectLocation("Location"); // Assuming there's a method to select location
+        shipmentPage.clickOkButton(); // Assuming there's a method to click OK button
 
         String currentStatus = shipmentPage.checkCurrentStatus();
         Assert.assertEquals(currentStatus, "In Transit");
