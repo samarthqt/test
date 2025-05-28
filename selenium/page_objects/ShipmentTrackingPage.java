@@ -99,3 +99,107 @@ public class ShipmentTrackingPage extends WebReusableComponents {
         return driver.findElements(locator);
     }
 }
+package com.pageobjects;
+
+
+public class ShipmentTrackingPage extends WebReusableComponents {
+
+    private final WebDriver driver;
+    private final WebDriverWait wait;
+
+    private final By shipmentTrackingField = By.id("shipmentTrackingField");
+    private final By locationField = By.id("locationField");
+    private final By okButton = By.id("okButton");
+    private final By currentStatus = By.id("currentStatus");
+    private final By notificationSettings = By.id("notificationSettings");
+    private final By shipmentHistoryLog = By.id("shipmentHistoryLog");
+    private final By errorMessages = By.id("errorMessages");
+    private final By logoutButton = By.id("logoutButton");
+    private final By loginButton = By.id("loginButton");
+
+    public ShipmentTrackingPage(WebDriver driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, 10);
+        PageFactory.initElements(driver, this);
+    }
+
+    public void navigateToShipmentTrackingPage() {
+        // Assume a method to navigate to the shipment tracking page
+    }
+
+    public void enterShipmentID(String shipmentId) {
+        waitUntilElementVisible(shipmentTrackingField, 3);
+        enterText(shipmentTrackingField, shipmentId);
+    }
+
+    public void selectLocation(String location) {
+        waitUntilElementVisible(locationField, 3);
+        enterText(locationField, location);
+    }
+
+    public void clickOkButton() {
+        waitUntilElementVisible(okButton, 3);
+        clickElement(okButton);
+    }
+
+    public String checkCurrentStatus() {
+        waitUntilElementVisible(currentStatus, 3);
+        return getTextFromElement(currentStatus);
+    }
+
+    public void simulateStatusUpdate(String status) {
+        // Assume a method to simulate status update
+    }
+
+    public void verifyTimestampOfLatestStatusUpdate() {
+        // Assume a method to verify timestamp
+    }
+
+    public void refreshPage() {
+        driver.navigate().refresh();
+    }
+
+    public void logoutAndLogin() {
+        waitUntilElementVisible(logoutButton, 3);
+        clickElement(logoutButton);
+        waitUntilElementVisible(loginButton, 3);
+        clickElement(loginButton);
+    }
+
+    public void checkNotificationSettings() {
+        waitUntilElementVisible(notificationSettings, 3);
+        // Assume a method to check notification settings
+    }
+
+    public void simulateNetworkIssueAndAttemptUpdate() {
+        // Assume a method to simulate network issue
+    }
+
+    public void verifyShipmentHistoryLog() {
+        waitUntilElementVisible(shipmentHistoryLog, 3);
+        // Assume a method to verify shipment history log
+    }
+
+    public void checkForErrorMessages() {
+        waitUntilElementVisible(errorMessages, 3);
+        // Assume a method to check for error messages
+    }
+
+    private void waitUntilElementVisible(By locator, int timeout) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    private void clickElement(By locator) {
+        driver.findElement(locator).click();
+    }
+
+    private void enterText(By locator, String text) {
+        WebElement element = driver.findElement(locator);
+        element.clear();
+        element.sendKeys(text);
+    }
+
+    private String getTextFromElement(By locator) {
+        return driver.findElement(locator).getText();
+    }
+}
