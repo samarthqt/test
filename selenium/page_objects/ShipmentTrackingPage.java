@@ -7,7 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import com.framework.reusable.WebReusableComponents;
+import .util.List;
 
 public class ShipmentTrackingPage extends WebReusableComponents {
 
@@ -57,7 +57,6 @@ public class ShipmentTrackingPage extends WebReusableComponents {
     }
 
     public boolean verifyAlertReceivedByCustomer(String expectedMessage) {
-        // Simulate checking the customer's email or alert system
         boolean alertReceived = true; // Assume the alert is received for demonstration purposes
         Assert.assertTrue(alertReceived, Alert not received by customer:  + expectedMessage);
         return alertReceived;
@@ -95,7 +94,7 @@ public class ShipmentTrackingPage extends WebReusableComponents {
         return dropdown.findElement(By.cssSelector(option[selected='selected'])).getText();
     }
 
-    private .util.List<WebElement> getWebElementList(By locator) {
+    private List<WebElement> getWebElementList(By locator) {
         return driver.findElements(locator);
     }
 }
