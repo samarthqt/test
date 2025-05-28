@@ -52,3 +52,10 @@ Then the customer service contact information should be displayed correctly on d
 ""
 Scenario: Verify if customer service contact information is up to date
 Then the customer service contact information should be up to date and accurate
+""
+Scenario: Verify if customer service contact options are protected from spam (e.g., CAPTCHA)
+Then customer service contact forms or live chat should include measures to prevent spam or automated abuse, such as CAPTCHA
+""
+Scenario: Verify if customer service contact information is printable
+When I attempt to print the customer service contact information page
+Then the contact information should be formatted correctly for printing
