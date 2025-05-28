@@ -1,10 +1,10 @@
-package com.tests;
-
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import com.pageobjects.ShipmentTrackingPage;
 import com.framework.reusable.WebReusableComponents;
+package com.tests;
+
 
 public class ShipmentTrackingTest extends WebReusableComponents {
 
