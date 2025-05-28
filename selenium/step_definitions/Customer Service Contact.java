@@ -60,7 +60,7 @@ public class CustomerServiceSteps extends CustomerServicePage {
 
     @When("the customer makes inquiries or requests")
     public void theCustomerMakesInquiriesOrRequests() {
-        makeInquiries();
+        makeInquiriesOrRequests();
     }
 
     @Then("the representative should respond to the customer")
@@ -100,22 +100,22 @@ public class CustomerServiceSteps extends CustomerServicePage {
 
     @When("the process is repeated for each contact channel")
     public void theProcessIsRepeatedForEachContactChannel() {
-        repeatProcessForAllChannels();
+        repeatProcessForEachChannel();
     }
 
     @Then("the customer should be able to connect with an available representative through different contact channels")
     public void theCustomerShouldBeAbleToConnectWithAnAvailableRepresentativeThroughDifferentContactChannels() {
-        verifyConnectionForAllChannels();
+        verifyConnectionThroughDifferentChannels();
     }
 
     @Given("there is at least one representative available for each contact channel")
     public void thereIsAtLeastOneRepresentativeAvailableForEachContactChannel() {
-        verifyRepresentativeAvailability();
+        verifyRepresentativeAvailabilityForEachChannel();
     }
 
     @Then("the customer service representative should be available for each contact channel")
     public void theCustomerServiceRepresentativeShouldBeAvailableForEachContactChannel() {
-        verifyRepresentativeAvailability();
+        verifyRepresentativeAvailabilityForEachChannel();
     }
 
     @Given("the customer service contact page is displayed")

@@ -35,7 +35,7 @@ public class CustomerServiceSteps extends CustomerServicePage {
     }
 
     @When("I click on the phone contact information")
-    public void iClickOnPhoneContactInformation() {
+    public void iClickOnThePhoneContactInformation() {
         clickPhoneContactInformation();
     }
 
@@ -45,7 +45,7 @@ public class CustomerServiceSteps extends CustomerServicePage {
     }
 
     @When("I click on the email contact information")
-    public void iClickOnEmailContactInformation() {
+    public void iClickOnTheEmailContactInformation() {
         clickEmailContactInformation();
     }
 
@@ -55,7 +55,7 @@ public class CustomerServiceSteps extends CustomerServicePage {
     }
 
     @When("I click on the live chat option")
-    public void iClickOnLiveChatOption() {
+    public void iClickOnTheLiveChatOption() {
         clickLiveChatOption();
     }
 
@@ -65,13 +65,13 @@ public class CustomerServiceSteps extends CustomerServicePage {
     }
 
     @Given("I have opened the live chat window")
-    public void iHaveOpenedLiveChatWindow() {
+    public void iHaveOpenedTheLiveChatWindow() {
         openLiveChatWindow();
     }
 
     @When("I enter a message in the live chat window")
-    public void iEnterMessageInLiveChatWindow() {
-        enterMessageInLiveChatWindow();
+    public void iEnterAMessageInTheLiveChatWindow() {
+        enterMessageInLiveChat();
     }
 
     @Then("the message should be sent to customer service and a response should be received")
@@ -95,8 +95,8 @@ public class CustomerServiceSteps extends CustomerServicePage {
     }
 
     @When("I try contacting customer service using each available channel")
-    public void tryContactingCustomerService() {
-        contactCustomerServiceThroughAllChannels();
+    public void iTryContactingCustomerService() {
+        tryContactingCustomerService();
     }
 
     @Then("customer service should be reachable through each available channel")
@@ -117,5 +117,20 @@ public class CustomerServiceSteps extends CustomerServicePage {
     @Then("the customer service contact information should be up to date and accurate")
     public void contactInformationShouldBeUpToDate() {
         verifyContactInformationUpToDate();
+    }
+
+    @Then("customer service contact forms or live chat should include measures to prevent spam or automated abuse, such as CAPTCHA")
+    public void contactOptionsShouldBeProtectedFromSpam() {
+        verifyContactOptionsProtectedFromSpam();
+    }
+
+    @When("I attempt to print the customer service contact information page")
+    public void iAttemptToPrintContactInformation() {
+        printContactInformationPage();
+    }
+
+    @Then("the contact information should be formatted correctly for printing")
+    public void contactInformationShouldBeFormattedForPrinting() {
+        verifyContactInformationFormattedForPrinting();
     }
 }
