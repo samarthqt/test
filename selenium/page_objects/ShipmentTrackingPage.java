@@ -1,4 +1,5 @@
 package com.pageobjects;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -97,5 +98,96 @@ public class ShipmentTrackingPage extends WebReusableComponents {
 
     private .util.List<WebElement> getWebElementList(By locator) {
         return driver.findElements(locator);
+    }
+}
+package com.pageobjects;
+
+
+public class ShipmentTrackingPage extends WebReusableComponents {
+
+    private final WebDriver driver;
+    private final WebDriverWait wait;
+
+    private final By shipmentIdField = By.id("shipmentId");
+    private final By locationField = By.id("location");
+    private final By okButton = By.id("okButton");
+    private final By currentStatus = By.id("currentStatus");
+    private final By refreshButton = By.id("refreshButton");
+    private final By logoutButton = By.id("logoutButton");
+    private final By loginButton = By.id("loginButton");
+    private final By notificationSettings = By.id("notificationSettings");
+    private final By networkIssueSimulation = By.id("networkIssueSimulation");
+    private final By shipmentHistoryLog = By.id("shipmentHistoryLog");
+    private final By errorMessage = By.id("errorMessage");
+
+    public ShipmentTrackingPage(WebDriver driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, 10);
+        PageFactory.initElements(driver, this);
+    }
+
+    public void enterShipmentId(String shipmentId) {
+        waitUntilElementVisible(shipmentIdField, 3);
+        enterText(shipmentIdField, shipmentId);
+    }
+
+    public void selectLocation(String location) {
+        waitUntilElementVisible(locationField, 3);
+        enterText(locationField, location);
+    }
+
+    public void clickOkButton() {
+        waitUntilElementVisible(okButton, 3);
+        clickElement(okButton);
+    }
+
+    public String getCurrentStatus() {
+        waitUntilElementVisible(currentStatus, 3);
+        return getTextFromElement(currentStatus);
+    }
+
+    public void simulateStatusUpdate(String status) {
+        // Assuming there's a method to simulate status update
+        // This is a placeholder for actual simulation logic
+        WebElement statusDropdown = driver.findElement(shipmentStatusDropdown);
+        selectByValue(shipmentStatusDropdown, status);
+    }
+
+    public void verifyTimestampOfLatestStatusUpdate(String expectedTimestamp) {
+        // Assuming there's a method to get the timestamp of the latest update
+        // This is a placeholder for actual verification logic
+        String actualTimestamp = getTextFromElement(currentStatus);
+        Assert.assertEquals(actualTimestamp, expectedTimestamp, "Timestamp verification failed.");
+    }
+
+    public void refreshPage() {
+        clickElement(refreshButton);
+    }
+
+    public void logoutAndLogin() {
+        waitUntilElementVisible(logoutButton, 3);
+        clickElement(logoutButton);
+        waitUntilElementVisible(loginButton, 3);
+        clickElement(loginButton);
+    }
+
+    public void checkNotificationSettings() {
+        waitUntilElementVisible(notificationSettings, 3);
+        // Assuming there's logic to check notification settings
+    }
+
+    public void simulateNetworkIssueAndAttemptUpdate() {
+        waitUntilElementVisible(networkIssueSimulation, 3);
+        // Simulate network issue and attempt update logic
+    }
+
+    public void verifyShipmentHistoryLog() {
+        waitUntilElementVisible(shipmentHistoryLog, 3);
+        // Assuming there's logic to verify shipment history log
+    }
+
+    public void checkForErrorMessages() {
+        waitUntilElementVisible(errorMessage, 3);
+        // Assuming there's logic to check for error messages
     }
 }
