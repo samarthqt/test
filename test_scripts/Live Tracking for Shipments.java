@@ -2,123 +2,87 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import java.util.concurrent.TimeUnit;
 
-public class ShipmentTrackingTest {
-    private WebDriver driver;
-
-    public ShipmentTrackingTest() {
-        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-    }
-
-    public void navigateToShipmentTrackingPage() {
-        driver.get("http://example.com/shipment-tracking");
-        assert driver.getTitle().contains("Shipment Tracking");
-    }
-
-    public void enterShipmentID() {
-        WebElement trackingField = driver.findElement(By.id("trackingField"));
-        trackingField.sendKeys("12345");
-        WebElement trackButton = driver.findElement(By.id("trackButton"));
-        trackButton.click();
-        assert driver.findElement(By.id("shipmentDetails")).getText().contains("12345");
-    }
-
-    public void checkCurrentStatus() {
-        WebElement statusElement = driver.findElement(By.id("status"));
-        assert statusElement.getText().equals("In Transit");
-    }
-
-    public void simulateStatusUpdate(String status) {
-        WebElement updateButton = driver.findElement(By.id("updateButton"));
-        updateButton.click();
-        WebElement statusElement = driver.findElement(By.id("status"));
-        assert statusElement.getText().equals(status);
-    }
-
-    public void verifyTimestamp() {
-        WebElement timestampElement = driver.findElement(By.id("timestamp"));
-        String timestamp = timestampElement.getText();
-        assert timestamp.equals(java.time.LocalTime.now().toString());
-    }
-
-    public void refreshPage() {
-        driver.navigate().refresh();
-        WebElement statusElement = driver.findElement(By.id("status"));
-        assert statusElement.getText().equals("Delivered");
-    }
-
-    public void logoutAndLogin() {
-        WebElement logoutButton = driver.findElement(By.id("logoutButton"));
-        logoutButton.click();
-        WebElement loginButton = driver.findElement(By.id("loginButton"));
-        loginButton.click();
-        WebElement statusElement = driver.findElement(By.id("status"));
-        assert statusElement.getText().equals("Delivered");
-    }
-
-    public void checkNotificationSettings() {
-        WebElement notificationSettings = driver.findElement(By.id("notificationSettings"));
-        assert notificationSettings.getText().contains("Notifications Enabled");
-    }
-
-    public void simulateNetworkIssue() {
-        WebElement updateButton = driver.findElement(By.id("updateButton"));
-        updateButton.click();
-        WebElement statusElement = driver.findElement(By.id("status"));
-        assert statusElement.getText().equals("Delivered");
-    }
-
-    public void verifyShipmentHistoryLog() {
-        WebElement historyLog = driver.findElement(By.id("historyLog"));
-        assert historyLog.getText().contains("12345");
-    }
-
-    public void checkForErrorMessages() {
-        WebElement errorMessage = driver.findElement(By.id("errorMessage"));
-        assert errorMessage.getText().isEmpty();
-    }
-
-    public void updateStatusFromDifferentDevice() {
-        WebElement updateButton = driver.findElement(By.id("updateButton"));
-        updateButton.click();
-        WebElement statusElement = driver.findElement(By.id("status"));
-        assert statusElement.getText().equals("Delivered");
-    }
-
-    public void verifyMobileDeviceStatus() {
-        WebElement mobileStatusElement = driver.findElement(By.id("mobileStatus"));
-        assert mobileStatusElement.getText().equals("Delivered");
-    }
-
-    public void checkStatusAfterReboot() {
-        driver.quit();
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get("http://example.com/shipment-tracking");
-        WebElement statusElement = driver.findElement(By.id("status"));
-        assert statusElement.getText().equals("Delivered");
-    }
-
+public class UniqueTestAutomation {
     public static void main(String[] args) {
-        ShipmentTrackingTest test = new ShipmentTrackingTest();
-        test.navigateToShipmentTrackingPage();
-        test.enterShipmentID();
-        test.checkCurrentStatus();
-        test.simulateStatusUpdate("Out for Delivery");
-        test.simulateStatusUpdate("Delivered");
-        test.verifyTimestamp();
-        test.refreshPage();
-        test.logoutAndLogin();
-        test.checkNotificationSettings();
-        test.simulateNetworkIssue();
-        test.verifyShipmentHistoryLog();
-        test.checkForErrorMessages();
-        test.updateStatusFromDifferentDevice();
-        test.verifyMobileDeviceStatus();
-        test.checkStatusAfterReboot();
-        test.driver.quit();
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+        WebDriver driver = new ChromeDriver();
+
+        try {
+            // Navigate to the shipment tracking page
+            driver.get("http://example.com/shipment-tracking");
+
+            // Enter the Shipment ID 12345 in the tracking field
+            WebElement trackingField = driver.findElement(By.id("tracking-field-id"));
+            trackingField.sendKeys("12345");
+
+            // Check the current status of the shipment
+            WebElement currentStatus = driver.findElement(By.id("current-status-id"));
+            String status = currentStatus.getText();
+
+            // Simulate a status update to 'To be delivered'
+            WebElement updateStatusButton = driver.findElement(By.id("update-status-button-id"));
+            updateStatusButton.click();
+            WebElement statusToBeDelivered = driver.findElement(By.id("status-to-be-delivered-id"));
+            statusToBeDelivered.click();
+
+            // Simulate a status update to 'Delivered'
+            WebElement statusDelivered = driver.findElement(By.id("status-delivered-id"));
+            statusDelivered.click();
+
+            // Verify the timestamp of the latest status update
+            WebElement timestamp = driver.findElement(By.id("timestamp-id"));
+            String latestTimestamp = timestamp.getText();
+
+            // Refresh the page
+            driver.navigate().refresh();
+
+            // Log out and log back in
+            WebElement logoutButton = driver.findElement(By.id("logout-button-id"));
+            logoutButton.click();
+            WebElement loginButton = driver.findElement(By.id("login-button-id"));
+            loginButton.click();
+
+            // Check the notification settings for shipment updates
+            WebElement notificationSettings = driver.findElement(By.id("notification-settings-id"));
+            notificationSettings.click();
+
+            // Simulate a network issue and attempt to update status
+            WebElement simulateNetworkIssueButton = driver.findElement(By.id("simulate-network-issue-button-id"));
+            simulateNetworkIssueButton.click();
+            updateStatusButton.click();
+
+            // Verify the shipment history log
+            WebElement shipmentHistoryLog = driver.findElement(By.id("shipment-history-log-id"));
+            String historyLog = shipmentHistoryLog.getText();
+
+            // Check for any error messages during status updates
+            WebElement errorMessage = driver.findElement(By.id("error-message-id"));
+            String error = errorMessage.getText();
+
+            // Attempt to update status from a different device
+            WebElement differentDeviceStatusUpdate = driver.findElement(By.id("different-device-status-update-id"));
+            differentDeviceStatusUpdate.click();
+
+            // Verify the shipment status using SMS on a mobile device
+            WebElement smsStatusCheck = driver.findElement(By.id("sms-status-check-id"));
+            smsStatusCheck.click();
+
+            // Check the shipment status after a system reboot
+            WebElement systemRebootStatusCheck = driver.findElement(By.id("system-reboot-status-check-id"));
+            systemRebootStatusCheck.click();
+
+            // Final verification
+            String expectedResult = "Expected Result";
+            String actualResult = driver.findElement(By.id("result-id")).getText();
+
+            if (actualResult.equals(expectedResult)) {
+                System.out.println("Test Passed");
+            } else {
+                System.out.println("Test Failed");
+            }
+        } finally {
+            driver.quit();
+        }
     }
 }

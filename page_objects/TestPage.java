@@ -1,3 +1,4 @@
+
 package com.pageobjects;
 
 import org.openqa.selenium.By;
@@ -7,11 +8,12 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
 
 public class TestPage extends WebReusableComponents {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
+    private final WebDriver driver;
+    private final WebDriverWait wait;
 
     private final By txtUserName = By.id(username);
     private final By txtPassword = By.id(password);
