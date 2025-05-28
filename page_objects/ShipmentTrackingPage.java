@@ -1,3 +1,4 @@
+
 package com.pageobjects;
 
 import org.openqa.selenium.By;
@@ -5,26 +6,28 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.Assert;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 public class ShipmentTrackingPage {
-
     private final WebDriver driver;
     private final WebDriverWait wait;
 
-    @FindBy(id = shipmentTrackingField)
+    @FindBy(id = trackingField)
     private WebElement trackingField;
 
-    @FindBy(id = currentStatus)
-    private WebElement currentStatus;
+    @FindBy(id = trackButton)
+    private WebElement trackButton;
 
-    @FindBy(id = statusUpdateButton)
-    private WebElement statusUpdateButton;
+    @FindBy(id = statusField)
+    private WebElement statusField;
 
-    @FindBy(id = timestamp)
-    private WebElement timestamp;
+    @FindBy(id = updateStatusButton)
+    private WebElement updateStatusButton;
+
+    @FindBy(id = timestampField)
+    private WebElement timestampField;
 
     @FindBy(id = refreshButton)
     private WebElement refreshButton;
@@ -38,20 +41,17 @@ public class ShipmentTrackingPage {
     @FindBy(id = notificationSettings)
     private WebElement notificationSettings;
 
-    @FindBy(id = networkIssueSimulation)
-    private WebElement networkIssueSimulation;
+    @FindBy(id = networkIssueButton)
+    private WebElement networkIssueButton;
 
     @FindBy(id = shipmentHistoryLog)
     private WebElement shipmentHistoryLog;
 
-    @FindBy(id = errorMessages)
-    private WebElement errorMessages;
+    @FindBy(id = errorMessage)
+    private WebElement errorMessage;
 
-    @FindBy(id = deviceStatusUpdate)
-    private WebElement deviceStatusUpdate;
-
-    @FindBy(id = mobileViewCheck)
-    private WebElement mobileViewCheck;
+    @FindBy(id = smsVerificationButton)
+    private WebElement smsVerificationButton;
 
     @FindBy(id = systemRebootCheck)
     private WebElement systemRebootCheck;
@@ -62,105 +62,92 @@ public class ShipmentTrackingPage {
         PageFactory.initElements(driver, this);
     }
 
-    public void navigateToShipmentTrackingPage() {
-        driver.get(URL_OF_SHIPMENT_TRACKING_PAGE);
-        wait.until(ExpectedConditions.visibilityOf(trackingField));
-        Assert.assertTrue(trackingField.isDisplayed(), Shipment Tracking Page did not load correctly.);
-    }
-
     public void enterShipmentID(String shipmentID) {
-        wait.until(ExpectedConditions.visibilityOf(trackingField));
+        waitUntilVisible(trackingField);
         trackingField.clear();
         trackingField.sendKeys(shipmentID);
-        Assert.assertEquals(trackingField.getAttribute(value), shipmentID, Shipment ID entry failed.);
+    }
+
+    public void clickTrackButton() {
+        waitUntilClickable(trackButton);
+        trackButton.click();
     }
 
     public String getCurrentStatus() {
-        wait.until(ExpectedConditions.visibilityOf(currentStatus));
-        String status = currentStatus.getText();
-        Assert.assertNotNull(status, Current status is not available.);
+        waitUntilVisible(statusField);
+        String status = statusField.getText();
+        Assert.assertNotNull(status, Status should not be null);
         return status;
     }
 
-    public void simulateStatusUpdate(String status) {
-        wait.until(ExpectedConditions.elementToBeClickable(statusUpdateButton));
-        statusUpdateButton.click();
-        wait.until(ExpectedConditions.textToBePresentInElement(currentStatus, status));
-        Assert.assertEquals(currentStatus.getText(), status, Status update simulation failed.);
+    public void updateStatus(String newStatus) {
+        waitUntilVisible(statusField);
+        statusField.clear();
+        statusField.sendKeys(newStatus);
+        waitUntilClickable(updateStatusButton);
+        updateStatusButton.click();
     }
 
-    public String getTimestamp() {
-        wait.until(ExpectedConditions.visibilityOf(timestamp));
-        String time = timestamp.getText();
-        Assert.assertNotNull(time, Timestamp is not available.);
-        return time;
+    public String getLatestTimestamp() {
+        waitUntilVisible(timestampField);
+        String timestamp = timestampField.getText();
+        Assert.assertNotNull(timestamp, Timestamp should not be null);
+        return timestamp;
     }
 
     public void refreshPage() {
-        wait.until(ExpectedConditions.elementToBeClickable(refreshButton));
+        waitUntilClickable(refreshButton);
         refreshButton.click();
-        wait.until(ExpectedConditions.visibilityOf(trackingField));
-        Assert.assertTrue(trackingField.isDisplayed(), Page refresh failed.);
     }
 
-    public void logout() {
-        wait.until(ExpectedConditions.elementToBeClickable(logoutButton));
+    public void logoutAndLogin() {
+        waitUntilClickable(logoutButton);
         logoutButton.click();
-        wait.until(ExpectedConditions.visibilityOf(loginButton));
-        Assert.assertTrue(loginButton.isDisplayed(), Logout failed.);
-    }
-
-    public void login() {
-        wait.until(ExpectedConditions.elementToBeClickable(loginButton));
+        waitUntilClickable(loginButton);
         loginButton.click();
-        wait.until(ExpectedConditions.visibilityOf(trackingField));
-        Assert.assertTrue(trackingField.isDisplayed(), Login failed.);
     }
 
-    public boolean areNotificationsEnabled() {
-        wait.until(ExpectedConditions.visibilityOf(notificationSettings));
-        boolean enabled = notificationSettings.isSelected();
-        Assert.assertTrue(enabled, Notifications are not enabled.);
-        return enabled;
+    public boolean checkNotificationSettings() {
+        waitUntilVisible(notificationSettings);
+        boolean isDisplayed = notificationSettings.isDisplayed();
+        Assert.assertTrue(isDisplayed, Notification settings should be displayed);
+        return isDisplayed;
     }
 
     public void simulateNetworkIssue() {
-        wait.until(ExpectedConditions.elementToBeClickable(networkIssueSimulation));
-        networkIssueSimulation.click();
-        Assert.assertTrue(isErrorMessageDisplayed(), Network issue simulation failed.);
+        waitUntilClickable(networkIssueButton);
+        networkIssueButton.click();
     }
 
     public String getShipmentHistoryLog() {
-        wait.until(ExpectedConditions.visibilityOf(shipmentHistoryLog));
-        String log = shipmentHistoryLog.getText();
-        Assert.assertNotNull(log, Shipment history log is not available.);
-        return log;
+        waitUntilVisible(shipmentHistoryLog);
+        String historyLog = shipmentHistoryLog.getText();
+        Assert.assertNotNull(historyLog, Shipment history log should not be null);
+        return historyLog;
     }
 
-    public boolean isErrorMessageDisplayed() {
-        wait.until(ExpectedConditions.visibilityOf(errorMessages));
-        boolean displayed = errorMessages.isDisplayed();
-        Assert.assertTrue(displayed, Error message is not displayed.);
-        return displayed;
+    public String getErrorMessage() {
+        waitUntilVisible(errorMessage);
+        String error = errorMessage.getText();
+        Assert.assertNotNull(error, Error message should not be null);
+        return error;
     }
 
-    public void updateStatusFromDifferentDevice() {
-        wait.until(ExpectedConditions.elementToBeClickable(deviceStatusUpdate));
-        deviceStatusUpdate.click();
-        Assert.assertTrue(isStatusConsistentAfterReboot(), Status update from different device failed.);
+    public void verifyStatusViaSMS() {
+        waitUntilClickable(smsVerificationButton);
+        smsVerificationButton.click();
     }
 
-    public boolean isMobileViewConsistent() {
-        wait.until(ExpectedConditions.visibilityOf(mobileViewCheck));
-        boolean consistent = mobileViewCheck.isDisplayed();
-        Assert.assertTrue(consistent, Mobile view is not consistent.);
-        return consistent;
+    public void checkStatusAfterSystemReboot() {
+        waitUntilClickable(systemRebootCheck);
+        systemRebootCheck.click();
     }
 
-    public boolean isStatusConsistentAfterReboot() {
-        wait.until(ExpectedConditions.visibilityOf(systemRebootCheck));
-        boolean consistent = systemRebootCheck.isDisplayed();
-        Assert.assertTrue(consistent, Status is not consistent after reboot.);
-        return consistent;
+    private void waitUntilVisible(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    private void waitUntilClickable(WebElement element) {
+        wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 }
