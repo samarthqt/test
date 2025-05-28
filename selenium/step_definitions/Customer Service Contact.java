@@ -16,14 +16,14 @@ public class CustomerServiceSteps extends CustomerServicePage {
 
     @When("a contact channel is selected")
     public void aContactChannelIsSelected() {
-        String contactChannel = testHarness.getData("ContactData", "Channel");
-        selectContactChannel(contactChannel);
+        String channel = testHarness.getData("ContactData", "Channel");
+        selectContactChannel(channel);
     }
 
     @Then("the selected contact channel should be highlighted or marked as active")
     public void theSelectedContactChannelShouldBeHighlightedOrMarkedAsActive() {
-        String contactChannel = testHarness.getData("ContactData", "Channel");
-        verifyContactChannelActive(contactChannel);
+        String channel = testHarness.getData("ContactData", "Channel");
+        verifyChannelIsActive(channel);
     }
 
     @Given("the customer's contact information is entered correctly")
@@ -55,7 +55,7 @@ public class CustomerServiceSteps extends CustomerServicePage {
 
     @Given("the customer service representative is responsive")
     public void theCustomerServiceRepresentativeIsResponsive() {
-        verifyRepresentativeResponsiveness();
+        verifyRepresentativeIsResponsive();
     }
 
     @When("the customer makes inquiries or requests")
@@ -70,7 +70,7 @@ public class CustomerServiceSteps extends CustomerServicePage {
 
     @Given("the customer is in a conversation with the representative")
     public void theCustomerIsInAConversationWithTheRepresentative() {
-        verifyConversationActive();
+        verifyConversationIsActive();
     }
 
     @When("the customer wants to end the conversation")
@@ -105,7 +105,7 @@ public class CustomerServiceSteps extends CustomerServicePage {
 
     @Then("the customer should be able to connect with an available representative through different contact channels")
     public void theCustomerShouldBeAbleToConnectWithAnAvailableRepresentativeThroughDifferentContactChannels() {
-        verifyConnectionForAllChannels();
+        verifyConnectionWithAllChannels();
     }
 
     @Given("there is at least one representative available for each contact channel")

@@ -10,7 +10,7 @@ public class CustomerServiceSteps extends CustomerServicePage {
     private TestHarness testHarness = new TestHarness();
 
     @Given("I have accessed the system's customer service page or contact information")
-    public void iHaveAccessedTheCustomerServicePage() {
+    public void iHaveAccessedCustomerServicePage() {
         navigateToCustomerServicePage();
     }
 
@@ -95,8 +95,8 @@ public class CustomerServiceSteps extends CustomerServicePage {
     }
 
     @When("I try contacting customer service using each available channel")
-    public void tryContactingCustomerService() {
-        contactCustomerServiceThroughAllChannels();
+    public void iTryContactingCustomerService() {
+        tryContactingCustomerService();
     }
 
     @Then("customer service should be reachable through each available channel")
@@ -117,5 +117,20 @@ public class CustomerServiceSteps extends CustomerServicePage {
     @Then("the customer service contact information should be up to date and accurate")
     public void contactInformationShouldBeUpToDate() {
         verifyContactInformationUpToDate();
+    }
+
+    @Then("customer service contact forms or live chat should include measures to prevent spam or automated abuse, such as CAPTCHA")
+    public void contactOptionsShouldBeProtected() {
+        verifyContactOptionsProtected();
+    }
+
+    @When("I attempt to print the customer service contact information page")
+    public void iAttemptToPrintContactInformation() {
+        attemptToPrintContactInformation();
+    }
+
+    @Then("the contact information should be formatted correctly for printing")
+    public void contactInformationShouldBeFormattedForPrinting() {
+        verifyContactInformationFormattedForPrinting();
     }
 }
