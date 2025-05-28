@@ -1,64 +1,71 @@
-package com.tests;
-
-import com.pageobjects.LiveTrackingPage;
+import com.pageobjects.ShipmentPage;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.annotations.AfterMethod;
-import static org.testng.Assert.*;
+import org.testng.Assert;
 
-public class LiveTrackingTest {
-    private LiveTrackingPage liveTrackingPage;
+package com.tests;
+
+
+public class ShipmentStatusTest {
+    private ShipmentPage shipmentPage;
 
     @BeforeMethod
     public void setUp() {
-        liveTrackingPage = new LiveTrackingPage();
-        liveTrackingPage.login("09876");
+        shipmentPage = new ShipmentPage();
+        shipmentPage.login("67890");
     }
 
     @Test
-    public void testLiveTracking() {
-        liveTrackingPage.navigateToLiveTrackingPage();
-        assertTrue(liveTrackingPage.isLiveTrackingPageDisplayed(), "Live tracking page is not displayed.");
+    public void testRealTimeShipmentStatusUpdates() {
+        shipmentPage.navigateToShipmentTrackingPage();
+        Assert.assertTrue(shipmentPage.isTrackingPageDisplayed());
 
-        liveTrackingPage.enterShipmentID("54321");
-        assertTrue(liveTrackingPage.isTrackingDetailsDisplayed("54321"), "Tracking details are not displayed.");
+        shipmentPage.enterShipmentID("12345");
+        Assert.assertTrue(shipmentPage.isShipmentDetailsDisplayed("12345"));
 
-        assertTrue(liveTrackingPage.isCurrentLocationDisplayed(), "Current location is not displayed.");
+        shipmentPage.selectLocation("New York"); // Assuming "New York" is the location to select
+        shipmentPage.clickOkButton(); // Assuming this method exists for clicking OK
 
-        liveTrackingPage.simulateLocationChange();
-        assertTrue(liveTrackingPage.isLocationUpdatedInRealTime(), "Location is not updated in real-time.");
+        String currentStatus = shipmentPage.checkCurrentStatus();
+        Assert.assertEquals(currentStatus, "In Transit");
 
-        assertTrue(liveTrackingPage.isEstimatedDeliveryTimeDisplayed(), "Estimated delivery time is not displayed.");
+        shipmentPage.simulateStatusUpdate("To be delivered");
+        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "To be delivered");
 
-        liveTrackingPage.refreshPage();
-        assertTrue(liveTrackingPage.isTrackingInformationConsistent(), "Tracking information is not consistent after refresh.");
+        shipmentPage.simulateStatusUpdate("Delivered");
+        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
 
-        liveTrackingPage.logout();
-        liveTrackingPage.login("09876");
-        assertTrue(liveTrackingPage.isTrackingInformationAvailable(), "Tracking information is not available after re-login.");
+        String timestamp = shipmentPage.verifyLatestStatusTimestamp();
+        Assert.assertTrue(shipmentPage.isTimestampCurrent(timestamp));
 
-        assertTrue(liveTrackingPage.areNotificationsEnabled(), "Notifications are not enabled for live tracking updates.");
+        shipmentPage.refreshPage();
+        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
 
-        liveTrackingPage.simulateNetworkIssue();
-        assertTrue(liveTrackingPage.isNetworkIssueHandledGracefully(), "Network issue is not handled gracefully.");
+        shipmentPage.logout();
+        shipmentPage.login("67890");
+        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
 
-        assertTrue(liveTrackingPage.isTrackingHistoryLogCorrect(), "Tracking history log is incorrect.");
+        Assert.assertTrue(shipmentPage.areNotificationsEnabled());
 
-        assertFalse(liveTrackingPage.areErrorMessagesDisplayed(), "Error messages are displayed during location updates.");
+        shipmentPage.simulateNetworkIssue();
+        Assert.assertTrue(shipmentPage.isNetworkIssueHandledGracefully());
 
-        liveTrackingPage.updateLocationFromDifferentDevice();
-        assertTrue(liveTrackingPage.isLocationSynchronizedAcrossDevices(), "Location is not synchronized across devices.");
+        Assert.assertTrue(shipmentPage.verifyShipmentHistoryLog());
 
-        assertTrue(liveTrackingPage.isMobileTrackingConsistent(), "Mobile tracking is not consistent with desktop view.");
+        Assert.assertFalse(shipmentPage.areErrorMessagesDisplayed());
 
-        liveTrackingPage.rebootSystem();
-        assertTrue(liveTrackingPage.isTrackingInformationAvailableAfterReboot(), "Tracking information is not available after system reboot.");
+        shipmentPage.updateStatusFromDifferentDevice();
+        Assert.assertTrue(shipmentPage.isStatusSynchronizedAcrossDevices());
 
-        assertTrue(liveTrackingPage.isLiveTrackingAccurate(), "Live tracking information is not accurate.");
+        Assert.assertTrue(shipmentPage.verifyStatusOnMobileDevice());
+
+        shipmentPage.rebootSystem();
+        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
     }
 
     @AfterMethod
     public void tearDown() {
-        liveTrackingPage.logout();
+        shipmentPage.logout();
     }
 }
