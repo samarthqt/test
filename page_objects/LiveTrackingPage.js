@@ -1,70 +1,75 @@
-import { simulateNetworkIssue, simulateLocationChange, updateLocationFromDifferentDevice, rebootSystem } from '../helpers/simulations';
+import { Selector } from 'testcafe';
+
 class LiveTrackingPage {
-    visit() {
-        cy.visit('/live-tracking');
-    }
+  navigate() {
+    cy.visit('/live-tracking');
+  }
 
-    enterShipmentId(shipmentId) {
-        cy.get('.tracking-field').type(shipmentId);
-    }
+  enterShipmentId(shipmentId) {
+    cy.get('#trackingField').type(shipmentId);
+  }
 
-    clickTrackButton() {
-        cy.get('.track-button').click();
-    }
+  clickTrackButton() {
+    cy.get('#trackingButton').click();
+  }
 
-    verifyTrackingDetails(shipmentId) {
-        cy.get('.tracking-details').should('contain', shipmentId);
-    }
+  verifyTrackingDetails(shipmentId) {
+    cy.get('#trackingDetails').should('contain', shipmentId);
+  }
 
-    verifyCurrentLocation() {
-        cy.get('.current-location').should('be.visible');
-    }
+  verifyCurrentLocation() {
+    cy.get('#currentLocation').should('be.visible');
+  }
 
-    verifyEstimatedDeliveryTime() {
-        cy.get('.estimated-delivery-time').should('be.visible');
-    }
+  simulateLocationChange() {
+    cy.get('#simulateLocationChangeButton').click();
+  }
 
-    refreshPage() {
-        cy.reload();
-    }
+  verifyUpdatedLocation() {
+    cy.get('#currentLocation').should('contain', 'Updated Location');
+  }
 
-    verifyNotificationSettings() {
-        cy.get('.notification-settings').should('be.checked');
-    }
+  verifyEstimatedDeliveryTime() {
+    cy.get('#estimatedDeliveryTime').should('be.visible');
+  }
 
-    verifyTrackingHistoryLog() {
-        cy.get('.tracking-history-log').should('contain', 'Location Update');
-    }
+  refreshPage() {
+    cy.reload();
+  }
 
-    checkErrorMessages() {
-        cy.get('.error-message').should('not.exist');
-    }
+  checkNotificationSettings() {
+    cy.get('#notificationSettings').should('be.checked');
+  }
 
-    verifyTrackingOnMobile() {
-        cy.viewport('iphone-x');
-        this.visit();
-        this.verifyTrackingDetails();
-    }
+  simulateNetworkIssue() {
+    cy.get('#simulateNetworkIssueButton').click();
+  }
 
-    verifyTrackingAccuracy() {
-        cy.get('.tracking-accuracy').should('contain', 'Accurate');
-    }
-    
-    simulateLocationChange() {
-        simulateLocationChange();
-    }
+  verifyTrackingHistoryLog() {
+    cy.get('#trackingHistoryLog').should('contain', 'Location Update');
+  }
 
-    simulateNetworkIssue() {
-        simulateNetworkIssue();
-    }
+  checkForErrorMessages() {
+    cy.get('.errorMessage').should('not.exist');
+  }
 
-    updateLocationFromDifferentDevice() {
-        updateLocationFromDifferentDevice();
-    }
+  simulateLocationChangeFromAnotherDevice() {
+    cy.get('#simulateLocationChangeAnotherDeviceButton').click();
+  }
 
-    rebootSystem() {
-        rebootSystem();
-    }
+  verifyOnMobileDevice() {
+    cy.viewport('iphone-x');
+    cy.visit('/live-tracking');
+    cy.get('#trackingDetails').should('contain', '54321');
+  }
+
+  simulateSystemReboot() {
+    cy.get('#simulateSystemRebootButton').click();
+  }
+
+  verifyAccuracy() {
+    cy.get('#trackingDetails').should('contain', 'Accurate Information');
+  }
 }
 
 export default LiveTrackingPage;

@@ -1,62 +1,44 @@
-import { Selector } from 'testcafe';
-
+import 'cypress-xpath';
 class OrdersPage {
-
-  constructor() {
-    this.ordersList = '#ordersList';
-    this.orderCheckbox = (id) => `#orderCheckbox-${id}`;
-    this.orderDetails = '.orderDetails';
-    this.updateStatusButton = '#updateStatusButton';
-    this.statusDropdown = '#statusDropdown';
-    this.confirmUpdateButton = '#confirmUpdateButton';
-    this.status = '.status';
-    this.monitorAlertsButton = '#monitorAlertsButton';
-    this.alertRecipient = '.alertRecipient';
-    this.alertStatus = '.alertStatus';
-    this.performanceMetrics = '#performanceMetrics';
+  navigate() {
+    cy.visit('/orders');
   }
 
-  verifyOrdersModuleIsDisplayed() {
-    cy.get(this.ordersList).should('be.visible');
+  selectOrder(orderId) {
+    cy.get(`[data-order-id=\${orderId}\]`).click();
   }
 
-  selectOrderById(orderId) {
-    cy.get(`#order-${orderId}`).click();
+  updateShipmentStatus(status) {
+    cy.get('#shipmentStatus').select(status);
   }
 
-  selectOrdersByIdRange(startId, endId) {
-    for (let id = startId; id <= endId; id++) {
-      cy.get(this.orderCheckbox(id)).check();
-    }
+  checkAlertSystem() {
+    cy.get('#alertSystem').click();
   }
 
-  verifyOrderDetailsDisplayed() {
-    cy.get(this.orderDetails).should('be.visible');
+  verifyOrderDetails(orderId, expectedDetails) {
+    cy.get(`[data-order-id=\${orderId}\] .order-details`).should('contain', expectedDetails);
   }
 
-  updateShipmentStatusToDispatched() {
-    cy.get(this.updateStatusButton).click();
-    cy.get(this.statusDropdown).select('Dispatched');
-    cy.get(this.confirmUpdateButton).click();
+  filterOrdersByStatus(status) {
+    cy.get('#orderStatusFilter').select(status);
   }
 
-  verifyShipmentStatusUpdated() {
-    cy.get(this.status).each(($el) => {
-      cy.wrap($el).should('have.text', 'Dispatched');
-    });
+  searchOrder(orderNumber) {
+    cy.get('#orderSearchInput').type(orderNumber);
+    cy.get('#orderSearchButton').click();
   }
 
-  monitorOutgoingAlerts(email) {
-    cy.get(this.monitorAlertsButton).click();
-    cy.get(this.alertRecipient).should('contain', email);
+  validateOrderPresence(orderNumber) {
+    cy.get('.order-list').contains(orderNumber).should('be.visible');
   }
 
-  verifyAlertsSent() {
-    cy.get(this.alertStatus).should('contain', 'Sent');
+  cancelOrder(orderId) {
+    cy.get(`[data-order-id=\${orderId}\] .cancel-order-button`).click();
   }
 
-  verifySystemPerformanceMetrics() {
-    cy.get(this.performanceMetrics).should('contain', 'Optimal');
+  confirmOrderCancellation(orderId) {
+    cy.get(`[data-order-id=\${orderId}\] .confirm-cancellation`).click();
   }
 }
 

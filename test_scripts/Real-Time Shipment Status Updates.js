@@ -1,79 +1,83 @@
 describe('Real-Time Shipment Status Updates', () => {
   const shipmentId = '12345';
   const userId = '67890';
-  const shipmentTrackingPage = new ShipmentTrackingPage();
 
-  before(() => {
-    cy.login(userId);
+  beforeEach(() => {
+    cy.login(userId); // Custom command to log in
+    cy.visit('/shipment-tracking');
   });
 
-  it('should navigate to the shipment tracking page', () => {
-    shipmentTrackingPage.navigate();
-    shipmentTrackingPage.verifyPageDisplayed();
+  it('should display shipment details for a valid shipment ID', () => {
+    cy.get('#trackingField').type(shipmentId);
+    cy.get('#trackButton').click();
+    cy.get('#shipmentDetails').should('contain', shipmentId);
   });
 
-  it('should enter the shipment ID and display shipment details', () => {
-    shipmentTrackingPage.enterShipmentId(shipmentId);
-    shipmentTrackingPage.verifyShipmentDetailsDisplayed(shipmentId);
+  it('should update status to Out for Delivery in real-time', () => {
+    cy.simulateStatusUpdate(shipmentId, 'Out for Delivery');
+    cy.get('#shipmentStatus').should('contain', 'Out for Delivery');
   });
 
-  it('should check the current status of the shipment', () => {
-    shipmentTrackingPage.verifyCurrentStatus('In Transit');
-  });
-
-  it('should simulate a status update to Out for Delivery', () => {
-    shipmentTrackingPage.simulateStatusUpdate('Out for Delivery');
-    shipmentTrackingPage.verifyCurrentStatus('Out for Delivery');
-  });
-
-  it('should simulate a status update to Delivered', () => {
-    shipmentTrackingPage.simulateStatusUpdate('Delivered');
-    shipmentTrackingPage.verifyCurrentStatus('Delivered');
+  it('should update status to Delivered in real-time', () => {
+    cy.simulateStatusUpdate(shipmentId, 'Delivered');
+    cy.get('#shipmentStatus').should('contain', 'Delivered');
   });
 
   it('should verify the timestamp of the latest status update', () => {
-    shipmentTrackingPage.verifyTimestampMatchesCurrentTime();
+    cy.get('#statusTimestamp').should('contain', new Date().toLocaleString());
   });
 
-  it('should refresh the page and verify status remains Delivered', () => {
-    shipmentTrackingPage.refreshPage();
-    shipmentTrackingPage.verifyCurrentStatus('Delivered');
+  it('should maintain status after page refresh', () => {
+    cy.reload();
+    cy.get('#shipmentStatus').should('contain', 'Delivered');
   });
 
-  it('should log out and log back in, verifying status remains Delivered', () => {
+  it('should maintain status after logout and login', () => {
     cy.logout();
     cy.login(userId);
-    shipmentTrackingPage.verifyCurrentStatus('Delivered');
+    cy.visit('/shipment-tracking');
+    cy.get('#trackingField').type(shipmentId);
+    cy.get('#trackButton').click();
+    cy.get('#shipmentStatus').should('contain', 'Delivered');
   });
 
-  it('should check notification settings for shipment updates', () => {
-    shipmentTrackingPage.verifyNotificationsEnabled();
+  it('should have notifications enabled for real-time updates', () => {
+    cy.get('#notificationSettings').should('be.checked');
   });
 
-  it('should simulate a network issue and handle gracefully', () => {
-    shipmentTrackingPage.simulateNetworkIssue();
-    shipmentTrackingPage.verifyNoErrorsDuringUpdate();
+  it('should handle network issues gracefully during status updates', () => {
+    cy.simulateNetworkIssue();
+    cy.simulateStatusUpdate(shipmentId, 'In Transit');
+    cy.get('#shipmentStatus').should('contain', 'In Transit');
   });
 
-  it('should verify the shipment history log', () => {
-    shipmentTrackingPage.verifyShipmentHistoryLog();
+  it('should verify shipment history log contains all updates', () => {
+    cy.get('#historyLog').should('contain', 'Out for Delivery')
+                         .and('contain', 'Delivered');
   });
 
-  it('should check for any error messages during status updates', () => {
-    shipmentTrackingPage.verifyNoErrorsDuringUpdate();
+  it('should not display error messages during status updates', () => {
+    cy.get('#errorMessages').should('not.exist');
   });
 
-  it('should attempt to update status from a different device', () => {
-    shipmentTrackingPage.simulateStatusUpdateFromDifferentDevice('Delivered');
-    shipmentTrackingPage.verifyCurrentStatus('Delivered');
+  it('should synchronize status updates across devices', () => {
+    cy.simulateStatusUpdateFromDifferentDevice(shipmentId, 'In Transit');
+    cy.get('#shipmentStatus').should('contain', 'In Transit');
   });
 
-  it('should verify the shipment status on a mobile device', () => {
-    shipmentTrackingPage.verifyStatusOnMobileDevice('Delivered');
+  it('should verify shipment status on a mobile device', () => {
+    cy.viewport('iphone-x');
+    cy.visit('/shipment-tracking');
+    cy.get('#trackingField').type(shipmentId);
+    cy.get('#trackButton').click();
+    cy.get('#shipmentStatus').should('contain', 'Delivered');
   });
 
-  it('should check the shipment status after a system reboot', () => {
-    shipmentTrackingPage.simulateSystemReboot();
-    shipmentTrackingPage.verifyCurrentStatus('Delivered');
+  it('should maintain shipment status after a system reboot', () => {
+    cy.systemReboot(); // Custom command to simulate reboot
+    cy.visit('/shipment-tracking');
+    cy.get('#trackingField').type(shipmentId);
+    cy.get('#trackButton').click();
+    cy.get('#shipmentStatus').should('contain', 'Delivered');
   });
 });

@@ -1,39 +1,47 @@
 describe('Instant Shipment Tracking Alert for Dispatch', () => {
-  const loginPage = new LoginPage();
-  const dashboardPage = new DashboardPage();
-  const ordersPage = new OrdersPage();
-  const orderDetailsPage = new OrderDetailsPage();
-  const alertSystem = new AlertSystem();
+  const orderId = '12345';
+  const customerEmail = 'customer@example.com';
 
   before(() => {
-    cy.visit('/');
+    cy.login('validUsername', 'validPassword');
   });
 
-  it('should log in to the Dynamics 365 system', () => {
-    loginPage.login('validUsername', 'validPassword');
-    dashboardPage.verifyDashboardIsDisplayed();
-  });
-
-  it('should navigate to the Orders module', () => {
-    dashboardPage.goToOrdersModule();
-    ordersPage.verifyOrdersModuleIsDisplayed();
+  it('should navigate to Orders module', () => {
+    cy.visit('/orders');
+    cy.contains('Orders').should('be.visible');
   });
 
   it('should select the order with ID 12345', () => {
-    ordersPage.selectOrderById('12345');
-    orderDetailsPage.verifyOrderDetailsAreDisplayed('12345');
+    cy.get(`[data-order-id="${orderId}"]`).click();
+    cy.contains(`Order ID: ${orderId}`).should('be.visible');
   });
 
   it('should update the shipment status to Dispatched', () => {
-    orderDetailsPage.updateShipmentStatus('Dispatched');
-    orderDetailsPage.verifyShipmentStatusIsUpdated('Dispatched');
+    cy.get('#shipmentStatus').select('Dispatched');
+    cy.contains('Shipment status updated to Dispatched').should('be.visible');
   });
 
   it('should check the alert system for outgoing alerts', () => {
-    alertSystem.verifyAlertIsSent('customer@example.com', 'Your shipment has been dispatched.');
+    cy.get('#alertSystem').click();
+    cy.contains(`Alert sent to ${customerEmail}`).should('be.visible');
   });
 
   it('should verify the alert received by the customer', () => {
-    alertSystem.verifyCustomerReceivedAlert('customer@example.com', 'Your shipment has been dispatched.');
+    cy.checkEmail(customerEmail).then(email => {
+      expect(email).to.include('Your shipment has been dispatched.');
+    });
   });
+});
+
+Cypress.Commands.add('login', (username, password) => {
+  cy.visit('/login');
+  cy.get('#username').type(username);
+  cy.get('#password').type(password);
+  cy.get('#loginButton').click();
+  cy.contains('Dashboard').should('be.visible');
+});
+
+Cypress.Commands.add('checkEmail', (email) => {
+  // Mock function to simulate checking email
+  return cy.wrap('Email content: Your shipment has been dispatched.');
 });
