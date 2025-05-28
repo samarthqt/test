@@ -3,99 +3,150 @@ package com.pageobjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import com.framework.reusable.WebReusableComponents;
 
-public class ShipmentTrackingPage extends WebReusableComponents {
+public class ShipmentTrackingPage {
 
     private final WebDriver driver;
-    private final WebDriverWait wait;
 
-    private final By ordersModule = By.id(ordersModule);
-    private final By orderList = By.cssSelector(.order-list);
-    private final By orderDetails = By.cssSelector(.order-details);
-    private final By shipmentStatusDropdown = By.id(shipmentStatus);
-    private final By alertSystem = By.id(alertSystem);
+    @FindBy(id = trackingField)
+    private WebElement trackingField;
+
+    @FindBy(id = locationField)
+    private WebElement locationField;
+
+    @FindBy(id = okButton)
+    private WebElement okButton;
+
+    @FindBy(id = statusField)
+    private WebElement statusField;
+
+    @FindBy(id = timestampField)
+    private WebElement timestampField;
+
+    @FindBy(id = refreshButton)
+    private WebElement refreshButton;
+
+    @FindBy(id = logoutButton)
+    private WebElement logoutButton;
+
+    @FindBy(id = loginButton)
+    private WebElement loginButton;
+
+    @FindBy(id = notificationSettings)
+    private WebElement notificationSettings;
+
+    @FindBy(id = networkIssueButton)
+    private WebElement networkIssueButton;
+
+    @FindBy(id = shipmentHistoryLog)
+    private WebElement shipmentHistoryLog;
+
+    @FindBy(id = errorMessageField)
+    private WebElement errorMessageField;
 
     public ShipmentTrackingPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10);
         PageFactory.initElements(driver, this);
     }
 
-    public void navigateToOrdersModule() {
-        waitUntilElementVisible(ordersModule, 3);
-        clickElement(ordersModule);
-        Assert.assertTrue(driver.findElement(orderList).isDisplayed(), Failed to navigate to Orders Module.);
+    public void login() {
+        waitUntilElementVisible(loginButton, 5);
+        loginButton.click();
+        Assert.assertTrue(isElementVisible(logoutButton), Login failed, logout button not visible.);
     }
 
-    public void selectOrderById(String orderId) {
-        waitUntilElementVisible(orderList, 3);
-        WebElement order = getWebElementList(orderList)
-            .stream()
-            .filter(o -> o.getText().contains(orderId))
-            .findFirst()
-            .orElseThrow(() -> new AssertionError(Order ID not found:  + orderId));
-        clickElement(order);
-        Assert.assertTrue(driver.findElement(orderDetails).isDisplayed(), Failed to select order with ID:  + orderId);
+    public void enterShipmentID(String shipmentID) {
+        waitUntilElementVisible(trackingField, 5);
+        trackingField.clear();
+        trackingField.sendKeys(shipmentID);
+        Assert.assertEquals(trackingField.getAttribute(value), shipmentID, Shipment ID not entered correctly.);
     }
 
-    public void updateShipmentStatusToDispatched() {
-        waitUntilElementVisible(shipmentStatusDropdown, 3);
-        selectByValue(shipmentStatusDropdown, Dispatched);
-        Assert.assertEquals(getSelectedValue(shipmentStatusDropdown), Dispatched, Shipment status update failed.);
+    public void selectLocation(String location) {
+        waitUntilElementVisible(locationField, 5);
+        locationField.clear();
+        locationField.sendKeys(location);
+        Assert.assertEquals(locationField.getAttribute(value), location, Location not selected correctly.);
     }
 
-    public boolean checkAlertSystemForOutgoingAlerts(String customerEmail) {
-        waitUntilElementVisible(alertSystem, 3);
-        boolean alertExists = getTextFromElement(alertSystem).contains(customerEmail);
-        Assert.assertTrue(alertExists, No outgoing alerts found for customer email:  + customerEmail);
-        return alertExists;
+    public void clickOkButton() {
+        waitUntilElementVisible(okButton, 5);
+        okButton.click();
+        Assert.assertTrue(isElementVisible(statusField), OK button click failed, status field not visible.);
     }
 
-    public boolean verifyAlertReceivedByCustomer(String expectedMessage) {
-        // Simulate checking the customer's email or alert system
-        boolean alertReceived = true; // Assume the alert is received for demonstration purposes
-        Assert.assertTrue(alertReceived, Alert not received by customer:  + expectedMessage);
-        return alertReceived;
+    public String getCurrentStatus() {
+        waitUntilElementVisible(statusField, 5);
+        String status = statusField.getText();
+        Assert.assertFalse(status.isEmpty(), Status field is empty.);
+        return status;
     }
 
-    private void waitUntilElementVisible(By locator, int timeout) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public void simulateStatusUpdate(String status) {
+        waitUntilElementVisible(statusField, 5);
+        statusField.clear();
+        statusField.sendKeys(status);
+        Assert.assertEquals(statusField.getAttribute(value), status, Status not updated correctly.);
     }
 
-    private void clickElement(By locator) {
-        driver.findElement(locator).click();
+    public String getTimestamp() {
+        waitUntilElementVisible(timestampField, 5);
+        String timestamp = timestampField.getText();
+        Assert.assertFalse(timestamp.isEmpty(), Timestamp field is empty.);
+        return timestamp;
     }
 
-    private void clickElement(WebElement element) {
-        element.click();
+    public void refreshPage() {
+        waitUntilElementVisible(refreshButton, 5);
+        refreshButton.click();
+        Assert.assertTrue(isElementVisible(trackingField), Page refresh failed, tracking field not visible.);
     }
 
-    private void enterText(By locator, String text) {
-        WebElement element = driver.findElement(locator);
-        element.clear();
-        element.sendKeys(text);
+    public void logout() {
+        waitUntilElementVisible(logoutButton, 5);
+        logoutButton.click();
+        Assert.assertTrue(isElementVisible(loginButton), Logout failed, login button not visible.);
     }
 
-    private void selectByValue(By locator, String value) {
-        WebElement dropdown = driver.findElement(locator);
-        dropdown.findElement(By.xpath(.//option[@value=' + value + '])).click();
+    public boolean checkNotificationSettings() {
+        waitUntilElementVisible(notificationSettings, 5);
+        boolean isDisplayed = notificationSettings.isDisplayed();
+        Assert.assertTrue(isDisplayed, Notification settings not visible.);
+        return isDisplayed;
     }
 
-    private String getTextFromElement(By locator) {
-        return driver.findElement(locator).getText();
+    public void simulateNetworkIssue() {
+        waitUntilElementVisible(networkIssueButton, 5);
+        networkIssueButton.click();
+        Assert.assertTrue(isElementVisible(errorMessageField), Network issue simulation failed, error message not visible.);
     }
 
-    private String getSelectedValue(By locator) {
-        WebElement dropdown = driver.findElement(locator);
-        return dropdown.findElement(By.cssSelector(option[selected='selected'])).getText();
+    public String getShipmentHistoryLog() {
+        waitUntilElementVisible(shipmentHistoryLog, 5);
+        String historyLog = shipmentHistoryLog.getText();
+        Assert.assertFalse(historyLog.isEmpty(), Shipment history log is empty.);
+        return historyLog;
     }
 
-    private .util.List<WebElement> getWebElementList(By locator) {
-        return driver.findElements(locator);
+    public String checkErrorMessages() {
+        waitUntilElementVisible(errorMessageField, 5);
+        String errorMessage = errorMessageField.getText();
+        Assert.assertFalse(errorMessage.isEmpty(), Error message field is empty.);
+        return errorMessage;
+    }
+
+    private void waitUntilElementVisible(WebElement element, int timeoutInSeconds) {
+        new WebDriverWait(driver, timeoutInSeconds).until(ExpectedConditions.visibilityOf(element));
+    }
+
+    private boolean isElementVisible(WebElement element) {
+        try {
+            return element.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 }
