@@ -1,0 +1,7 @@
+<suite name="CheckoutSuite">
+    <test name="CheckoutTests">
+        <classes>
+            <class name="com.tests.CheckoutTest"/>
+        </classes>
+    </test>
+</suite>

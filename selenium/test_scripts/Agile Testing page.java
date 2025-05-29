@@ -1,45 +1,44 @@
 package com.tests;
 
+import com.pageobjects.CartPage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.annotations.AfterMethod;
-import com.pageobjects.CartPage;
-import com.framework.cucumber.TestHarness;
+import static org.testng.Assert.assertTrue;
 
 public class CartManagementTest {
 
     private CartPage cartPage;
-    private TestHarness testHarness;
 
     @BeforeMethod
     public void setUp() {
-        testHarness = new TestHarness();
         cartPage = new CartPage();
-        cartPage.openCart();
+        cartPage.navigateToProductDetailsPage();
     }
 
     @Test
     public void testAddProductToCart() {
-        String productName = testHarness.getData("CartData", "ProductName");
         cartPage.addProductToCart();
-        cartPage.verifyProductInCart(productName);
+        cartPage.openCart();
+        assertTrue(cartPage.isProductInCart("Product Name"), "Product should be in the cart.");
     }
 
     @Test
     public void testUpdateProductQuantity() {
-        String quantity = testHarness.getData("CartData", "Quantity");
-        cartPage.updateProductQuantity(quantity);
-        cartPage.verifyProductQuantity(quantity);
+        cartPage.openCart();
+        cartPage.updateProductQuantity("2");
+        assertTrue(cartPage.isProductQuantityUpdated("2"), "Product quantity should be updated.");
     }
 
     @Test
     public void testRemoveProductFromCart() {
+        cartPage.openCart();
         cartPage.removeProductFromCart();
-        cartPage.verifyCartIsEmpty();
+        assertTrue(cartPage.isCartEmpty(), "Cart should be empty.");
     }
 
     @AfterMethod
     public void tearDown() {
-        // Clean up resources
+        cartPage.closeBrowser();
     }
 }

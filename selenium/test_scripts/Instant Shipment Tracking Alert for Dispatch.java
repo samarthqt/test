@@ -1,35 +1,30 @@
 package com.tests;
 
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import com.pageobjects.ShipmentTrackingPage;
+import org.testng.annotations.AfterMethod;
+import com.pageobjects.AgileTestingPage;
 import com.framework.reusable.WebReusableComponents;
 
-public class ShipmentTrackingTest extends WebReusableComponents {
-
-    private ShipmentTrackingPage shipmentTrackingPage;
+public class AgileTestingTest extends WebReusableComponents {
+    private AgileTestingPage agileTestingPage;
 
     @BeforeMethod
     public void setUp() {
-        initializeDriver();
-        shipmentTrackingPage = new ShipmentTrackingPage(driver);
-        loginToSystem("validUsername", "validPassword");
+        agileTestingPage = new AgileTestingPage();
+        agileTestingPage.navigateToAgileTestingPage();
     }
 
     @Test
-    public void verifyInstantShipmentTrackingAlert() {
-        shipmentTrackingPage.navigateToOrdersModule();
-        shipmentTrackingPage.selectOrderById("12345");
-        shipmentTrackingPage.updateShipmentStatusToDispatched();
-        boolean alertSent = shipmentTrackingPage.checkAlertSystemForOutgoingAlerts("customer@example.com");
-        assert alertSent : "Alert was not sent to the customer.";
-        boolean alertReceived = shipmentTrackingPage.verifyAlertReceivedByCustomer("Your shipment has been dispatched.");
-        assert alertReceived : "Customer did not receive the expected alert.";
+    public void testAgileTestingPage() {
+        agileTestingPage.verifyAgileTestingPageLoaded();
+        agileTestingPage.clickAgileTestingSubMenu();
+        String currentUrl = getCurrentURL();
+        Assert.assertEquals(currentUrl, "http://www.qasymphony.com/platform.html", "URL does not match");
     }
 
     @AfterMethod
     public void tearDown() {
-        closeDriver();
+        closeBrowser();
     }
 }
