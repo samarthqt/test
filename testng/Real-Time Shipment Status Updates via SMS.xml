@@ -1,0 +1,8 @@
+<suite name="ShipmentTestSuite">
+  <test name="ShipmentTests">
+    <classes>
+      <class name="tests.RealTimeShipmentStatusTest"/>
+      <class name="tests.LiveTrackingTest"/>
+    </classes>
+  </test>
+</suite>

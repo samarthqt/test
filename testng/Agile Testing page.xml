@@ -1,0 +1,22 @@
+<suite name="AutomationSuite">
+    <test name="FormSubmissionTest">
+        <classes>
+            <class name="tests.FormSubmissionTest"/>
+        </classes>
+    </test>
+    <test name="FileUploadTest">
+        <classes>
+            <class name="tests.FileUploadTest"/>
+        </classes>
+    </test>
+    <test name="LoginTest">
+        <classes>
+            <class name="tests.LoginTest"/>
+        </classes>
+    </test>
+    <test name="RegistrationTest">
+        <classes>
+            <class name="tests.RegistrationTest"/>
+        </classes>
+    </test>
+</suite>
