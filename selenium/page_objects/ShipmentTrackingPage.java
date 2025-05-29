@@ -7,7 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import com.framework.reusable.WebReusableComponents;
+import .util.List;
 
 public class ShipmentTrackingPage extends WebReusableComponents {
 
@@ -20,7 +20,7 @@ public class ShipmentTrackingPage extends WebReusableComponents {
     private final By shipmentStatusDropdown = By.id(shipmentStatus);
     private final By alertSystem = By.id(alertSystem);
 
-    public ShipmentTrackingPage(WebDriver driver) {
+    public ShipmentTrackingPage(final WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, 10);
         PageFactory.initElements(driver, this);
@@ -32,7 +32,7 @@ public class ShipmentTrackingPage extends WebReusableComponents {
         Assert.assertTrue(driver.findElement(orderList).isDisplayed(), Failed to navigate to Orders Module.);
     }
 
-    public void selectOrderById(String orderId) {
+    public void selectOrderById(final String orderId) {
         waitUntilElementVisible(orderList, 3);
         WebElement order = getWebElementList(orderList)
             .stream()
@@ -49,53 +49,52 @@ public class ShipmentTrackingPage extends WebReusableComponents {
         Assert.assertEquals(getSelectedValue(shipmentStatusDropdown), Dispatched, Shipment status update failed.);
     }
 
-    public boolean checkAlertSystemForOutgoingAlerts(String customerEmail) {
+    public boolean checkAlertSystemForOutgoingAlerts(final String customerEmail) {
         waitUntilElementVisible(alertSystem, 3);
         boolean alertExists = getTextFromElement(alertSystem).contains(customerEmail);
         Assert.assertTrue(alertExists, No outgoing alerts found for customer email:  + customerEmail);
         return alertExists;
     }
 
-    public boolean verifyAlertReceivedByCustomer(String expectedMessage) {
-        // Simulate checking the customer's email or alert system
+    public boolean verifyAlertReceivedByCustomer(final String expectedMessage) {
         boolean alertReceived = true; // Assume the alert is received for demonstration purposes
         Assert.assertTrue(alertReceived, Alert not received by customer:  + expectedMessage);
         return alertReceived;
     }
 
-    private void waitUntilElementVisible(By locator, int timeout) {
+    private void waitUntilElementVisible(final By locator, final int timeout) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    private void clickElement(By locator) {
+    private void clickElement(final By locator) {
         driver.findElement(locator).click();
     }
 
-    private void clickElement(WebElement element) {
+    private void clickElement(final WebElement element) {
         element.click();
     }
 
-    private void enterText(By locator, String text) {
+    private void enterText(final By locator, final String text) {
         WebElement element = driver.findElement(locator);
         element.clear();
         element.sendKeys(text);
     }
 
-    private void selectByValue(By locator, String value) {
+    private void selectByValue(final By locator, final String value) {
         WebElement dropdown = driver.findElement(locator);
         dropdown.findElement(By.xpath(.//option[@value=' + value + '])).click();
     }
 
-    private String getTextFromElement(By locator) {
+    private String getTextFromElement(final By locator) {
         return driver.findElement(locator).getText();
     }
 
-    private String getSelectedValue(By locator) {
+    private String getSelectedValue(final By locator) {
         WebElement dropdown = driver.findElement(locator);
         return dropdown.findElement(By.cssSelector(option[selected='selected'])).getText();
     }
 
-    private .util.List<WebElement> getWebElementList(By locator) {
+    private List<WebElement> getWebElementList(final By locator) {
         return driver.findElements(locator);
     }
 }
