@@ -1,7 +1,7 @@
-<suite name="LiveTrackingSuite">
-    <test name="LiveTrackingTest">
-        <classes>
-            <class name="com.tests.LiveTrackingTest"/>
-        </classes>
-    </test>
+<suite name="RetailTestSuite">
+  <test name="CartManagementTests">
+    <classes>
+      <class name="com.tests.CartManagementTest" />
+    </classes>
+  </test>
 </suite>
