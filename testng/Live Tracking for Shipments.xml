@@ -1,0 +1,22 @@
+<suite name="TestSuite">
+  <test name="FormSubmissionTest">
+    <classes>
+      <class name="com.example.tests.FormSubmissionTest"/>
+    </classes>
+  </test>
+  <test name="FileUploadTest">
+    <classes>
+      <class name="com.example.tests.FileUploadTest"/>
+    </classes>
+  </test>
+  <test name="LoginTest">
+    <classes>
+      <class name="com.example.tests.LoginTest"/>
+    </classes>
+  </test>
+  <test name="RegistrationTest">
+    <classes>
+      <class name="com.example.tests.RegistrationTest"/>
+    </classes>
+  </test>
+</suite>
