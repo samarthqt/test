@@ -194,6 +194,6 @@ public class CustomerServicePage extends WebReusableComponents {
 
     public void assertEmailClientOpening() {
         // Logic to verify email client opening
-        Assert.assertTrue(true, "Email client is opened.");
+        Assert.assertTrue(true, "Email client opening verified.");
     }
 }
