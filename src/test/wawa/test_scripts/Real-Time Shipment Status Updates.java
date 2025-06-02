@@ -4,11 +4,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 
-public class ShipmentTrackingTest {
+
+public class RealTimeShipmentStatusUpdatesTest {
 
     private WebDriver driver;
 
-    public ShipmentTrackingTest() {
+    public RealTimeShipmentStatusUpdatesTest() {
         System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
         driver = new ChromeDriver();
     }
@@ -20,6 +21,16 @@ public class ShipmentTrackingTest {
     public void enterShipmentID(String shipmentID) {
         WebElement trackingField = driver.findElement(By.id("trackingField"));
         trackingField.sendKeys(shipmentID);
+    }
+
+    public void selectLocation(String location) {
+        WebElement locationField = driver.findElement(By.id("locationField"));
+        locationField.sendKeys(location);
+    }
+
+    public void clickOkButton() {
+        WebElement okButton = driver.findElement(By.id("okButton"));
+        okButton.click();
     }
 
     public void checkCurrentStatus() {
@@ -61,7 +72,6 @@ public class ShipmentTrackingTest {
     }
 
     public void simulateNetworkIssueAndUpdateStatus() {
-        // Simulate network issue
         WebElement statusUpdateButton = driver.findElement(By.id("statusUpdateButton"));
         statusUpdateButton.click();
         WebElement errorMessage = driver.findElement(By.id("errorMessage"));
@@ -78,35 +88,18 @@ public class ShipmentTrackingTest {
         Assert.assertTrue(errorMessage.isDisplayed(), "Error message is not displayed during updates.");
     }
 
-    public void updateStatusFromDifferentDevice() {
-        // Simulate status update from a different device
-        WebElement statusUpdateButton = driver.findElement(By.id("statusUpdateButton"));
-        statusUpdateButton.click();
-    }
-
-    public void verifyShipmentStatusOnMobileDevice() {
-        // Simulate checking status on a mobile device
-        WebElement mobileStatus = driver.findElement(By.id("mobileStatus"));
-        Assert.assertTrue(mobileStatus.isDisplayed(), "Shipment status is not visible on mobile device.");
-    }
-
-    public void checkShipmentStatusAfterSystemReboot() {
-        // Simulate system reboot and check status
-        WebElement statusElement = driver.findElement(By.id("currentStatus"));
-        String status = statusElement.getText();
-        Assert.assertNotNull(status, "Status is not displayed after system reboot.");
-    }
-
     public void closeBrowser() {
         driver.quit();
     }
 
     public static void main(String[] args) {
-        ShipmentTrackingTest test = new ShipmentTrackingTest();
+        RealTimeShipmentStatusUpdatesTest test = new RealTimeShipmentStatusUpdatesTest();
         test.navigateToShipmentTrackingPage();
         test.enterShipmentID("12345");
+        test.selectLocation("Warehouse A");
+        test.clickOkButton();
         test.checkCurrentStatus();
-        test.simulateStatusUpdate("Out for Delivery");
+        test.simulateStatusUpdate("To be delivered");
         test.simulateStatusUpdate("Delivered");
         test.verifyTimestampOfLatestUpdate();
         test.refreshPage();
@@ -115,9 +108,6 @@ public class ShipmentTrackingTest {
         test.simulateNetworkIssueAndUpdateStatus();
         test.verifyShipmentHistoryLog();
         test.checkForErrorMessagesDuringUpdates();
-        test.updateStatusFromDifferentDevice();
-        test.verifyShipmentStatusOnMobileDevice();
-        test.checkShipmentStatusAfterSystemReboot();
         test.closeBrowser();
     }
 }

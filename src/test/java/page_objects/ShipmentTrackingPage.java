@@ -30,8 +30,6 @@ public class ShipmentTrackingPage extends WebReusableComponents {
     }
 
     public void navigateToShipmentTrackingPage() {
-        // Implementation to navigate to the shipment tracking page
-        // Assuming a URL or navigation method is available
         driver.get("http://example.com/shipment-tracking");
         Assert.assertTrue(driver.getTitle().contains("Shipment Tracking"), "Failed to navigate to Shipment Tracking Page.");
     }
@@ -77,7 +75,6 @@ public class ShipmentTrackingPage extends WebReusableComponents {
     public void logoutAndLogin() {
         waitUntilElementVisible(btnLogout, 3);
         clickElement(btnLogout);
-        // Assuming a login method is available
         login("username", "password");
         Assert.assertTrue(driver.getTitle().contains("Shipment Tracking"), "Logout and login failed.");
     }
