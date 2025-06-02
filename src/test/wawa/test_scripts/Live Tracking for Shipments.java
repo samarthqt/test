@@ -29,7 +29,8 @@ public class LiveTrackingAutomation {
     }
 
     public void simulateChangeInShipmentLocation() {
-        // Simulate location change logic here
+        WebElement changeLocationButton = driver.findElement(By.id("changeLocation"));
+        changeLocationButton.click();
     }
 
     public void verifyEstimatedDeliveryTime() {
@@ -43,9 +44,9 @@ public class LiveTrackingAutomation {
     }
 
     public void logOutAndLogBackIn() {
-        WebElement logoutButton = driver.findElement(By.id("logoutButton"));
+        WebElement logoutButton = driver.findElement(By.id("logout"));
         logoutButton.click();
-        WebElement loginButton = driver.findElement(By.id("loginButton"));
+        WebElement loginButton = driver.findElement(By.id("login"));
         loginButton.click();
     }
 
@@ -54,8 +55,9 @@ public class LiveTrackingAutomation {
         Assert.assertTrue(notificationSettings.isDisplayed(), "Notification settings are not visible.");
     }
 
-    public void simulateNetworkIssueAndUpdateLocation() {
-        // Simulate network issue and update location logic here
+    public void simulateNetworkIssue() {
+        WebElement networkIssueButton = driver.findElement(By.id("simulateNetworkIssue"));
+        networkIssueButton.click();
     }
 
     public void verifyTrackingHistoryLog() {
@@ -63,25 +65,29 @@ public class LiveTrackingAutomation {
         Assert.assertTrue(historyLog.isDisplayed(), "Tracking history log is not visible.");
     }
 
-    public void checkErrorMessagesDuringLocationUpdates() {
+    public void checkErrorMessages() {
         WebElement errorMessage = driver.findElement(By.id("errorMessage"));
-        Assert.assertFalse(errorMessage.isDisplayed(), "Error message is displayed during location updates.");
+        Assert.assertTrue(errorMessage.isDisplayed(), "Error message is not displayed.");
     }
 
     public void updateLocationFromDifferentDevice() {
-        // Logic to update location from a different device
+        WebElement updateLocationButton = driver.findElement(By.id("updateLocationDifferentDevice"));
+        updateLocationButton.click();
     }
 
-    public void verifyLiveTrackingOnMobileDevice() {
-        // Logic to verify live tracking on a mobile device
+    public void verifyLiveTrackingOnMobile() {
+        WebElement mobileTracking = driver.findElement(By.id("mobileLiveTracking"));
+        Assert.assertTrue(mobileTracking.isDisplayed(), "Live tracking on mobile is not visible.");
     }
 
-    public void checkLiveTrackingAfterSystemReboot() {
-        // Logic to check live tracking after system reboot
+    public void checkLiveTrackingAfterReboot() {
+        WebElement rebootTracking = driver.findElement(By.id("rebootLiveTracking"));
+        Assert.assertTrue(rebootTracking.isDisplayed(), "Live tracking after reboot is not visible.");
     }
 
-    public void verifyAccuracyOfLiveTrackingSystem() {
-        // Logic to verify accuracy of the live tracking system
+    public void verifyTrackingAccuracy() {
+        WebElement trackingAccuracy = driver.findElement(By.id("trackingAccuracy"));
+        Assert.assertTrue(trackingAccuracy.isDisplayed(), "Tracking accuracy is not verified.");
     }
 
     public void closeBrowser() {
@@ -98,13 +104,13 @@ public class LiveTrackingAutomation {
         automation.refreshPage();
         automation.logOutAndLogBackIn();
         automation.checkNotificationSettings();
-        automation.simulateNetworkIssueAndUpdateLocation();
+        automation.simulateNetworkIssue();
         automation.verifyTrackingHistoryLog();
-        automation.checkErrorMessagesDuringLocationUpdates();
+        automation.checkErrorMessages();
         automation.updateLocationFromDifferentDevice();
-        automation.verifyLiveTrackingOnMobileDevice();
-        automation.checkLiveTrackingAfterSystemReboot();
-        automation.verifyAccuracyOfLiveTrackingSystem();
+        automation.verifyLiveTrackingOnMobile();
+        automation.checkLiveTrackingAfterReboot();
+        automation.verifyTrackingAccuracy();
         automation.closeBrowser();
     }
 }

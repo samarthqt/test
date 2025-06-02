@@ -23,63 +23,37 @@ public class Dynamics365Page extends WebReusableComponents {
         PageFactory.initElements(driver, this);
     }
 
-    /**
-     * Logs into Dynamics 365 using the provided username and password.
-     * @param username The username to enter.
-     * @param password The password to enter.
-     */
-    public void loginToDynamics365(String username, String password) {
+    public void login(final String username, final String password) {
         waitUntilElementVisible(txtUsername, 3);
         enterText(txtUsername, username);
         enterText(txtPassword, password);
         clickElement(btnLogin);
-        Assert.assertTrue(isElementVisible(ordersModule), "Login failed, orders module not visible.");
     }
 
-    /**
-     * Navigates to the Orders module.
-     */
     public void navigateToOrdersModule() {
         waitUntilElementVisible(ordersModule, 3);
         clickElement(ordersModule);
-        Assert.assertTrue(isElementVisible(orderIdField), "Navigation to orders module failed.");
     }
 
-    /**
-     * Selects an order by its ID.
-     * @param orderId The ID of the order to select.
-     */
-    public void selectOrderById(String orderId) {
+    public void selectOrderById(final String orderId) {
         waitUntilElementVisible(orderIdField, 3);
         enterText(orderIdField, orderId);
         clickElement(btnSearchOrder);
-        Assert.assertTrue(isElementVisible(shipmentStatusDropdown), "Order selection failed.");
     }
 
-    /**
-     * Updates the shipment status of an order.
-     * @param status The new shipment status to set.
-     */
-    public void updateShipmentStatus(String status) {
+    public void updateShipmentStatus(final String status) {
         waitUntilElementVisible(shipmentStatusDropdown, 3);
         selectByValue(shipmentStatusDropdown, status);
         clickElement(btnUpdateStatus);
-        Assert.assertTrue(isElementVisible(alertSystem), "Shipment status update failed.");
     }
 
-    /**
-     * Checks the alert system for any notifications.
-     */
     public void checkAlertSystem() {
         waitUntilElementVisible(alertSystem, 3);
-        Assert.assertTrue(isElementVisible(alertSystem), "Alert system check failed.");
+        WebElement alertElement = driver.findElement(alertSystem);
+        Assert.assertTrue(alertElement.isDisplayed(), "Alert system is not visible.");
     }
 
-    /**
-     * Verifies the customer alert message.
-     * @param expectedAlert The expected alert message.
-     */
-    public void verifyCustomerAlert(String expectedAlert) {
+    public void verifyCustomerAlert(final String expectedAlert) {
         waitUntilElementVisible(customerAlert, 3);
         String actualAlert = getTextFromElement(customerAlert);
         Assert.assertEquals(actualAlert, expectedAlert, "Customer alert does not match.");

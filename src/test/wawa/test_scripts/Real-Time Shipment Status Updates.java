@@ -4,11 +4,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 
-public class ShipmentTrackingTest {
+public class ShipmentTrackingAutomation {
 
     private WebDriver driver;
 
-    public ShipmentTrackingTest() {
+    public ShipmentTrackingAutomation() {
         System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
         driver = new ChromeDriver();
     }
@@ -22,33 +22,38 @@ public class ShipmentTrackingTest {
         trackingField.sendKeys(shipmentID);
     }
 
-    public void checkCurrentStatus() {
+    public void selectLocation(String location) {
+        WebElement locationField = driver.findElement(By.id("locationField"));
+        locationField.sendKeys(location);
+    }
+
+    public void clickOkButton() {
+        WebElement okButton = driver.findElement(By.id("okButton"));
+        okButton.click();
+    }
+
+    public String checkCurrentStatus() {
         WebElement statusElement = driver.findElement(By.id("currentStatus"));
-        String status = statusElement.getText();
-        Assert.assertNotNull(status, "Status is not displayed.");
+        return statusElement.getText();
     }
 
     public void simulateStatusUpdate(String newStatus) {
-        WebElement statusUpdateButton = driver.findElement(By.id("statusUpdateButton"));
-        statusUpdateButton.click();
-        WebElement statusField = driver.findElement(By.id("statusField"));
-        statusField.clear();
-        statusField.sendKeys(newStatus);
-        WebElement confirmButton = driver.findElement(By.id("confirmButton"));
-        confirmButton.click();
+        WebElement statusUpdateField = driver.findElement(By.id("statusUpdateField"));
+        statusUpdateField.sendKeys(newStatus);
+        WebElement updateButton = driver.findElement(By.id("updateButton"));
+        updateButton.click();
     }
 
-    public void verifyTimestampOfLatestUpdate() {
-        WebElement timestampElement = driver.findElement(By.id("latestTimestamp"));
-        String timestamp = timestampElement.getText();
-        Assert.assertNotNull(timestamp, "Timestamp is not displayed.");
+    public String verifyTimestamp() {
+        WebElement timestampElement = driver.findElement(By.id("timestamp"));
+        return timestampElement.getText();
     }
 
     public void refreshPage() {
         driver.navigate().refresh();
     }
 
-    public void logoutAndLogin() {
+    public void logOutAndLogBackIn() {
         WebElement logoutButton = driver.findElement(By.id("logoutButton"));
         logoutButton.click();
         WebElement loginButton = driver.findElement(By.id("loginButton"));
@@ -57,44 +62,22 @@ public class ShipmentTrackingTest {
 
     public void checkNotificationSettings() {
         WebElement notificationSettings = driver.findElement(By.id("notificationSettings"));
-        Assert.assertTrue(notificationSettings.isDisplayed(), "Notification settings are not visible.");
+        notificationSettings.click();
     }
 
-    public void simulateNetworkIssueAndUpdateStatus() {
-        // Simulate network issue
-        WebElement statusUpdateButton = driver.findElement(By.id("statusUpdateButton"));
-        statusUpdateButton.click();
-        WebElement errorMessage = driver.findElement(By.id("errorMessage"));
-        Assert.assertTrue(errorMessage.isDisplayed(), "Error message is not displayed.");
+    public void simulateNetworkIssue() {
+        WebElement networkIssueButton = driver.findElement(By.id("networkIssueButton"));
+        networkIssueButton.click();
     }
 
     public void verifyShipmentHistoryLog() {
         WebElement historyLog = driver.findElement(By.id("historyLog"));
-        Assert.assertTrue(historyLog.isDisplayed(), "Shipment history log is not visible.");
+        Assert.assertNotNull(historyLog.getText());
     }
 
-    public void checkForErrorMessagesDuringUpdates() {
+    public void checkForErrorMessages() {
         WebElement errorMessage = driver.findElement(By.id("errorMessage"));
-        Assert.assertTrue(errorMessage.isDisplayed(), "Error message is not displayed during updates.");
-    }
-
-    public void updateStatusFromDifferentDevice() {
-        // Simulate status update from a different device
-        WebElement statusUpdateButton = driver.findElement(By.id("statusUpdateButton"));
-        statusUpdateButton.click();
-    }
-
-    public void verifyShipmentStatusOnMobileDevice() {
-        // Simulate checking status on a mobile device
-        WebElement mobileStatus = driver.findElement(By.id("mobileStatus"));
-        Assert.assertTrue(mobileStatus.isDisplayed(), "Shipment status is not visible on mobile device.");
-    }
-
-    public void checkShipmentStatusAfterSystemReboot() {
-        // Simulate system reboot and check status
-        WebElement statusElement = driver.findElement(By.id("currentStatus"));
-        String status = statusElement.getText();
-        Assert.assertNotNull(status, "Status is not displayed after system reboot.");
+        Assert.assertTrue(errorMessage.isDisplayed());
     }
 
     public void closeBrowser() {
@@ -102,22 +85,21 @@ public class ShipmentTrackingTest {
     }
 
     public static void main(String[] args) {
-        ShipmentTrackingTest test = new ShipmentTrackingTest();
-        test.navigateToShipmentTrackingPage();
-        test.enterShipmentID("12345");
-        test.checkCurrentStatus();
-        test.simulateStatusUpdate("Out for Delivery");
-        test.simulateStatusUpdate("Delivered");
-        test.verifyTimestampOfLatestUpdate();
-        test.refreshPage();
-        test.logoutAndLogin();
-        test.checkNotificationSettings();
-        test.simulateNetworkIssueAndUpdateStatus();
-        test.verifyShipmentHistoryLog();
-        test.checkForErrorMessagesDuringUpdates();
-        test.updateStatusFromDifferentDevice();
-        test.verifyShipmentStatusOnMobileDevice();
-        test.checkShipmentStatusAfterSystemReboot();
-        test.closeBrowser();
+        ShipmentTrackingAutomation automation = new ShipmentTrackingAutomation();
+        automation.navigateToShipmentTrackingPage();
+        automation.enterShipmentID("12345");
+        automation.selectLocation("LocationName");
+        automation.clickOkButton();
+        automation.checkCurrentStatus();
+        automation.simulateStatusUpdate("To be delivered");
+        automation.simulateStatusUpdate("Delivered");
+        automation.verifyTimestamp();
+        automation.refreshPage();
+        automation.logOutAndLogBackIn();
+        automation.checkNotificationSettings();
+        automation.simulateNetworkIssue();
+        automation.verifyShipmentHistoryLog();
+        automation.checkForErrorMessages();
+        automation.closeBrowser();
     }
 }

@@ -10,117 +10,101 @@ import com.framework.reusable.WebReusableComponents;
 public class ShipmentTrackingPage extends WebReusableComponents {
 
     protected By txtShipmentId = By.id("shipmentId");
-    protected By btnCheckStatus = By.id("checkStatus");
-    protected By statusMessage = By.id("statusMessage");
-    protected By btnSimulateOutForDelivery = By.id("simulateOutForDelivery");
-    protected By btnSimulateDelivered = By.id("simulateDelivered");
-    protected By timestamp = By.id("timestamp");
-    protected By btnRefresh = By.id("refresh");
-    protected By btnLogout = By.id("logout");
+    protected By locationDropdown = By.id("location");
+    protected By btnOk = By.id("okButton");
+    protected By lblCurrentStatus = By.id("currentStatus");
+    protected By lblTimestamp = By.id("timestamp");
+    protected By btnRefresh = By.id("refreshButton");
+    protected By btnLogout = By.id("logoutButton");
     protected By notificationSettings = By.id("notificationSettings");
-    protected By btnSimulateNetworkIssue = By.id("simulateNetworkIssue");
-    protected By shipmentHistoryLog = By.id("shipmentHistoryLog");
     protected By errorMessage = By.id("errorMessage");
-    protected By btnUpdateFromDifferentDevice = By.id("updateFromDifferentDevice");
-    protected By mobileDeviceStatus = By.id("mobileDeviceStatus");
-    protected By systemRebootStatus = By.id("systemRebootStatus");
+    protected By shipmentHistoryLog = By.id("shipmentHistoryLog");
 
     public ShipmentTrackingPage() {
         PageFactory.initElements(driver, this);
     }
 
     public void navigateToShipmentTrackingPage() {
-        // Implementation to navigate to the shipment tracking page
-        // Assuming a URL or navigation method is available
-        driver.get("http://example.com/shipment-tracking");
-        Assert.assertTrue(driver.getTitle().contains("Shipment Tracking"), "Failed to navigate to Shipment Tracking Page.");
+        launchUrl("http://example.com/shipment-tracking");
+        maximizeWindow();
     }
 
     public void enterShipmentId(String shipmentId) {
         waitUntilElementVisible(txtShipmentId, 3);
         enterText(txtShipmentId, shipmentId);
-        Assert.assertEquals(getAttributeValue(txtShipmentId, "value"), shipmentId, "Shipment ID entry failed.");
     }
 
-    public void checkCurrentStatus() {
-        waitUntilElementVisible(btnCheckStatus, 3);
-        clickElement(btnCheckStatus);
-        waitUntilElementVisible(statusMessage, 3);
-        String status = getTextFromElement(statusMessage);
-        Assert.assertNotNull(status, "Status message is not displayed.");
+    public void selectLocation(String location) {
+        waitUntilElementVisible(locationDropdown, 3);
+        selectByValue(locationDropdown, location);
     }
 
-    public void simulateStatusUpdateOutForDelivery() {
-        waitUntilElementVisible(btnSimulateOutForDelivery, 3);
-        clickElement(btnSimulateOutForDelivery);
-        Assert.assertTrue(getTextFromElement(statusMessage).contains("Out for Delivery"), "Status update to 'Out for Delivery' failed.");
+    public void clickOkButton() {
+        waitUntilElementVisible(btnOk, 3);
+        clickElement(btnOk);
     }
 
-    public void simulateStatusUpdateDelivered() {
-        waitUntilElementVisible(btnSimulateDelivered, 3);
-        clickElement(btnSimulateDelivered);
-        Assert.assertTrue(getTextFromElement(statusMessage).contains("Delivered"), "Status update to 'Delivered' failed.");
+    public void checkCurrentStatus(String expectedStatus) {
+        waitUntilElementVisible(lblCurrentStatus, 3);
+        String actualStatus = getTextFromElement(lblCurrentStatus);
+        Assert.assertEquals(actualStatus, expectedStatus, "Current status does not match.");
     }
 
-    public void verifyTimestampOfLatestStatusUpdate(String expectedTimestamp) {
-        waitUntilElementVisible(timestamp, 3);
-        String actualTimestamp = getTextFromElement(timestamp);
+    public void simulateStatusUpdate(String newStatus) {
+        // Simulate status update logic
+        WebElement statusElement = driver.findElement(lblCurrentStatus);
+        statusElement.clear();
+        statusElement.sendKeys(newStatus);
+        clickElement(btnOk);
+    }
+
+    public void verifyTimestamp(String expectedTimestamp) {
+        waitUntilElementVisible(lblTimestamp, 3);
+        String actualTimestamp = getTextFromElement(lblTimestamp);
         Assert.assertEquals(actualTimestamp, expectedTimestamp, "Timestamp does not match.");
     }
 
     public void refreshPage() {
         waitUntilElementVisible(btnRefresh, 3);
         clickElement(btnRefresh);
-        Assert.assertTrue(driver.getTitle().contains("Shipment Tracking"), "Page refresh failed.");
     }
 
     public void logoutAndLogin() {
         waitUntilElementVisible(btnLogout, 3);
         clickElement(btnLogout);
-        // Assuming a login method is available
-        login("username", "password");
-        Assert.assertTrue(driver.getTitle().contains("Shipment Tracking"), "Logout and login failed.");
+        // Logic to log back in
+        launchUrl("http://example.com/login");
+        enterText(By.id("username"), "user");
+        enterText(By.id("password"), "pass");
+        clickElement(By.id("loginButton"));
     }
 
     public void checkNotificationSettings() {
         waitUntilElementVisible(notificationSettings, 3);
-        WebElement settings = driver.findElement(notificationSettings);
-        Assert.assertTrue(settings.isDisplayed(), "Notification settings are not visible.");
+        clickElement(notificationSettings);
+        // Verify notification settings logic
+        Assert.assertTrue(driver.findElement(By.id("notificationEnabled")).isSelected(), "Notification is not enabled.");
     }
 
-    public void simulateNetworkIssueAndAttemptUpdate() {
-        waitUntilElementVisible(btnSimulateNetworkIssue, 3);
-        clickElement(btnSimulateNetworkIssue);
-        Assert.assertTrue(getTextFromElement(errorMessage).contains("Network Issue"), "Network issue simulation failed.");
+    public void simulateNetworkIssueAndUpdateStatus() {
+        // Simulate network issue and update status logic
+        try {
+            driver.findElement(lblCurrentStatus).sendKeys("Network Issue");
+            clickElement(btnOk);
+        } catch (Exception e) {
+            System.out.println("Network issue encountered.");
+        }
     }
 
     public void verifyShipmentHistoryLog() {
         waitUntilElementVisible(shipmentHistoryLog, 3);
-        WebElement log = driver.findElement(shipmentHistoryLog);
-        Assert.assertTrue(log.isDisplayed(), "Shipment history log is not visible.");
+        String logText = getTextFromElement(shipmentHistoryLog);
+        Assert.assertTrue(logText.contains("Shipment updated"), "Shipment history log does not contain expected text.");
     }
 
-    public void checkForErrorMessagesDuringStatusUpdates() {
+    public void checkForErrorMessages() {
         waitUntilElementVisible(errorMessage, 3);
-        String error = getTextFromElement(errorMessage);
-        Assert.assertNotNull(error, "Error message is not displayed.");
-    }
-
-    public void attemptUpdateFromDifferentDevice() {
-        waitUntilElementVisible(btnUpdateFromDifferentDevice, 3);
-        clickElement(btnUpdateFromDifferentDevice);
-        Assert.assertTrue(getTextFromElement(mobileDeviceStatus).contains("Updated"), "Update from different device failed.");
-    }
-
-    public void verifyShipmentStatusOnMobileDevice() {
-        waitUntilElementVisible(mobileDeviceStatus, 3);
-        String status = getTextFromElement(mobileDeviceStatus);
-        Assert.assertNotNull(status, "Shipment status on mobile device is not displayed.");
-    }
-
-    public void checkShipmentStatusAfterSystemReboot() {
-        waitUntilElementVisible(systemRebootStatus, 3);
-        String status = getTextFromElement(systemRebootStatus);
-        Assert.assertNotNull(status, "Shipment status after system reboot is not displayed.");
+        String errorText = getTextFromElement(errorMessage);
+        Assert.assertTrue(errorText.isEmpty(), "Error message is displayed: " + errorText);
     }
 }

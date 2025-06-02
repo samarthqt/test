@@ -4,17 +4,17 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 
-public class Dynamics365Automation {
+public class DynamicsLogin {
 
     private WebDriver driver;
 
-    public Dynamics365Automation() {
+    public DynamicsLogin() {
         System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
         driver = new ChromeDriver();
     }
 
-    public void loginToDynamics365(String username, String password) {
-        driver.get("https://dynamics365url.com");
+    public void loginToDynamics(String username, String password) {
+        driver.get("https://dynamics365.com/login");
         WebElement userField = driver.findElement(By.id("username"));
         WebElement passField = driver.findElement(By.id("password"));
         WebElement loginButton = driver.findElement(By.id("loginButton"));
@@ -30,15 +30,15 @@ public class Dynamics365Automation {
     }
 
     public void selectOrderById(String orderId) {
-        WebElement order = driver.findElement(By.xpath("//tr[td/text()='" + orderId + "']"));
+        WebElement order = driver.findElement(By.xpath("//tr[@data-id='" + orderId + "']"));
         order.click();
     }
 
     public void updateShipmentStatus(String status) {
-        WebElement statusDropdown = driver.findElement(By.id("shipmentStatus"));
-        statusDropdown.click();
-        WebElement statusOption = driver.findElement(By.xpath("//option[text()='" + status + "']"));
-        statusOption.click();
+        WebElement shipmentStatusDropdown = driver.findElement(By.id("shipmentStatus"));
+        shipmentStatusDropdown.sendKeys(status);
+        WebElement updateButton = driver.findElement(By.id("updateButton"));
+        updateButton.click();
     }
 
     public void checkAlertSystem() {
@@ -57,13 +57,13 @@ public class Dynamics365Automation {
     }
 
     public static void main(String[] args) {
-        Dynamics365Automation automation = new Dynamics365Automation();
-        automation.loginToDynamics365("validUsername", "validPassword");
-        automation.navigateToOrdersModule();
-        automation.selectOrderById("12345");
-        automation.updateShipmentStatus("Dispatched");
-        automation.checkAlertSystem();
-        automation.verifyCustomerAlert("Expected Alert Message");
-        automation.closeBrowser();
+        DynamicsLogin dynamicsLogin = new DynamicsLogin();
+        dynamicsLogin.loginToDynamics("validUsername", "validPassword");
+        dynamicsLogin.navigateToOrdersModule();
+        dynamicsLogin.selectOrderById("12345");
+        dynamicsLogin.updateShipmentStatus("Dispatched");
+        dynamicsLogin.checkAlertSystem();
+        dynamicsLogin.verifyCustomerAlert("Expected Alert Message");
+        dynamicsLogin.closeBrowser();
     }
 }
