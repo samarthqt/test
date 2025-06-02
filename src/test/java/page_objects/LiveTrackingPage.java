@@ -1,4 +1,3 @@
-
 package com.pageobjects;
 
 import org.openqa.selenium.By;
@@ -9,19 +8,22 @@ import com.framework.reusable.WebReusableComponents;
 
 public class LiveTrackingPage extends WebReusableComponents {
 
-    protected By trackingField = By.id("trackingField");
-    protected By currentLocation = By.id("currentLocation");
-    protected By estimatedDeliveryTime = By.id("estimatedDeliveryTime");
-    protected By refreshButton = By.id("refreshButton");
-    protected By logoutButton = By.id("logoutButton");
-    protected By loginButton = By.id("loginButton");
-    protected By notificationSettings = By.id("notificationSettings");
-    protected By networkIssueMessage = By.id("networkIssueMessage");
-    protected By trackingHistoryLog = By.id("trackingHistoryLog");
-    protected By errorMessage = By.id("errorMessage");
-    protected By mobileTracking = By.id("mobileTracking");
-    protected By systemRebootMessage = By.id("systemRebootMessage");
-    protected By trackingAccuracy = By.id("trackingAccuracy");
+    protected By txtShipmentId = By.id("shipmentId");
+    protected By btnCheckLocation = By.id("checkLocation");
+    protected By lblCurrentLocation = By.id("currentLocation");
+    protected By btnSimulateLocationChange = By.id("simulateLocationChange");
+    protected By lblEstimatedDeliveryTime = By.id("estimatedDeliveryTime");
+    protected By btnRefreshPage = By.id("refreshPage");
+    protected By btnLogout = By.id("logout");
+    protected By btnLogin = By.id("login");
+    protected By btnNotificationSettings = By.id("notificationSettings");
+    protected By btnSimulateNetworkIssue = By.id("simulateNetworkIssue");
+    protected By lblTrackingHistoryLog = By.id("trackingHistoryLog");
+    protected By lblErrorMessage = By.id("errorMessage");
+    protected By btnUpdateLocationDifferentDevice = By.id("updateLocationDifferentDevice");
+    protected By lblLiveTrackingMobile = By.id("liveTrackingMobile");
+    protected By btnSystemReboot = By.id("systemReboot");
+    protected By lblTrackingAccuracy = By.id("trackingAccuracy");
 
     public LiveTrackingPage() {
         PageFactory.initElements(driver, this);
@@ -32,91 +34,88 @@ public class LiveTrackingPage extends WebReusableComponents {
         Assert.assertTrue(driver.getTitle().contains("Live Tracking"), "Navigation to Live Tracking Page failed.");
     }
 
-    public void enterShipmentID(String shipmentID) {
-        waitUntilElementVisible(trackingField, 3);
-        enterText(trackingField, shipmentID);
-        Assert.assertEquals(getTextFromElement(trackingField), shipmentID, "Shipment ID entry failed.");
+    public void enterShipmentId(String shipmentId) {
+        waitUntilElementVisible(txtShipmentId, 3);
+        enterText(txtShipmentId, shipmentId);
+        Assert.assertEquals(getAttribute(txtShipmentId, "value"), shipmentId, "Shipment ID entry failed.");
     }
 
     public void checkCurrentLocation() {
-        waitUntilElementVisible(currentLocation, 3);
-        String location = getTextFromElement(currentLocation);
-        Assert.assertNotNull(location, "Current location is not displayed.");
+        waitUntilElementVisible(btnCheckLocation, 3);
+        clickElement(btnCheckLocation);
+        Assert.assertTrue(isElementVisible(lblCurrentLocation), "Current location check failed.");
     }
 
-    public void simulateChangeInShipmentLocation() {
-        // Simulate location change logic
-        String newLocation = "New Location";
-        enterText(currentLocation, newLocation);
-        Assert.assertEquals(getTextFromElement(currentLocation), newLocation, "Shipment location change simulation failed.");
+    public void simulateLocationChange() {
+        waitUntilElementVisible(btnSimulateLocationChange, 3);
+        clickElement(btnSimulateLocationChange);
+        Assert.assertTrue(isElementVisible(lblCurrentLocation), "Location change simulation failed.");
     }
 
     public void verifyEstimatedDeliveryTime(String expectedTime) {
-        waitUntilElementVisible(estimatedDeliveryTime, 3);
-        String actualTime = getTextFromElement(estimatedDeliveryTime);
+        waitUntilElementVisible(lblEstimatedDeliveryTime, 3);
+        String actualTime = getTextFromElement(lblEstimatedDeliveryTime);
         Assert.assertEquals(actualTime, expectedTime, "Estimated delivery time does not match.");
     }
 
     public void refreshPage() {
-        waitUntilElementVisible(refreshButton, 3);
-        clickElement(refreshButton);
+        waitUntilElementVisible(btnRefreshPage, 3);
+        clickElement(btnRefreshPage);
         Assert.assertTrue(driver.getTitle().contains("Live Tracking"), "Page refresh failed.");
     }
 
     public void logoutAndLogin() {
-        waitUntilElementVisible(logoutButton, 3);
-        clickElement(logoutButton);
-        waitUntilElementVisible(loginButton, 3);
-        clickElement(loginButton);
-        Assert.assertTrue(driver.getTitle().contains("Login"), "Logout and login process failed.");
+        waitUntilElementVisible(btnLogout, 3);
+        clickElement(btnLogout);
+        waitUntilElementVisible(btnLogin, 3);
+        clickElement(btnLogin);
+        Assert.assertTrue(isElementVisible(btnLogout), "Logout and login failed.");
     }
 
     public void checkNotificationSettings() {
-        waitUntilElementVisible(notificationSettings, 3);
-        WebElement settings = driver.findElement(notificationSettings);
-        Assert.assertTrue(settings.isDisplayed(), "Notification settings are not visible.");
+        waitUntilElementVisible(btnNotificationSettings, 3);
+        clickElement(btnNotificationSettings);
+        Assert.assertTrue(isElementVisible(btnNotificationSettings), "Notification settings check failed.");
     }
 
     public void simulateNetworkIssue() {
-        // Simulate network issue logic
-        WebElement issueMessage = driver.findElement(networkIssueMessage);
-        Assert.assertTrue(issueMessage.isDisplayed(), "Network issue simulation failed.");
+        waitUntilElementVisible(btnSimulateNetworkIssue, 3);
+        clickElement(btnSimulateNetworkIssue);
+        Assert.assertTrue(isElementVisible(lblErrorMessage), "Network issue simulation failed.");
     }
 
-    public void verifyTrackingHistoryLog() {
-        waitUntilElementVisible(trackingHistoryLog, 3);
-        String historyLog = getTextFromElement(trackingHistoryLog);
-        Assert.assertNotNull(historyLog, "Tracking history log is not displayed.");
+    public void verifyTrackingHistoryLog(String expectedLog) {
+        waitUntilElementVisible(lblTrackingHistoryLog, 3);
+        String actualLog = getTextFromElement(lblTrackingHistoryLog);
+        Assert.assertEquals(actualLog, expectedLog, "Tracking history log does not match.");
     }
 
-    public void checkForErrorMessages() {
-        waitUntilElementVisible(errorMessage, 3);
-        String error = getTextFromElement(errorMessage);
-        Assert.assertNotNull(error, "Error message is not displayed.");
+    public void checkErrorMessages(String expectedError) {
+        waitUntilElementVisible(lblErrorMessage, 3);
+        String actualError = getTextFromElement(lblErrorMessage);
+        Assert.assertEquals(actualError, expectedError, "Error message does not match.");
     }
 
     public void updateLocationFromDifferentDevice() {
-        // Update location logic
-        String updatedLocation = "Updated Location";
-        enterText(currentLocation, updatedLocation);
-        Assert.assertEquals(getTextFromElement(currentLocation), updatedLocation, "Location update from different device failed.");
+        waitUntilElementVisible(btnUpdateLocationDifferentDevice, 3);
+        clickElement(btnUpdateLocationDifferentDevice);
+        Assert.assertTrue(isElementVisible(lblCurrentLocation), "Location update from different device failed.");
     }
 
     public void verifyLiveTrackingOnMobile() {
-        waitUntilElementVisible(mobileTracking, 3);
-        WebElement mobileTrack = driver.findElement(mobileTracking);
-        Assert.assertTrue(mobileTrack.isDisplayed(), "Live tracking on mobile is not verified.");
+        waitUntilElementVisible(lblLiveTrackingMobile, 3);
+        Assert.assertTrue(isElementVisible(lblLiveTrackingMobile), "Live tracking on mobile verification failed.");
     }
 
-    public void checkLiveTrackingAfterSystemReboot() {
-        waitUntilElementVisible(systemRebootMessage, 3);
-        WebElement rebootMessage = driver.findElement(systemRebootMessage);
-        Assert.assertTrue(rebootMessage.isDisplayed(), "Live tracking after system reboot is not verified.");
+    public void checkLiveTrackingAfterReboot() {
+        waitUntilElementVisible(btnSystemReboot, 3);
+        clickElement(btnSystemReboot);
+        Assert.assertTrue(isElementVisible(lblCurrentLocation), "Live tracking check after reboot failed.");
     }
 
     public void verifyTrackingAccuracy(String expectedAccuracy) {
-        waitUntilElementVisible(trackingAccuracy, 3);
-        String actualAccuracy = getTextFromElement(trackingAccuracy);
+        waitUntilElementVisible(lblTrackingAccuracy, 3);
+        String actualAccuracy = getTextFromElement(lblTrackingAccuracy);
         Assert.assertEquals(actualAccuracy, expectedAccuracy, "Tracking accuracy does not match.");
     }
 }
