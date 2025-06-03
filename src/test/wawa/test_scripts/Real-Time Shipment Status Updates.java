@@ -61,7 +61,6 @@ public class ShipmentTrackingTest {
     }
 
     public void simulateNetworkIssueAndUpdateStatus() {
-        // Simulate network issue
         WebElement statusUpdateButton = driver.findElement(By.id("statusUpdateButton"));
         statusUpdateButton.click();
         WebElement errorMessage = driver.findElement(By.id("errorMessage"));
@@ -79,19 +78,16 @@ public class ShipmentTrackingTest {
     }
 
     public void updateStatusFromDifferentDevice() {
-        // Simulate status update from a different device
         WebElement statusUpdateButton = driver.findElement(By.id("statusUpdateButton"));
         statusUpdateButton.click();
     }
 
     public void verifyShipmentStatusOnMobileDevice() {
-        // Simulate checking status on a mobile device
         WebElement mobileStatus = driver.findElement(By.id("mobileStatus"));
         Assert.assertTrue(mobileStatus.isDisplayed(), "Shipment status is not visible on mobile device.");
     }
 
     public void checkShipmentStatusAfterSystemReboot() {
-        // Simulate system reboot and check status
         WebElement statusElement = driver.findElement(By.id("currentStatus"));
         String status = statusElement.getText();
         Assert.assertNotNull(status, "Status is not displayed after system reboot.");
