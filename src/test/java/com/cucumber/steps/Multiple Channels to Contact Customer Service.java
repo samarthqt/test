@@ -125,12 +125,12 @@ public class CustomerServiceSteps extends CustomerServicePage {
     }
 
     @When("I attempt to print the customer service contact information page")
-    public void attemptToPrintContactInformationPage() {
-        initiatePrintContactInformationPage();
+    public void attemptToPrintContactInformation() {
+        initiatePrintContactInformation();
     }
 
     @Then("the contact information should be formatted correctly for printing")
-    public void contactInformationShouldBeFormattedForPrinting() {
+    public void contactInformationShouldBePrintable() {
         verifyPrintFormatOfContactInformation();
     }
 }
