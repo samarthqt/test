@@ -77,4 +77,9 @@ public class AdminLoginSteps extends AdminLoginPage {
     public void theUserIsLoggedOutAndRedirectedToTheLoginPage() {
         verifyLogoutRedirection();
     }
+
+    @Then("the 'Login with SSO' button should be visible on the login screen")
+    public void theLoginWithSSOButtonShouldBeVisibleOnTheLoginScreen() {
+        verifySSOButtonVisible();
+    }
 }

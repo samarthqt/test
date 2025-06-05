@@ -56,7 +56,8 @@ public class SSOLoginPage extends WebReusableComponents {
     }
 
     public void verifyCredentialsAcceptance() {
-        // Assume credentials are accepted
+        String currentURL = getCurrentURL();
+        Assert.assertFalse(currentURL.contains("error"), "Credentials not accepted.");
     }
 
     public void verifyRedirectionToApplication() {
@@ -65,15 +66,18 @@ public class SSOLoginPage extends WebReusableComponents {
     }
 
     public void verifySuccessfulLogin() {
-        // Assume successful login
+        WebElement homeElement = findElement(By.id("homeScreen"));
+        Assert.assertTrue(homeElement.isDisplayed(), "Home screen is not displayed.");
     }
 
     public void verifyHomeScreenDisplay() {
-        // Assume home screen is displayed
+        WebElement homeElement = findElement(By.id("homeScreen"));
+        Assert.assertTrue(homeElement.isDisplayed(), "Home screen is not displayed.");
     }
 
     public void verifyAdminUserExists() {
-        // Logic to verify admin user exists
+        WebElement adminElement = findElement(By.id("adminUser"));
+        Assert.assertTrue(adminElement.isDisplayed(), "Admin user does not exist.");
     }
 
     public void setAdminUsername(String username) {
@@ -82,11 +86,13 @@ public class SSOLoginPage extends WebReusableComponents {
     }
 
     public void verifySSOIntegrationActive() {
-        // Logic to verify SSO integration is active
+        WebElement ssoElement = findElement(By.id("ssoIntegration"));
+        Assert.assertTrue(ssoElement.isDisplayed(), "SSO integration is not active.");
     }
 
     public void verifySSOButtonPresence() {
         waitUntilElementVisible(btnLoginWithSSO, 3);
+        Assert.assertTrue(isElementVisible(btnLoginWithSSO), "SSO button is not present.");
     }
 
     public void assertSSOButtonVisible() {
@@ -111,15 +117,18 @@ public class SSOLoginPage extends WebReusableComponents {
     }
 
     public void assertAdminUserNotLoggedIn() {
-        // Logic to assert admin user is not logged in
+        WebElement adminElement = findElement(By.id("adminUser"));
+        Assert.assertFalse(adminElement.isDisplayed(), "Admin user is logged in.");
     }
 
     public void verifyLoginScreenRemainsVisible() {
-        Assert.assertTrue(isElementVisible(loginScreenElements), "Login screen remains visible.");
+        Assert.assertTrue(isElementVisible(loginScreenElements), "Login screen is not visible.");
     }
 
     public void simulateNetworkFailure() {
         // Simulate network failure logic
+        WebElement networkElement = findElement(By.id("networkFailure"));
+        Assert.assertTrue(networkElement.isDisplayed(), "Network failure not simulated.");
     }
 
     public void verifyNetworkErrorMessage() {
@@ -129,7 +138,8 @@ public class SSOLoginPage extends WebReusableComponents {
     }
 
     public void verifyUserNotLoggedIn() {
-        // Logic to verify user is not logged in
+        WebElement userElement = findElement(By.id("userStatus"));
+        Assert.assertFalse(userElement.isDisplayed(), "User is logged in.");
     }
 
     public void verifyLoginScreenVisibility() {
