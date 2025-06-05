@@ -4,6 +4,7 @@ import com.framework.cucumber.TestHarness;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import java.util.*;
 
 public class CustomerServiceSteps extends CustomerServicePage {
 
@@ -52,6 +53,11 @@ public class CustomerServiceSteps extends CustomerServicePage {
     @Then("the chat links displayed should be functional and allow users to initiate a chat with customer service")
     public void theChatLinksDisplayedShouldBeFunctionalAndAllowUsersToInitiateAChatWithCustomerService() {
         assertChatLinksFunctionality();
+    }
+
+    @Then("customer service contact forms or live chat should include measures to prevent spam or automated abuse, such as CAPTCHA")
+    public void customerServiceContactFormsOrLiveChatShouldIncludeMeasuresToPreventSpamOrAutomatedAbuseSuchAsCAPTCHA() {
+        verifySpamProtectionMeasures();
     }
 
     @When("the user clicks on a phone number")
