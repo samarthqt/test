@@ -4,6 +4,7 @@ Scenario: Verify admin user can successfully log in with valid credentials
 Given an admin user account is created and activated
 When the admin navigates to the login page of the application
 Then the login page is displayed with username and password fields
+And the 'Login with SSO' button should be visible on the login screen
 When the admin enters "admin_user" in the username field
 Then the username is entered in the username field
 When the admin enters "valid_password" in the password field
