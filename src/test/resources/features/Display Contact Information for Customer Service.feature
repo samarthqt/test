@@ -70,3 +70,6 @@ Scenario: Verify that the contact information is easily updatable by system admi
 Given the user is a system administrator or authorized personnel
 When the user updates the contact information
 Then the contact information should be easily updatable, allowing changes or updates as needed by system administrators or authorized personnel
+""
+Scenario: Verify if customer service contact options are protected from spam (e.g., CAPTCHA)
+Then customer service contact forms or live chat should include measures to prevent spam or automated abuse, such as CAPTCHA

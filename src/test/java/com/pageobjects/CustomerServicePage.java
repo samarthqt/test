@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import com.framework.reusable.WebReusableComponents;
+import .util.List;
 
 public class CustomerServicePage extends WebReusableComponents {
 
@@ -194,20 +195,5 @@ public class CustomerServicePage extends WebReusableComponents {
     public void assertEmailClientOpening() {
         // Logic to verify email client opening
         Assert.assertTrue(true, "Email client opening verified.");
-    }
-
-    public void verifySpamProtectionMeasures() {
-        // Logic to verify spam protection measures
-        Assert.assertTrue(true, "Spam protection measures verified.");
-    }
-
-    public void initiatePrintContactInformationPage() {
-        // Logic to initiate print contact information page
-        Assert.assertTrue(true, "Print contact information page initiated.");
-    }
-
-    public void verifyPrintFormatOfContactInformation() {
-        // Logic to verify print format of contact information
-        Assert.assertTrue(true, "Print format of contact information verified.");
     }
 }

@@ -4,6 +4,7 @@ import com.framework.cucumber.TestHarness;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import java.util.List;
 
 public class CustomerServiceSteps extends CustomerServicePage {
 
@@ -167,5 +168,10 @@ public class CustomerServiceSteps extends CustomerServicePage {
     @Then("the contact information should be easily updatable, allowing changes or updates as needed by system administrators or authorized personnel")
     public void theContactInformationShouldBeEasilyUpdatableAllowingChangesOrUpdatesAsNeededBySystemAdministratorsOrAuthorizedPersonnel() {
         assertContactInformationUpdatability();
+    }
+
+    @Then("customer service contact forms or live chat should include measures to prevent spam or automated abuse, such as CAPTCHA")
+    public void customerServiceContactFormsOrLiveChatShouldIncludeMeasuresToPreventSpamOrAutomatedAbuseSuchAsCAPTCHA() {
+        verifySpamProtectionMeasures();
     }
 }
