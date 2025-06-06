@@ -1,7 +1,6 @@
 package com.pageobjects;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import com.framework.reusable.WebReusableComponents;
@@ -15,6 +14,7 @@ public class AdminLoginPage extends WebReusableComponents {
     protected By btnLogout = By.id("logoutButton");
     protected By homeScreen = By.id("homeScreen");
     protected By adminMenus = By.id("adminMenus");
+    protected By btnSSOLogin = By.id("ssoLoginButton");
 
     public AdminLoginPage() {
         PageFactory.initElements(driver, this);
@@ -60,7 +60,6 @@ public class AdminLoginPage extends WebReusableComponents {
     }
 
     public void verifyLoginRequestProcessed() {
-        // Logic to verify login request processing
         Assert.assertTrue(isElementVisible(homeScreen), "Login request is not processed.");
     }
 
@@ -74,5 +73,9 @@ public class AdminLoginPage extends WebReusableComponents {
 
     public void verifyLogoutRedirection() {
         Assert.assertTrue(isElementVisible(txtUserName) && isElementVisible(txtPassword), "User is not redirected to the login page after logout.");
+    }
+
+    public void verifySSOButtonVisible() {
+        Assert.assertTrue(isElementVisible(btnSSOLogin), "SSO Login button is not visible.");
     }
 }
