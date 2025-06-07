@@ -74,5 +74,3 @@ Scenario: Check shipment status after a system reboot
 Given the system has been rebooted
 When the user checks the shipment status
 Then the status remains 'Delivered'
-```
-```gherkin
