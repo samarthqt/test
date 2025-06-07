@@ -10,6 +10,12 @@ Given shipment data is available in the system
 When the user enters Shipment ID "12345" in the tracking field
 Then shipment details for ID "12345" are displayed
 @TC-1
+Scenario: Select the location and confirm
+Given shipment details for ID "12345" are displayed
+When the user selects the location in the location field
+And clicks on the OK button
+Then the location is confirmed
+@TC-1
 Scenario: Check current shipment status
 Given the user has entered the Shipment ID "12345"
 When the user checks the current status of the shipment
@@ -59,20 +65,3 @@ Scenario: Check for error messages during status updates
 Given the status updates have been made
 When the user checks for any error messages
 Then no error messages are displayed
-@TC-1
-Scenario: Update status from a different device
-Given the user is using a different device
-When the user attempts to update status
-Then the status updates are synchronized across devices
-@TC-1
-Scenario: Verify shipment status on a mobile device
-Given the user is using a mobile device
-When the user verifies the shipment status
-Then the status is consistent with the desktop view
-@TC-1
-Scenario: Check shipment status after a system reboot
-Given the system has been rebooted
-When the user checks the shipment status
-Then the status remains 'Delivered'
-```
-```gherkin

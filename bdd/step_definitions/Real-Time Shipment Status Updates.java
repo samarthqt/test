@@ -225,4 +225,24 @@ public class ShipmentTrackingSteps extends ShipmentTrackingPage {
     public void theStatusRemainsDelivered() {
         verifyCurrentStatus("Delivered");
     }
+
+    @Given("shipment details for ID \"12345\" are displayed")
+    public void shipmentDetailsForIDAreDisplayedAgain() {
+        verifyShipmentDetailsDisplayed("12345");
+    }
+
+    @When("the user selects the location in the location field")
+    public void theUserSelectsTheLocationInTheLocationField() {
+        selectLocation();
+    }
+
+    @When("clicks on the OK button")
+    public void clicksOnTheOKButton() {
+        clickOkButton();
+    }
+
+    @Then("the location is confirmed")
+    public void theLocationIsConfirmed() {
+        verifyLocationConfirmed();
+    }
 }

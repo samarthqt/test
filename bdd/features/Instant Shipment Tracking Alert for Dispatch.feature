@@ -1,6 +1,6 @@
 Feature: Instant Shipment Tracking Alert for Dispatch
-@TC-3
-Scenario: Verify instant alert is sent when shipment is dispatched
+@4
+Scenario: Update shipment status to 'Dispatched' and verify alert
 Given a shipment order exists in the system with Order ID 12345
 And the customer has subscribed to shipment alerts
 And the customer email is customer@example.com
@@ -16,4 +16,3 @@ Then the shipment status should be updated to 'Dispatched'
 When the user checks the alert system for outgoing alerts
 Then an alert should be sent to customer@example.com notifying them of the dispatch status
 And the customer should receive an alert with the message: 'Your shipment has been dispatched.'
-```
