@@ -9,17 +9,107 @@ import .util.List;
 
 public class ShipmentPage extends WebReusableComponents {
 
+    protected By btnLogin = By.id("loginButton");
+    protected By myShipmentsSection = By.id("myShipments");
+    protected By activeShipment = By.cssSelector(".active-shipment");
+    protected By shipmentTimeline = By.id("shipmentTimeline");
+    protected By pushNotificationToggle = By.id("pushNotificationToggle");
+    protected By shipmentMap = By.id("shipmentMap");
+    protected By awaitingUpdateMessage = By.id("awaitingUpdateMessage");
     protected By orderList = By.id("orderList");
     protected By orderDetails = By.id("orderDetails");
     protected By shipmentStatus = By.id("shipmentStatus");
     protected By alertSystem = By.id("alertSystem");
-    protected By loginButton = By.id("loginButton");
     protected By dashboard = By.id("dashboard");
     protected By ordersModule = By.id("ordersModule");
     protected By alertMessage = By.id("alertMessage");
 
     public ShipmentPage() {
         PageFactory.initElements(driver, this);
+    }
+
+    public void loginToSystem() {
+        waitUntilElementVisible(btnLogin, 3);
+        clickElement(btnLogin);
+        Assert.assertTrue(isElementVisible(dashboard), "Login failed, dashboard not displayed.");
+    }
+
+    public void navigateToMyShipments() {
+        waitUntilElementVisible(myShipmentsSection, 3);
+        clickElement(myShipmentsSection);
+    }
+
+    public void selectActiveShipment() {
+        waitUntilElementVisible(activeShipment, 3);
+        clickElement(activeShipment);
+    }
+
+    public void verifyShipmentTimelineDisplayed() {
+        waitUntilElementVisible(shipmentTimeline, 3);
+        Assert.assertTrue(isElementDisplayed(shipmentTimeline), "Shipment timeline is not displayed.");
+    }
+
+    public void verifyInMyShipmentsSection() {
+        Assert.assertTrue(isElementDisplayed(myShipmentsSection), "Not in My Shipments section.");
+    }
+
+    public void enablePushNotifications() {
+        waitUntilElementVisible(pushNotificationToggle, 3);
+        clickElement(pushNotificationToggle);
+    }
+
+    public void verifyPushNotificationsEnabled() {
+        Assert.assertTrue(isElementSelected(pushNotificationToggle), "Push notifications are not enabled.");
+    }
+
+    public void viewActiveShipment() {
+        waitUntilElementVisible(activeShipment, 3);
+        clickElement(activeShipment);
+    }
+
+    public void simulateBackendStatusUpdate(String status) {
+        waitUntilElementVisible(shipmentStatus, 3);
+        enterText(shipmentStatus, status);
+    }
+
+    public void verifyStatusUpdateOnUI(String expectedStatus) {
+        waitUntilElementVisible(shipmentStatus, 3);
+        String actualStatus = getTextFromElement(shipmentStatus);
+        Assert.assertEquals(actualStatus, expectedStatus, "Status update on UI does not match.");
+    }
+
+    public void verifyPushNotificationTriggered() {
+        waitUntilElementVisible(alertMessage, 3);
+        String message = getTextFromElement(alertMessage);
+        Assert.assertTrue(message.contains("Notification"), "Push notification not triggered.");
+    }
+
+    public void viewShipmentMap() {
+        waitUntilElementVisible(shipmentMap, 3);
+        clickElement(shipmentMap);
+        Assert.assertTrue(isElementVisible(shipmentMap), "Shipment map is not visible.");
+    }
+
+    public void verifyShipmentLocation() {
+        waitUntilElementVisible(shipmentMap, 3);
+        Assert.assertTrue(isElementVisible(shipmentMap), "Shipment location is not verified.");
+    }
+
+    public void viewShipmentStatus() {
+        waitUntilElementVisible(shipmentStatus, 3);
+        Assert.assertTrue(isElementVisible(shipmentStatus), "Shipment status is not visible.");
+    }
+
+    public void simulateStatusUpdateDelay() {
+        waitUntilElementVisible(awaitingUpdateMessage, 3);
+        String actualMessage = getTextFromElement(awaitingUpdateMessage);
+        Assert.assertEquals(actualMessage, "Awaiting latest update…", "Status update delay message is not displayed.");
+    }
+
+    public void verifyAwaitingUpdateMessage() {
+        waitUntilElementVisible(awaitingUpdateMessage, 3);
+        String actualMessage = getTextFromElement(awaitingUpdateMessage);
+        Assert.assertEquals(actualMessage, "Awaiting latest update…", "Awaiting update message is not displayed.");
     }
 
     public void verifyOrderExists(int orderId) {
@@ -30,21 +120,13 @@ public class ShipmentPage extends WebReusableComponents {
     }
 
     public void verifyCustomerSubscription() {
-        // Assuming a method to check subscription status
         boolean isSubscribed = checkSubscriptionStatus();
         Assert.assertTrue(isSubscribed, "Customer is not subscribed.");
     }
 
     public void verifyCustomerEmail(String email) {
-        // Assuming a method to get customer email
         String actualEmail = getCustomerEmail();
         Assert.assertEquals(actualEmail, email, "Customer email does not match.");
-    }
-
-    public void loginToSystem() {
-        waitUntilElementVisible(loginButton, 3);
-        clickElement(loginButton);
-        Assert.assertTrue(isElementVisible(dashboard), "Login failed, dashboard not displayed.");
     }
 
     public void verifyDashboardDisplayed() {
