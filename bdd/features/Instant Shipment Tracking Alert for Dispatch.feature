@@ -16,4 +16,3 @@ Then the shipment status should be updated to 'Dispatched'
 When the user checks the alert system for outgoing alerts
 Then an alert should be sent to customer@example.com notifying them of the dispatch status
 And the customer should receive an alert with the message: 'Your shipment has been dispatched.'
-```

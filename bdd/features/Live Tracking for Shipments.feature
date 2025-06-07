@@ -74,5 +74,3 @@ Scenario: Verify the accuracy of the live tracking system
 Given live tracking details for ID "54321" are displayed
 When the user verifies the accuracy of the live tracking system
 Then live tracking information is accurate and reliable
-```
-```gherkin
