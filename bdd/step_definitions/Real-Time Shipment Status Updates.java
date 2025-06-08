@@ -225,4 +225,19 @@ public class ShipmentTrackingSteps extends ShipmentTrackingPage {
     public void theStatusRemainsDelivered() {
         verifyCurrentStatus("Delivered");
     }
+
+    @When("the user selects the location in the location field")
+    public void theUserSelectsTheLocationInTheLocationField() {
+        selectLocation();
+    }
+
+    @When("clicks on OK button")
+    public void clicksOnOKButton() {
+        clickOkButton();
+    }
+
+    @Then("the location is confirmed")
+    public void theLocationIsConfirmed() {
+        verifyLocationConfirmed();
+    }
 }

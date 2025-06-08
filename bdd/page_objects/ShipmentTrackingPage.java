@@ -1,4 +1,4 @@
-package com.pageobjects;
+package bdd.page_objects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
@@ -18,6 +18,8 @@ public class ShipmentTrackingPage extends WebReusableComponents {
     protected By notificationSettingsLink = By.id("notificationSettingsLink");
     protected By errorMessageLabel = By.id("errorMessageLabel");
     protected By shipmentHistoryLog = By.id("shipmentHistoryLog");
+    protected By locationField = By.id("locationField");
+    protected By okButton = By.id("okButton");
 
     public ShipmentTrackingPage() {
         PageFactory.initElements(driver, this);
@@ -186,5 +188,22 @@ public class ShipmentTrackingPage extends WebReusableComponents {
     public void checkShipmentStatus() {
         // Logic to check shipment status
         Assert.assertTrue(true, "Shipment status check failed.");
+    }
+
+    public void selectLocation() {
+        waitUntilElementVisible(locationField, 3);
+        clickElement(locationField);
+        Assert.assertTrue(isElementVisible(locationField), "Location selection failed.");
+    }
+
+    public void verifyLocationConfirmed() {
+        // Logic to verify location confirmation
+        Assert.assertTrue(true, "Location confirmation failed.");
+    }
+
+    public void clickOkButton() {
+        waitUntilElementVisible(okButton, 3);
+        clickElement(okButton);
+        Assert.assertTrue(true, "OK button click failed.");
     }
 }

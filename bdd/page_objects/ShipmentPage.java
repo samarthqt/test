@@ -1,11 +1,11 @@
-package com.pageobjects;
+package bdd.page_objects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-import com.framework.reusable.WebReusableComponents;
 import .util.List;
+import com.framework.reusable.WebReusableComponents;
 
 public class ShipmentPage extends WebReusableComponents {
 
@@ -30,13 +30,11 @@ public class ShipmentPage extends WebReusableComponents {
     }
 
     public void verifyCustomerSubscription() {
-        // Assuming a method to check subscription status
         boolean isSubscribed = checkSubscriptionStatus();
         Assert.assertTrue(isSubscribed, "Customer is not subscribed.");
     }
 
     public void verifyCustomerEmail(String email) {
-        // Assuming a method to get customer email
         String actualEmail = getCustomerEmail();
         Assert.assertEquals(actualEmail, email, "Customer email does not match.");
     }
