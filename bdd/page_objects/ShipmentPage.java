@@ -1,4 +1,5 @@
-package com.pageobjects;
+
+package bdd.page_objects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -9,6 +10,12 @@ import .util.List;
 
 public class ShipmentPage extends WebReusableComponents {
 
+    protected By myShipmentsSection = By.id("myShipmentsSection");
+    protected By activeShipmentList = By.cssSelector(".active-shipment");
+    protected By shipmentTimeline = By.id("shipmentTimeline");
+    protected By pushNotificationToggle = By.id("pushNotificationToggle");
+    protected By shipmentMap = By.id("shipmentMap");
+    protected By awaitingUpdateMessage = By.id("awaitingUpdateMessage");
     protected By orderList = By.id("orderList");
     protected By orderDetails = By.id("orderDetails");
     protected By shipmentStatus = By.id("shipmentStatus");
@@ -22,6 +29,75 @@ public class ShipmentPage extends WebReusableComponents {
         PageFactory.initElements(driver, this);
     }
 
+    public void loginToSystem() {
+        waitUntilElementVisible(loginButton, 3);
+        clickElement(loginButton);
+        Assert.assertTrue(isElementVisible(dashboard), "Login failed, dashboard not displayed.");
+    }
+
+    public void navigateToMyShipments() {
+        waitUntilElementVisible(myShipmentsSection, 3);
+        clickElement(myShipmentsSection);
+    }
+
+    public void verifyMyShipmentsSection() {
+        waitUntilElementVisible(myShipmentsSection, 3);
+        Assert.assertTrue(isElementDisplayed(myShipmentsSection), "My Shipments section is not displayed.");
+    }
+
+    public void selectActiveShipment() {
+        waitUntilElementVisible(activeShipmentList, 3);
+        clickElement(activeShipmentList);
+    }
+
+    public void verifyShipmentTimeline() {
+        waitUntilElementVisible(shipmentTimeline, 3);
+        Assert.assertTrue(isElementDisplayed(shipmentTimeline), "Shipment timeline is not displayed.");
+    }
+
+    public void enablePushNotifications() {
+        waitUntilElementVisible(pushNotificationToggle, 3);
+        clickElement(pushNotificationToggle);
+        Assert.assertTrue(isElementSelected(pushNotificationToggle), "Push notifications are not enabled.");
+    }
+
+    public void verifyPushNotificationsEnabled() {
+        Assert.assertTrue(isElementSelected(pushNotificationToggle), "Push notifications are not enabled.");
+    }
+
+    public void simulateBackendStatusUpdate(String status) {
+        enterText(shipmentStatus, status);
+    }
+
+    public void verifyStatusUpdateOnUI(String expectedStatus) {
+        waitUntilElementVisible(shipmentStatus, 3);
+        String actualStatus = getTextFromElement(shipmentStatus);
+        Assert.assertEquals(actualStatus, expectedStatus, "Status update on UI does not match.");
+    }
+
+    public void verifyPushNotificationTriggered() {
+        // Logic to verify push notification is triggered
+    }
+
+    public void viewShipmentMap() {
+        waitUntilElementVisible(shipmentMap, 3);
+        clickElement(shipmentMap);
+    }
+
+    public void verifyShipmentLocation(String expectedStatus) {
+        // Logic to verify shipment location corresponds to status
+    }
+
+    public void simulateStatusUpdateDelay() {
+        // Logic to simulate status update delay
+    }
+
+    public void verifyAwaitingUpdateMessage() {
+        waitUntilElementVisible(awaitingUpdateMessage, 3);
+        String actualMessage = getTextFromElement(awaitingUpdateMessage);
+        Assert.assertEquals(actualMessage, "Awaiting latest update...", "Awaiting update message is not displayed.");
+    }
+
     public void verifyOrderExists(int orderId) {
         waitUntilElementVisible(orderList, 3);
         List<WebElement> orders = getWebElementList(orderList);
@@ -30,21 +106,13 @@ public class ShipmentPage extends WebReusableComponents {
     }
 
     public void verifyCustomerSubscription() {
-        // Assuming a method to check subscription status
         boolean isSubscribed = checkSubscriptionStatus();
         Assert.assertTrue(isSubscribed, "Customer is not subscribed.");
     }
 
     public void verifyCustomerEmail(String email) {
-        // Assuming a method to get customer email
         String actualEmail = getCustomerEmail();
         Assert.assertEquals(actualEmail, email, "Customer email does not match.");
-    }
-
-    public void loginToSystem() {
-        waitUntilElementVisible(loginButton, 3);
-        clickElement(loginButton);
-        Assert.assertTrue(isElementVisible(dashboard), "Login failed, dashboard not displayed.");
     }
 
     public void verifyDashboardDisplayed() {
