@@ -85,4 +85,24 @@ public class ShipmentSteps extends ShipmentPage {
     public void theCustomerShouldReceiveAnAlertWithTheMessageYourShipmentHasBeenDispatched() {
         verifyAlertMessage("Your shipment has been dispatched.");
     }
+
+    @Then("the shipment status should be 'Shipped'")
+    public void theShipmentStatusShouldBeShipped() {
+        verifyShipmentStatus("Shipped");
+    }
+
+    @When("the user updates the shipment status to 'Shipped'")
+    public void theUserUpdatesTheShipmentStatusToShipped() {
+        updateShipmentStatus("Shipped");
+    }
+
+    @Then("the shipment status should be updated to 'Shipped'")
+    public void theShipmentStatusShouldBeUpdatedToShipped() {
+        verifyShipmentStatusUpdated("Shipped");
+    }
+
+    @Then("the customer should receive an alert with the message: 'Your shipment has been shipped.'")
+    public void theCustomerShouldReceiveAnAlertWithTheMessageYourShipmentHasBeenShipped() {
+        verifyAlertMessage("Your shipment has been shipped.");
+    }
 }

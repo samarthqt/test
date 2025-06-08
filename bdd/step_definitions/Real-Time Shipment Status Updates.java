@@ -225,4 +225,134 @@ public class ShipmentTrackingSteps extends ShipmentTrackingPage {
     public void theStatusRemainsDelivered() {
         verifyCurrentStatus("Delivered");
     }
+
+    @When("the user navigates to the \"My Shipments\" section from the dashboard")
+    public void theUserNavigatesToTheMyShipmentsSectionFromTheDashboard() {
+        navigateToMyShipmentsSection();
+    }
+
+    @Then("the My Shipments section is displayed")
+    public void theMyShipmentsSectionIsDisplayed() {
+        verifyMyShipmentsSectionDisplayed();
+    }
+
+    @Given("the user is in the My Shipments section")
+    public void theUserIsInTheMyShipmentsSection() {
+        verifyInMyShipmentsSection();
+    }
+
+    @When("the user selects an active shipment from the shipment list")
+    public void theUserSelectsAnActiveShipmentFromTheShipmentList() {
+        selectActiveShipment();
+    }
+
+    @Then("the real-time shipment timeline is displayed on the screen")
+    public void theRealTimeShipmentTimelineIsDisplayedOnTheScreen() {
+        verifyRealTimeShipmentTimelineDisplayed();
+    }
+
+    @Given("the real-time shipment timeline is displayed")
+    public void theRealTimeShipmentTimelineIsDisplayed() {
+        verifyRealTimeShipmentTimelineDisplayed();
+    }
+
+    @When("the user enables push notifications for shipment status updates")
+    public void theUserEnablesPushNotificationsForShipmentStatusUpdates() {
+        enablePushNotifications();
+    }
+
+    @Then("push notifications are enabled for shipment status updates")
+    public void pushNotificationsAreEnabledForShipmentStatusUpdates() {
+        verifyPushNotificationsEnabled();
+    }
+
+    @Given("push notifications are enabled for shipment status updates")
+    public void pushNotificationsAreEnabledForShipmentStatusUpdates() {
+        verifyPushNotificationsEnabled();
+    }
+
+    @When("a backend status update is simulated to \"In Transit\"")
+    public void aBackendStatusUpdateIsSimulatedToInTransit() {
+        simulateBackendStatusUpdate("In Transit");
+    }
+
+    @Then("the status update reflects instantly on the UI")
+    public void theStatusUpdateReflectsInstantlyOnTheUI() {
+        verifyStatusUpdateInstantlyOnUI();
+    }
+
+    @Then("a push notification is triggered for the update")
+    public void aPushNotificationIsTriggeredForTheUpdate() {
+        verifyPushNotificationTriggered();
+    }
+
+    @Given("the status update is \"In Transit\"")
+    public void theStatusUpdateIsInTransit() {
+        verifyCurrentStatus("In Transit");
+    }
+
+    @When("the user views the shipment map")
+    public void theUserViewsTheShipmentMap() {
+        viewShipmentMap();
+    }
+
+    @Then("the location corresponds to the new status")
+    public void theLocationCorrespondsToTheNewStatus() {
+        verifyLocationCorrespondsToStatus();
+    }
+
+    @Given("the user is viewing the shipment map")
+    public void theUserIsViewingTheShipmentMap() {
+        verifyViewingShipmentMap();
+    }
+
+    @When("a status update delay is simulated \(e.g., server lag or throttling\)")
+    public void aStatusUpdateDelayIsSimulated() {
+        simulateStatusUpdateDelay();
+    }
+
+    @Then("a message like \“Awaiting latest update…\” is displayed")
+    public void aMessageLikeAwaitingLatestUpdateIsDisplayed() {
+        verifyAwaitingLatestUpdateMessage();
+    }
+
+    @When("the user enables email notifications for shipment status updates")
+    public void theUserEnablesEmailNotificationsForShipmentStatusUpdates() {
+        enableEmailNotifications();
+    }
+
+    @Then("email notifications are enabled for shipment status updates")
+    public void emailNotificationsAreEnabledForShipmentStatusUpdates() {
+        verifyEmailNotificationsEnabled();
+    }
+
+    @Given("email notifications are enabled for shipment status updates")
+    public void emailNotificationsAreEnabledForShipmentStatusUpdates() {
+        verifyEmailNotificationsEnabled();
+    }
+
+    @When("a delay in delivery is simulated")
+    public void aDelayInDeliveryIsSimulated() {
+        simulateDeliveryDelay();
+    }
+
+    @Then("the updated estimated delivery time is displayed")
+    public void theUpdatedEstimatedDeliveryTimeIsDisplayed() {
+        verifyUpdatedEstimatedDeliveryTime();
+    }
+
+    @Given("the updated estimated delivery time is displayed")
+    public void theUpdatedEstimatedDeliveryTimeIsDisplayed() {
+        verifyUpdatedEstimatedDeliveryTime();
+    }
+
+    @When("the user downloads the shipment status report as a PDF")
+    public void theUserDownloadsTheShipmentStatusReportAsAPDF() {
+        downloadShipmentStatusReportAsPDF();
+    }
+
+    @Then("the PDF contents are verified")
+    public void thePDFContentsAreVerified() {
+        verifyPDFContents();
+    }
 }
