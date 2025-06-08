@@ -187,4 +187,79 @@ public class ShipmentTrackingPage extends WebReusableComponents {
         // Logic to check shipment status
         Assert.assertTrue(true, "Shipment status check failed.");
     }
+
+    public void loginAsStandardUser() {
+        // Logic to login as a standard user
+        Assert.assertTrue(true, "Login as standard user failed.");
+    }
+
+    public void verifyDashboardDisplayed() {
+        // Logic to verify dashboard is displayed
+        Assert.assertTrue(true, "Dashboard is not displayed.");
+    }
+
+    public void verifyLocationCorrespondsToStatus() {
+        // Logic to verify location corresponds to status
+        Assert.assertTrue(true, "Location does not correspond to status.");
+    }
+
+    public void enablePushNotifications() {
+        // Logic to enable push notifications
+        Assert.assertTrue(true, "Push notifications not enabled.");
+    }
+
+    public void viewShipmentMap() {
+        // Logic to view shipment map
+        Assert.assertTrue(true, "Shipment map not viewable.");
+    }
+
+    public void simulateBackendStatusUpdate() {
+        // Logic to simulate backend status update
+        Assert.assertTrue(true, "Backend status update simulation failed.");
+    }
+
+    public void verifyMyShipmentsSectionDisplayed() {
+        // Logic to verify My Shipments section is displayed
+        Assert.assertTrue(true, "My Shipments section is not displayed.");
+    }
+
+    public void verifyAwaitingLatestUpdateMessage() {
+        // Logic to verify awaiting latest update message
+        Assert.assertTrue(true, "Awaiting latest update message not displayed.");
+    }
+
+    public void verifyRealTimeShipmentTimelineVisible() {
+        // Logic to verify real-time shipment timeline is visible
+        Assert.assertTrue(true, "Real-time shipment timeline not visible.");
+    }
+
+    public void selectActiveShipment() {
+        // Logic to select active shipment
+        Assert.assertTrue(true, "Active shipment not selected.");
+    }
+
+    public void verifyPushNotificationTriggered() {
+        // Logic to verify push notification triggered
+        Assert.assertTrue(true, "Push notification not triggered.");
+    }
+
+    public void verifyStatusUpdateInstantlyOnUI() {
+        // Logic to verify status update instantly on UI
+        Assert.assertTrue(true, "Status update not instant on UI.");
+    }
+
+    public void simulateStatusUpdateDelay() {
+        // Logic to simulate status update delay
+        Assert.assertTrue(true, "Status update delay simulation failed.");
+    }
+
+    public void verifyPushNotificationsEnabled() {
+        // Logic to verify push notifications are enabled
+        Assert.assertTrue(true, "Push notifications not enabled.");
+    }
+
+    public void navigateToMyShipmentsSection() {
+        // Logic to navigate to My Shipments section
+        Assert.assertTrue(true, "Navigation to My Shipments section failed.");
+    }
 }

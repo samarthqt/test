@@ -225,4 +225,84 @@ public class ShipmentTrackingSteps extends ShipmentTrackingPage {
     public void theStatusRemainsDelivered() {
         verifyCurrentStatus("Delivered");
     }
+
+    @When("the user logs in as a standard user with a valid account")
+    public void theUserLogsInAsAStandardUserWithAValidAccount() {
+        loginAsStandardUser();
+    }
+
+    @Then("the dashboard should be displayed")
+    public void theDashboardShouldBeDisplayed() {
+        verifyDashboardDisplayed();
+    }
+
+    @When("the user navigates to the \"My Shipments\" section from the dashboard")
+    public void theUserNavigatesToTheMyShipmentsSectionFromTheDashboard() {
+        navigateToMyShipmentsSection();
+    }
+
+    @Then("the \"My Shipments\" section is displayed")
+    public void theMyShipmentsSectionIsDisplayed() {
+        verifyMyShipmentsSectionDisplayed();
+    }
+
+    @When("the user selects an active shipment from the shipment list")
+    public void theUserSelectsAnActiveShipmentFromTheShipmentList() {
+        selectActiveShipment();
+    }
+
+    @Then("the shipment details are displayed")
+    public void theShipmentDetailsAreDisplayed() {
+        verifyShipmentDetailsDisplayed();
+    }
+
+    @Then("the real-time shipment timeline is visible on the screen")
+    public void theRealTimeShipmentTimelineIsVisibleOnTheScreen() {
+        verifyRealTimeShipmentTimelineVisible();
+    }
+
+    @When("the user enables push notifications for shipment status updates")
+    public void theUserEnablesPushNotificationsForShipmentStatusUpdates() {
+        enablePushNotifications();
+    }
+
+    @Then("push notifications should be enabled")
+    public void pushNotificationsShouldBeEnabled() {
+        verifyPushNotificationsEnabled();
+    }
+
+    @When("a backend status update is simulated to \"In Transit\"")
+    public void aBackendStatusUpdateIsSimulatedToInTransit() {
+        simulateBackendStatusUpdate("In Transit");
+    }
+
+    @Then("the status update should reflect instantly on the UI")
+    public void theStatusUpdateShouldReflectInstantlyOnTheUI() {
+        verifyStatusUpdateInstantlyOnUI();
+    }
+
+    @Then("a push notification should be triggered for the update")
+    public void aPushNotificationShouldBeTriggeredForTheUpdate() {
+        verifyPushNotificationTriggered();
+    }
+
+    @When("the user views the shipment map")
+    public void theUserViewsTheShipmentMap() {
+        viewShipmentMap();
+    }
+
+    @Then("the location should correspond to the new status")
+    public void theLocationShouldCorrespondToTheNewStatus() {
+        verifyLocationCorrespondsToStatus();
+    }
+
+    @When("a status update delay is simulated \(e.g., server lag or throttling\)")
+    public void aStatusUpdateDelayIsSimulated() {
+        simulateStatusUpdateDelay();
+    }
+
+    @Then("a message like “Awaiting latest update…” should be displayed")
+    public void aMessageLikeAwaitingLatestUpdateShouldBeDisplayed() {
+        verifyAwaitingLatestUpdateMessage();
+    }
 }

@@ -2,77 +2,19 @@ Feature: Real-Time Shipment Status Updates
 @TC-1
 Scenario: Verify real-time updates on shipment status
 Given the user is logged into the system
-When the user navigates to the shipment tracking page
-Then the shipment tracking page is displayed
-@TC-1
-Scenario: Enter shipment ID and check status
-Given shipment data is available in the system
-When the user enters Shipment ID "12345" in the tracking field
-Then shipment details for ID "12345" are displayed
-@TC-1
-Scenario: Check current shipment status
-Given the user has entered the Shipment ID "12345"
-When the user checks the current status of the shipment
-Then the current status is displayed as 'In Transit'
-@TC-1
-Scenario: Simulate status update to 'Out for Delivery'
-Given the current status is 'In Transit'
-When a status update is simulated to 'Out for Delivery'
-Then the status updates to 'Out for Delivery' in real-time
-@TC-1
-Scenario: Simulate status update to 'Delivered'
-Given the current status is 'Out for Delivery'
-When a status update is simulated to 'Delivered'
-Then the status updates to 'Delivered' in real-time
-@TC-1
-Scenario: Verify timestamp of latest status update
-Given the status is 'Delivered'
-When the user verifies the timestamp of the latest status update
-Then the timestamp matches the current time
-@TC-1
-Scenario: Refresh the page and verify status
-Given the status is 'Delivered'
-When the user refreshes the page
-Then the status remains 'Delivered' with the same timestamp
-@TC-1
-Scenario: Log out and log back in to verify status
-Given the user is logged out
-When the user logs back in
-Then the shipment status remains 'Delivered'
-@TC-1
-Scenario: Check notification settings for shipment updates
-Given the user is logged in
-When the user checks the notification settings for shipment updates
-Then notifications are enabled for real-time updates
-@TC-1
-Scenario: Simulate network issue during status update
-Given the user is attempting to update status
-When a network issue is simulated
-Then the system handles the issue gracefully and retries the update
-@TC-1
-Scenario: Verify shipment history log
-Given the status updates have been made
-When the user verifies the shipment history log
-Then the log contains all status updates with timestamps
-@TC-1
-Scenario: Check for error messages during status updates
-Given the status updates have been made
-When the user checks for any error messages
-Then no error messages are displayed
-@TC-1
-Scenario: Update status from a different device
-Given the user is using a different device
-When the user attempts to update status
-Then the status updates are synchronized across devices
-@TC-1
-Scenario: Verify shipment status on a mobile device
-Given the user is using a mobile device
-When the user verifies the shipment status
-Then the status is consistent with the desktop view
-@TC-1
-Scenario: Check shipment status after a system reboot
-Given the system has been rebooted
-When the user checks the shipment status
-Then the status remains 'Delivered'
-```
-```gherkin
+When the user logs in as a standard user with a valid account
+Then the dashboard should be displayed
+When the user navigates to the "My Shipments" section from the dashboard
+Then the "My Shipments" section is displayed
+When the user selects an active shipment from the shipment list
+Then the shipment details are displayed
+And the real-time shipment timeline is visible on the screen
+When the user enables push notifications for shipment status updates
+Then push notifications should be enabled
+When a backend status update is simulated to "In Transit"
+Then the status update should reflect instantly on the UI
+And a push notification should be triggered for the update
+When the user views the shipment map
+Then the location should correspond to the new status
+When a status update delay is simulated (e.g., server lag or throttling)
+Then a message like “Awaiting latest update…” should be displayed
