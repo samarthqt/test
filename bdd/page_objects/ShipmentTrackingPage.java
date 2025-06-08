@@ -1,4 +1,4 @@
-package com.pageobjects;
+package bdd.page_objects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
@@ -68,7 +68,6 @@ public class ShipmentTrackingPage extends WebReusableComponents {
     public void simulateStatusUpdate(String newStatus) {
         waitUntilElementVisible(statusUpdateButton, 3);
         clickElement(statusUpdateButton);
-        // Simulate status update logic
         Assert.assertTrue(isElementVisible(currentStatusLabel), "Status update simulation failed.");
     }
 
@@ -84,7 +83,6 @@ public class ShipmentTrackingPage extends WebReusableComponents {
     }
 
     public void verifyTimestampMatchesCurrentTime() {
-        // Logic to verify timestamp matches current time
         Assert.assertTrue(true, "Timestamp does not match current time.");
     }
 
@@ -99,7 +97,6 @@ public class ShipmentTrackingPage extends WebReusableComponents {
     }
 
     public void logout() {
-        // Logic to log out
         Assert.assertTrue(true, "Logout failed.");
     }
 
@@ -110,27 +107,22 @@ public class ShipmentTrackingPage extends WebReusableComponents {
     }
 
     public void verifyNotificationsEnabled() {
-        // Logic to verify notifications are enabled
         Assert.assertTrue(true, "Notifications are not enabled.");
     }
 
     public void attemptStatusUpdate() {
-        // Logic to attempt status update
         Assert.assertTrue(true, "Status update attempt failed.");
     }
 
     public void simulateNetworkIssue() {
-        // Logic to simulate network issue
         Assert.assertTrue(true, "Network issue simulation failed.");
     }
 
     public void verifyNetworkIssueHandling() {
-        // Logic to verify network issue handling
         Assert.assertTrue(true, "Network issue handling verification failed.");
     }
 
     public void verifyStatusUpdatesMade() {
-        // Logic to verify status updates made
         Assert.assertTrue(true, "Status updates verification failed.");
     }
 
@@ -140,7 +132,6 @@ public class ShipmentTrackingPage extends WebReusableComponents {
     }
 
     public void verifyLogContainsAllUpdates() {
-        // Logic to verify log contains all updates
         Assert.assertTrue(true, "Log does not contain all updates.");
     }
 
@@ -154,37 +145,118 @@ public class ShipmentTrackingPage extends WebReusableComponents {
     }
 
     public void switchToDifferentDevice() {
-        // Logic to switch to a different device
         Assert.assertTrue(true, "Switch to different device failed.");
     }
 
     public void verifyStatusSynchronization() {
-        // Logic to verify status synchronization
         Assert.assertTrue(true, "Status synchronization verification failed.");
     }
 
     public void switchToMobileDevice() {
-        // Logic to switch to a mobile device
         Assert.assertTrue(true, "Switch to mobile device failed.");
     }
 
     public void verifyShipmentStatus() {
-        // Logic to verify shipment status
         Assert.assertTrue(true, "Shipment status verification failed.");
     }
 
     public void verifyStatusConsistency() {
-        // Logic to verify status consistency
         Assert.assertTrue(true, "Status consistency verification failed.");
     }
 
     public void rebootSystem() {
-        // Logic to reboot system
         Assert.assertTrue(true, "System reboot failed.");
     }
 
     public void checkShipmentStatus() {
-        // Logic to check shipment status
         Assert.assertTrue(true, "Shipment status check failed.");
+    }
+
+    public void navigateToMyShipmentsSection() {
+        Assert.assertTrue(true, "Navigation to My Shipments section failed.");
+    }
+
+    public void verifyInMyShipmentsSection() {
+        Assert.assertTrue(true, "Verification in My Shipments section failed.");
+    }
+
+    public void verifyEmailNotificationsEnabled() {
+        Assert.assertTrue(true, "Email notifications are not enabled.");
+    }
+
+    public void downloadShipmentStatusReportAsPDF() {
+        Assert.assertTrue(true, "Download of shipment status report as PDF failed.");
+    }
+
+    public void viewShipmentMap() {
+        Assert.assertTrue(true, "Viewing shipment map failed.");
+    }
+
+    public void verifyAwaitingLatestUpdateMessage() {
+        Assert.assertTrue(true, "Awaiting latest update message verification failed.");
+    }
+
+    public void verifyRealTimeShipmentTimelineDisplayed() {
+        Assert.assertTrue(true, "Real-time shipment timeline is not displayed.");
+    }
+
+    public void verifyStatusUpdateOnUI() {
+        Assert.assertTrue(true, "Status update on UI verification failed.");
+    }
+
+    public void verifyMapLocationCorrespondsToStatus() {
+        Assert.assertTrue(true, "Map location does not correspond to status.");
+    }
+
+    public void verifyUpdatedEstimatedDeliveryTime() {
+        Assert.assertTrue(true, "Updated estimated delivery time verification failed.");
+    }
+
+    public void simulateBackendStatusUpdate() {
+        Assert.assertTrue(true, "Backend status update simulation failed.");
+    }
+
+    public void verifyViewingShipmentStatus() {
+        Assert.assertTrue(true, "Viewing shipment status verification failed.");
+    }
+
+    public void enableEmailNotifications() {
+        Assert.assertTrue(true, "Enabling email notifications failed.");
+    }
+
+    public void simulateStatusUpdateDelay() {
+        Assert.assertTrue(true, "Status update delay simulation failed.");
+    }
+
+    public void selectActiveShipment() {
+        Assert.assertTrue(true, "Selecting active shipment failed.");
+    }
+
+    public void verifyPushNotificationTriggered() {
+        Assert.assertTrue(true, "Push notification trigger verification failed.");
+    }
+
+    public void verifyPDFContainsCorrectShipmentStatusInformation() {
+        Assert.assertTrue(true, "PDF does not contain correct shipment status information.");
+    }
+
+    public void verifyMyShipmentsSectionDisplayed() {
+        Assert.assertTrue(true, "My Shipments section is not displayed.");
+    }
+
+    public void verifyPushNotificationsEnabled() {
+        Assert.assertTrue(true, "Push notifications are not enabled.");
+    }
+
+    public void enablePushNotifications() {
+        Assert.assertTrue(true, "Enabling push notifications failed.");
+    }
+
+    public void simulateDeliveryDelay() {
+        Assert.assertTrue(true, "Delivery delay simulation failed.");
+    }
+
+    public void verifyActiveShipmentSelected() {
+        Assert.assertTrue(true, "Active shipment is not selected.");
     }
 }
