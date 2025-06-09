@@ -5,7 +5,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import com.page_objects.ShipmentPage;
-import java.util.List;
+import java.util.*;
 
 public class ShipmentSteps extends ShipmentPage {
 
@@ -84,5 +84,30 @@ public class ShipmentSteps extends ShipmentPage {
     @Then("the customer should receive an alert with the message: 'Your shipment has been dispatched.'")
     public void theCustomerShouldReceiveAnAlertWithTheMessageYourShipmentHasBeenDispatched() {
         verifyAlertMessage("Your shipment has been dispatched.");
+    }
+
+    @Then("the shipment status should be 'Shipped'")
+    public void theShipmentStatusShouldBeShipped() {
+        verifyShipmentStatus("Shipped");
+    }
+
+    @When("the user updates the shipment status to 'Shipped'")
+    public void theUserUpdatesTheShipmentStatusToShipped() {
+        updateShipmentStatus("Shipped");
+    }
+
+    @Then("the shipment status should be updated to 'Shipped'")
+    public void theShipmentStatusShouldBeUpdatedToShipped() {
+        verifyShipmentStatusUpdated("Shipped");
+    }
+
+    @Then("an alert should be sent to {string} notifying them of the shipment status")
+    public void anAlertShouldBeSentToNotifyingThemOfTheShipmentStatus(String email) {
+        verifyAlertSent(email);
+    }
+
+    @Then("the customer should receive an alert with the message: 'Your shipment has been shipped.'")
+    public void theCustomerShouldReceiveAnAlertWithTheMessageYourShipmentHasBeenShipped() {
+        verifyAlertMessage("Your shipment has been shipped.");
     }
 }

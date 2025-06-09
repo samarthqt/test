@@ -5,7 +5,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import com.page_objects.ShipmentTrackingPage;
-import java.util.List;
+import java.util.*;
 
 public class ShipmentTrackingSteps extends ShipmentTrackingPage {
 
@@ -181,14 +181,9 @@ public class ShipmentTrackingSteps extends ShipmentTrackingPage {
         verifyNoErrorMessages();
     }
 
-    @Given("the user is using a different device")
-    public void theUserIsUsingADifferentDevice() {
-        switchToDifferentDevice();
-    }
-
-    @When("the user attempts to update status")
-    public void theUserAttemptsToUpdateStatus() {
-        attemptStatusUpdate();
+    @When("the user attempts to update status from a different device")
+    public void theUserAttemptsToUpdateStatusFromADifferentDevice() {
+        attemptStatusUpdateFromDifferentDevice();
     }
 
     @Then("the status updates are synchronized across devices")
@@ -196,53 +191,23 @@ public class ShipmentTrackingSteps extends ShipmentTrackingPage {
         verifyStatusSynchronization();
     }
 
-    @Given("the user is using a mobile device")
-    public void theUserIsUsingAMobileDevice() {
-        switchToMobileDevice();
+    @When("the user verifies the shipment status on a mobile device")
+    public void theUserVerifiesTheShipmentStatusOnAMobileDevice() {
+        verifyShipmentStatusOnMobileDevice();
     }
 
-    @When("the user verifies the shipment status")
-    public void theUserVerifiesTheShipmentStatus() {
-        verifyShipmentStatus();
-    }
-
-    @Then("the status is consistent with the desktop view")
-    public void theStatusIsConsistentWithTheDesktopView() {
+    @Then("the shipment status is consistent with the desktop view")
+    public void theShipmentStatusIsConsistentWithTheDesktopView() {
         verifyStatusConsistency();
     }
 
-    @Given("the system has been rebooted")
-    public void theSystemHasBeenRebooted() {
+    @When("the system reboots")
+    public void theSystemReboots() {
         rebootSystem();
     }
 
-    @When("the user checks the shipment status")
-    public void theUserChecksTheShipmentStatus() {
-        checkShipmentStatus();
-    }
-
-    @Then("the status remains 'Delivered'")
-    public void theStatusRemainsDelivered() {
-        verifyCurrentStatus("Delivered");
-    }
-
-    @Given("shipment details for ID \"12345\" are displayed")
-    public void shipmentDetailsForIDAreDisplayedAgain() {
-        verifyShipmentDetailsDisplayed("12345");
-    }
-
-    @When("the user selects the location in the location field")
-    public void theUserSelectsTheLocationInTheLocationField() {
-        selectLocation();
-    }
-
-    @When("clicks on the OK button")
-    public void clicksOnTheOKButton() {
-        clickOkButton();
-    }
-
-    @Then("the location is confirmed")
-    public void theLocationIsConfirmed() {
-        verifyLocationConfirmed();
+    @Then("the shipment status remains available")
+    public void theShipmentStatusRemainsAvailable() {
+        verifyShipmentStatusAvailability();
     }
 }

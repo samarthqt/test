@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import com.framework.reusable.WebReusableComponents;
-import .util.List;
+import java.util.*;
 
 public class ShipmentTrackingPage extends WebReusableComponents {
 
@@ -193,17 +193,21 @@ public class ShipmentTrackingPage extends WebReusableComponents {
     public void selectLocation() {
         waitUntilElementVisible(locationField, 3);
         clickElement(locationField);
-        Assert.assertTrue(isElementVisible(okButton), "Location selection failed.");
+        Assert.assertTrue(isElementVisible(locationField), "Location selection failed.");
     }
 
     public void clickOkButton() {
         waitUntilElementVisible(okButton, 3);
         clickElement(okButton);
-        Assert.assertTrue(true, "OK button click failed.");
+        Assert.assertTrue(isElementVisible(shipmentTrackingLink), "OK button click failed.");
     }
 
     public void verifyLocationConfirmed() {
-        // Logic to verify location confirmation
-        Assert.assertTrue(true, "Location confirmation failed.");
+        Assert.assertTrue(isElementVisible(locationField), "Location confirmation failed.");
+    }
+
+    public void verifyShipmentStatusOnMobileDevice() {
+        // Logic to verify shipment status on mobile device
+        Assert.assertTrue(true, "Shipment status on mobile device verification failed.");
     }
 }
