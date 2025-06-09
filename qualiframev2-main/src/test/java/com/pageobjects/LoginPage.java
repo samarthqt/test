@@ -1,5 +1,7 @@
 package com.pageobjects;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import com.framework.reusable.WebReusableComponents;
@@ -11,6 +13,7 @@ public class LoginPage extends WebReusableComponents {
     protected By txtPassword = By.id("password");
     protected By btnLogin = By.id("loginButton");
     protected By errorMessage = By.id("errorMessage");
+    protected By btnLoginWithSSO = By.id("loginWithSSOButton");
 
     public LoginPage() {
         PageFactory.initElements(driver, this);
@@ -66,5 +69,10 @@ public class LoginPage extends WebReusableComponents {
 
     public void verifyLoginUnsuccessful() {
         Assert.assertTrue(isElementVisible(errorMessage), "Login attempt was not unsuccessful.");
+    }
+
+    public void verifyLoginWithSSOButtonVisible() {
+        waitUntilElementVisible(btnLoginWithSSO, 3);
+        Assert.assertTrue(isElementVisible(btnLoginWithSSO), "Login with SSO button is not visible.");
     }
 }

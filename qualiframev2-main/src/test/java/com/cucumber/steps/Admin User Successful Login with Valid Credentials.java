@@ -26,6 +26,11 @@ public class AdminLoginSteps extends AdminLoginPage {
         verifyLoginPageDisplayed();
     }
 
+    @Then("the 'Login with SSO' button should be visible on the login screen")
+    public void theLoginWithSSOButtonShouldBeVisibleOnTheLoginScreen() {
+        verifySSOButtonVisible();
+    }
+
     @When("the admin enters \"admin_user\" in the username field")
     public void theAdminEntersAdminUserInTheUsernameField() {
         enterUserName("admin_user");

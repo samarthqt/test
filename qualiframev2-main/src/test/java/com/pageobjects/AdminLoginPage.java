@@ -13,6 +13,7 @@ public class AdminLoginPage extends WebReusableComponents {
     protected By btnLogin = By.id("loginButton");
     protected By btnLogout = By.id("logoutButton");
     protected By adminMenus = By.id("adminMenus");
+    protected By btnSSOLogin = By.id("ssoLoginButton");
 
     public AdminLoginPage() {
         PageFactory.initElements(driver, this);
@@ -58,7 +59,6 @@ public class AdminLoginPage extends WebReusableComponents {
     }
 
     public void verifyLoginRequestProcessed() {
-        // Logic to verify login request processing
         Assert.assertTrue(isElementVisible(adminMenus), "Login request is not processed correctly.");
     }
 
@@ -74,5 +74,9 @@ public class AdminLoginPage extends WebReusableComponents {
     public void verifyLogoutRedirection() {
         String currentURL = getCurrentURL();
         Assert.assertTrue(currentURL.contains("login"), "User is not redirected to the login page after logout.");
+    }
+
+    public void verifySSOButtonVisible() {
+        Assert.assertTrue(isElementVisible(btnSSOLogin), "SSO Login button is not visible on the login screen.");
     }
 }
