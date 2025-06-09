@@ -1,0 +1,137 @@
+
+@webcrawler @Webcrawler1
+Scenario Outline: Autonomous Functional and Non-Functional test generation                                                  # src/test/resources/features/Webcrawler.feature:20
+  Given user launch the application "https://www.bioreference.com/" with "False"                                            # com.framework.webcrawler.WebpageExecutor.user_launch_the_application_with(java.lang.String,java.lang.String)
+      java.lang.NullPointerException
+	at com.framework.webcrawler.WebpageExecutor.user_launch_the_application_with(WebpageExecutor.java:24)
+	at ✽.user launch the application "https://www.bioreference.com/" with "False"(file:///C:/Users/nivethaa.e/Qualiframe%20v2/qualiframev2-main/qualiframev2-main/src/test/resources/features/Webcrawler.feature:6)
+
+  When user crawl the web page                                                                                              # com.framework.webcrawler.WebpageExecutor.user_crawl_the_web_page()
+  Then compare crawl output with "WebCrawlReport.csv" by status                                                             # com.framework.webcrawler.WebpageExecutor.compare_crawl_output_with(java.lang.String,io.cucumber.datatable.DataTable)
+    | True |
+  And verify dead link and redirects for url present in "WebCrawlReport.csv"                                                # com.framework.webcrawler.WebpageExecutor.verify_dead_link_and_redirects_for_url_present_in(java.lang.String)
+  And identify new broken link and redirect issues compare with baseline "DeadLinkRedirectValidation.csv"                   # com.framework.webcrawler.WebpageExecutor.identify_new_broken_link_and_redirect_issues_compare_with_baseline(java.lang.String,io.cucumber.datatable.DataTable)
+    | True |
+  And extract lighthouse report URL present in "ListOfUniqueURL.txt" and generate consolidated report                       # com.framework.webcrawler.WebpageExecutor.extract_lighthouse_report_URL_present_in(java.lang.String)
+  And compare lighthouse report with baseline "LighthouseConsolidatedCSVreport.csv^LighthouseConsolidatedCSVreport_new.csv" # com.framework.webcrawler.WebpageExecutor.compare_lighthouse_report_with_baseline(java.lang.String,io.cucumber.datatable.DataTable)
+    | True |
+  And Generate functional test script for url present in "https://www.bioreference.com/"                                    # com.framework.webcrawler.WebpageExecutor.generate_functional_test_case_for_url_present_in(java.lang.String)
+
+@webcrawler @outputComparison
+Scenario Outline: Compare web crawl output with baseline data           # src/test/resources/features/Webcrawler.feature:31
+  Given user launch the application "https://www.kay.com/" with "false" # com.framework.webcrawler.WebpageExecutor.user_launch_the_application_with(java.lang.String,java.lang.String)
+      java.lang.NullPointerException
+	at com.framework.webcrawler.WebpageExecutor.user_launch_the_application_with(WebpageExecutor.java:24)
+	at ✽.user launch the application "https://www.kay.com/" with "false"(file:///C:/Users/nivethaa.e/Qualiframe%20v2/qualiframev2-main/qualiframev2-main/src/test/resources/features/Webcrawler.feature:24)
+
+  When user crawl the web page                                          # com.framework.webcrawler.WebpageExecutor.user_crawl_the_web_page()
+  And compare crawl output with "WebCrawlReport.csv" by status          # com.framework.webcrawler.WebpageExecutor.compare_crawl_output_with(java.lang.String,io.cucumber.datatable.DataTable)
+    | False |
+
+@webcrawler @lighthouse
+Scenario Outline: To generate LightHouse report                                                        # src/test/resources/features/Webcrawler.feature:39
+  Given extract lighthouse report URL present in "LighthouseURLs.txt" and generate consolidated report # com.framework.webcrawler.WebpageExecutor.extract_lighthouse_report_URL_present_in(java.lang.String)
+      java.lang.NullPointerException
+	at com.framework.webcrawler.Perfmetricsgenerator.search(Perfmetricsgenerator.java:189)
+	at com.framework.webcrawler.Perfmetricsgenerator.lightHouseCSVconsolidation(Perfmetricsgenerator.java:118)
+	at com.framework.webcrawler.WebpageExecutor.extract_lighthouse_report_URL_present_in(WebpageExecutor.java:82)
+	at ✽.extract lighthouse report URL present in "LighthouseURLs.txt" and generate consolidated report(file:///C:/Users/nivethaa.e/Qualiframe%20v2/qualiframev2-main/qualiframev2-main/src/test/resources/features/Webcrawler.feature:35)
+
+
+@webcrawler @applitools
+Scenario Outline: AppliTools User Interface Validation      # src/test/resources/features/Webcrawler.feature:47
+  Given validate UI for list of URL in "LighthouseURLs.txt" # com.framework.webcrawler.WebpageExecutor.validate_ui_for_list_of_url_in(java.lang.String)
+
+@webcrawler @deadlinkreport
+Scenario Outline: URL Redirection & Deadlink validation                       # src/test/resources/features/Webcrawler.feature:55
+  Given verify dead link and redirects for url present in "RedirectLinks.txt" # com.framework.webcrawler.WebpageExecutor.verify_dead_link_and_redirects_for_url_present_in(java.lang.String)
+
+@webcrawler @GenerateTest
+Scenario Outline: Autonomous Functional Test script generation                           # src/test/resources/features/Webcrawler.feature:63
+  Given Generate functional test script for url present in "https://www.unilever.co.uk/" # com.framework.webcrawler.WebpageExecutor.generate_functional_test_case_for_url_present_in(java.lang.String)
+      java.lang.NullPointerException
+	at com.framework.webcrawler.Testgenerator.user_launch_app_url(Testgenerator.java:67)
+	at com.framework.webcrawler.WebpageExecutor.generate_functional_test_case_for_url_present_in(WebpageExecutor.java:96)
+	at ✽.Generate functional test script for url present in "https://www.unilever.co.uk/"(file:///C:/Users/nivethaa.e/Qualiframe%20v2/qualiframev2-main/qualiframev2-main/src/test/resources/features/Webcrawler.feature:59)
+
+
+@webcrawler @ExecuteTestScript
+Scenario Outline: Autonomous Function Test script execution TestCase - 024 Equity, Diversity & Inclusion at Unilever # src/test/resources/features/Webcrawler.feature:71
+  Given Execute functional "TestCase - 024 Equity, Diversity & Inclusion at Unilever" using "ScenarioOutput_1.json"  # com.framework.webcrawler.WebpageExecutor.execute_functional_test(java.lang.String,java.lang.String)
+      java.lang.NullPointerException
+	at com.framework.webcrawler.Testgenerator.executeJSON(Testgenerator.java:227)
+	at com.framework.webcrawler.WebpageExecutor.execute_functional_test(WebpageExecutor.java:115)
+	at ✽.Execute functional "TestCase - 024 Equity, Diversity & Inclusion at Unilever" using "ScenarioOutput_1.json"(file:///C:/Users/nivethaa.e/Qualiframe%20v2/qualiframev2-main/qualiframev2-main/src/test/resources/features/Webcrawler.feature:67)
+
+
+@webcrawler @ExecuteTest
+Scenario Outline: Autonomous Function Test script execution          # src/test/resources/features/Webcrawler.feature:79
+  Given Execute functional test script using "ScenarioOutput_1.json" # com.framework.webcrawler.WebpageExecutor.execute_functional_test(java.lang.String)
+      java.lang.NullPointerException
+	at com.framework.webcrawler.Testgenerator.executeJSON(Testgenerator.java:151)
+	at com.framework.webcrawler.WebpageExecutor.execute_functional_test(WebpageExecutor.java:105)
+	at ✽.Execute functional test script using "ScenarioOutput_1.json"(file:///C:/Users/nivethaa.e/Qualiframe%20v2/qualiframev2-main/qualiframev2-main/src/test/resources/features/Webcrawler.feature:75)
+
+
+@webcrawler @cookieValidation
+Scenario Outline: Cookie validation for web page              # src/test/resources/features/Webcrawler.feature:87
+  Given validate cookie for URL present in "DetailReport.csv" # com.framework.webcrawler.WebpageExecutor.validate_cookie_for_url_present_in(java.lang.String)
+
+@webcrawler @redirectValidationReport
+Scenario Outline: Redirect report comparison                                                        # src/test/resources/features/Webcrawler.feature:95
+  Given identify new broken link and redirect issues compare with baseline "Redirectbasereport.csv" # com.framework.webcrawler.WebpageExecutor.identify_new_broken_link_and_redirect_issues_compare_with_baseline(java.lang.String,io.cucumber.datatable.DataTable)
+      io.cucumber.core.exception.CucumberException: Step [identify new broken link and redirect issues compare with baseline {string}] is defined with 2 parameters at 'com.framework.webcrawler.WebpageExecutor.identify_new_broken_link_and_redirect_issues_compare_with_baseline(java.lang.String,io.cucumber.datatable.DataTable)'.
+However, the gherkin step has 1 arguments:
+ * "Redirectbasereport.csv"
+Step text: identify new broken link and redirect issues compare with baseline "Redirectbasereport.csv"
+	at io.cucumber.core.runner.PickleStepDefinitionMatch.arityMismatch(PickleStepDefinitionMatch.java:83)
+	at io.cucumber.core.runner.PickleStepDefinitionMatch.runStep(PickleStepDefinitionMatch.java:42)
+	at io.cucumber.core.runner.ExecutionMode$1.execute(ExecutionMode.java:10)
+	at io.cucumber.core.runner.TestStep.executeStep(TestStep.java:86)
+	at io.cucumber.core.runner.TestStep.run(TestStep.java:57)
+	at io.cucumber.core.runner.PickleStepTestStep.run(PickleStepTestStep.java:51)
+	at io.cucumber.core.runner.TestCase.run(TestCase.java:95)
+	at io.cucumber.core.runner.Runner.runPickle(Runner.java:75)
+	at io.cucumber.testng.TestNGCucumberRunner.lambda$runScenario$1(TestNGCucumberRunner.java:132)
+	at io.cucumber.core.runtime.CucumberExecutionContext.lambda$runTestCase$3(CucumberExecutionContext.java:110)
+	at io.cucumber.core.runtime.RethrowingThrowableCollector.executeAndThrow(RethrowingThrowableCollector.java:23)
+	at io.cucumber.core.runtime.CucumberExecutionContext.runTestCase(CucumberExecutionContext.java:110)
+	at io.cucumber.testng.TestNGCucumberRunner.runScenario(TestNGCucumberRunner.java:129)
+	at io.cucumber.testng.AbstractTestNGCucumberTests.runScenario(AbstractTestNGCucumberTests.java:35)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:133)
+	at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:598)
+	at org.testng.internal.TestInvoker.invokeTestMethod(TestInvoker.java:173)
+	at org.testng.internal.MethodRunner.runInSequence(MethodRunner.java:46)
+	at org.testng.internal.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:824)
+	at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:146)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1541)
+	at org.testng.TestRunner.privateRun(TestRunner.java:794)
+	at org.testng.TestRunner.run(TestRunner.java:596)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:377)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:371)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:332)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:276)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1212)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1134)
+	at org.testng.TestNG.runSuites(TestNG.java:1063)
+	at org.testng.TestNG.run(TestNG.java:1031)
+	at com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:66)
+	at com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)
+
+
+@webcrawler @lightHouseReportComparison
+Scenario Outline: LightHouse report comparison with baseline                                                                  # src/test/resources/features/Webcrawler.feature:104
+  Given compare lighthouse report with baseline "LighthouseConsolidatedCSVreport.csv^LighthouseConsolidatedCSVreport_new.csv" # com.framework.webcrawler.WebpageExecutor.compare_lighthouse_report_with_baseline(java.lang.String,io.cucumber.datatable.DataTable)
+    | True |
+
+@webcrawler @summaryreport
+Scenario Outline: Generate Summary report                                                           # src/test/resources/features/Webcrawler.feature:112
+  Given generate summary report with "2022_03_01_09_05_30" and "https://www.iatinsurancegroup.com/" # com.framework.webcrawler.WebpageExecutor.generate_summary_report(java.lang.String,java.lang.String)

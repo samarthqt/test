@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<testsuite errors="0" failures="1" name="io.cucumber.core.plugin.JUnitFormatter" skipped="0" tests="1" time="0.594">
+    <testcase classname="To generate or execute automated tests by web crawling" name="Autonomous Functional and Non-Functional test generation" time="0.176">
+        <failure message="" type="java.lang.NullPointerException">
+            <![CDATA[Given user launch the application "https://www.bioreference.com/" with "True".failed
+When user crawl the web page................................................skipped
+Then compare crawl output with "WebCrawlReport.csv" by status...............skipped
+And verify dead link and redirects for url present in "WebCrawlReport.csv"..skipped
+And identify new broken link and redirect issues compare with baseline "DeadLinkRedirectValidation.csv".skipped
+And extract lighthouse report URL present in "ListOfUniqueURL.txt" and generate consolidated report.skipped
+And compare lighthouse report with baseline "LighthouseConsolidatedCSVreport.csv^LighthouseConsolidatedCSVreport_new.csv".skipped
+And Generate functional test script for url present in "https://www.bioreference.com/".skipped
+
+StackTrace:
+java.lang.NullPointerException
+	at com.framework.webcrawler.WebpageExecutor.user_launch_the_application_with(WebpageExecutor.java:24)
+	at ✽.user launch the application "https://www.bioreference.com/" with "True"(file:///C:/Users/nivethaa.e/Qualiframe%20v2/qualiframev2-main/qualiframev2-main/src/test/resources/features/Webcrawler.feature:6)
+]]>
+        </failure>
+    </testcase>
+</testsuite>
