@@ -168,4 +168,9 @@ public class CustomerServiceSteps extends CustomerServicePage {
     public void theContactInformationShouldBeEasilyUpdatableAllowingChangesOrUpdatesAsNeededBySystemAdministratorsOrAuthorizedPersonnel() {
         assertContactInformationUpdatability();
     }
+
+    @Then("customer service contact forms or live chat should include measures to prevent spam or automated abuse, such as CAPTCHA")
+    public void customerServiceContactFormsOrLiveChatShouldIncludeMeasuresToPreventSpamOrAutomatedAbuseSuchAsCAPTCHA() {
+        verifySpamProtectionMeasures();
+    }
 }
