@@ -4,6 +4,7 @@ Scenario: Attempt login with an incorrect username and verify that login is unsu
 Given the user account is created and activated
 When the user navigates to the login page of the application
 Then the login page is displayed with username and password fields
+And the 'Login with SSO' button should be visible on the login screen
 When the user enters "incorrect_user" in the username field
 And the user enters "valid_password" in the password field
 And the user clicks on the "Login" button

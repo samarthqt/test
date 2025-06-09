@@ -24,6 +24,11 @@ public class UnsuccessfulLoginSteps extends LoginPage {
         verifyElementVisible(txtPassword);
     }
 
+    @Then("the 'Login with SSO' button should be visible on the login screen")
+    public void theLoginWithSSOButtonShouldBeVisibleOnTheLoginScreen() {
+        verifyElementVisible(btnLoginWithSSO);
+    }
+
     @When("the user enters \"incorrect_user\" in the username field")
     public void theUserEntersIncorrectUserInTheUsernameField() {
         enterUserName("incorrect_user");
