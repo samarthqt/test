@@ -1,6 +1,7 @@
 package com.pageobjects;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import com.framework.reusable.WebReusableComponents;
@@ -58,6 +59,7 @@ public class LoginPage extends WebReusableComponents {
 
     public String getTextFromElement(By element) {
         waitUntilElementVisible(element, 3);
-        return driver.findElement(element).getText();
+        WebElement webElement = driver.findElement(element);
+        return webElement.getText();
     }
 }
