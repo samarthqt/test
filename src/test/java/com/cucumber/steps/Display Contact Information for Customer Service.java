@@ -54,6 +54,11 @@ public class CustomerServiceSteps extends CustomerServicePage {
         assertChatLinksFunctionality();
     }
 
+    @Then("customer service contact forms or live chat should include measures to prevent spam or automated abuse, such as CAPTCHA")
+    public void customerServiceContactFormsOrLiveChatShouldIncludeMeasuresToPreventSpamOrAutomatedAbuseSuchAsCAPTCHA() {
+        verifySpamProtectionMeasures();
+    }
+
     @When("the user clicks on a phone number")
     public void theUserClicksOnAPhoneNumber() {
         clickPhoneNumber();

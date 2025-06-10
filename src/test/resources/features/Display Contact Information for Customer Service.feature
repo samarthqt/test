@@ -21,6 +21,9 @@ Given the user is on the customer service section of the system
 When the user verifies the chat links displayed
 Then the chat links displayed should be functional and allow users to initiate a chat with customer service
 ""
+Scenario: Verify if customer service contact options are protected from spam (e.g., CAPTCHA)
+Then customer service contact forms or live chat should include measures to prevent spam or automated abuse, such as CAPTCHA
+""
 Scenario: Click on a phone number for customer service
 Given the user is on the customer service section of the system
 When the user clicks on a phone number
