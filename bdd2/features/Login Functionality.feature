@@ -1,5 +1,9 @@
 Feature: Login Functionality
 @1
+Scenario: Display "Login with SSO" button on the login screen
+Given I have launched the CoCo URL
+Then I should see a button labeled "Login with SSO" on the login screen
+@1
 Scenario: Successful login with valid credentials
 Given I have launched the CoCo URL
 When I enter a valid username and password

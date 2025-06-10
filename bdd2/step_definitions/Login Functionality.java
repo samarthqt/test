@@ -48,4 +48,9 @@ public class LoginFunctionalitySteps extends LoginPage {
         String expectedErrorMessage = testHarness.getData("LoginData", "ExpectedErrorMessage");
         verifyErrorMessage(expectedErrorMessage);
     }
+
+    @Then("I should see a button labeled \"Login with SSO\" on the login screen")
+    public void iShouldSeeALoginWithSSOButton() {
+        verifyLoginWithSSOButton();
+    }
 }

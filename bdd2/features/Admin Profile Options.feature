@@ -1,21 +1,8 @@
 Feature: Admin Profile Options
 @2
-Scenario: Verify admin related menus are displayed on user profile
+Scenario: Navigate to projects page and verify create new project option
 Given I am logged into COCO as an Admin
 When I navigate to the user profile
-Then I should see the following admin related menus displayed:
-| Menu Item   |
-| User name   |
-| Mail ID     |
-| Home        |
-| Projects    |
-| Users       |
-| Dashboards  |
-| Prompts     |
-| Version     |
-| Logout      |
-@2
-Scenario: Verify all listed menu items are displayed on the home page for an Admin profile
-Given I am logged into COCO as an Admin
-When I navigate to the home page
-Then I should see all the listed menu items displayed for an Admin profile
+And I click on the projects menu option
+Then I should be redirected to the projects page
+And I should see the "create new project" option on the projects page

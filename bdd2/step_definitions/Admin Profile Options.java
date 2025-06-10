@@ -32,4 +32,19 @@ public class AdminProfileSteps extends AdminProfilePage {
     public void iShouldSeeAllTheListedMenuItemsDisplayedForAnAdminProfile() {
         verifyAllAdminMenusDisplayed();
     }
+
+    @When("I click on the projects menu option")
+    public void iClickOnTheProjectsMenuOption() {
+        clickProjectsMenu();
+    }
+
+    @Then("I should be redirected to the projects page")
+    public void iShouldBeRedirectedToTheProjectsPage() {
+        verifyProjectsPageRedirection();
+    }
+
+    @Then("I should see the \"create new project\" option on the projects page")
+    public void iShouldSeeTheCreateNewProjectOptionOnTheProjectsPage() {
+        verifyCreateNewProjectOption();
+    }
 }
