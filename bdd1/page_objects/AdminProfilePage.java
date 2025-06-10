@@ -14,6 +14,8 @@ public class AdminProfilePage extends WebReusableComponents {
     protected By adminLoginButton = By.id("adminLoginButton");
     protected By adminUsernameField = By.id("adminUsername");
     protected By adminPasswordField = By.id("adminPassword");
+    protected By releaseLabel = By.id("releaseLabel");
+    protected By lastDeployedDateLabel = By.id("lastDeployedDateLabel");
 
     public AdminProfilePage() {
         PageFactory.initElements(driver, this);
@@ -34,21 +36,23 @@ public class AdminProfilePage extends WebReusableComponents {
         Assert.assertTrue(isElementVisible(menuItems), "Navigation to user profile failed.");
     }
 
-    public void verifyAdminMenusDisplayed(List<String> expectedMenus) {
-        List<String> actualMenus = getElementsText(menuItems);
-        Assert.assertTrue(actualMenus.containsAll(expectedMenus), "Not all expected menus are displayed.");
+    public boolean isLabelDisplayed(String label) {
+        By labelLocator = getLabelLocator(label);
+        return isElementVisible(labelLocator);
     }
 
-    public List<String> getElementsText(By locator) {
-        List<String> texts = new ArrayList<>();
-        List<WebElement> elements = getElements(locator);
-        for (WebElement element : elements) {
-            texts.add(element.getText());
+    public By getLabelLocator(String label) {
+        switch (label) {
+            case "Release":
+                return releaseLabel;
+            case "Last Deployed Date":
+                return lastDeployedDateLabel;
+            default:
+                throw new IllegalArgumentException("Unknown label: " + label);
         }
-        return texts;
     }
 
-    private boolean isElementVisible(By locator) {
+    public boolean isElementVisible(By locator) {
         try {
             waitUntilElementVisible(locator, 3);
             return true;
