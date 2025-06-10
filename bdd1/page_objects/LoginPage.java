@@ -14,6 +14,7 @@ public class LoginPage extends WebReusableComponents {
     private By txtPassword = By.id("password");
     private By btnLogin = By.id("loginButton");
     private By errorMessage = By.id("errorMessage");
+    private By btnSSOLogin = By.id("ssoLoginButton");
 
     public LoginPage() {
         PageFactory.initElements(driver, this);
@@ -61,5 +62,13 @@ public class LoginPage extends WebReusableComponents {
     public String getErrorMessage() {
         waitUntilElementVisible(errorMessage, 3);
         return getTextFromElement(errorMessage);
+    }
+
+    /**
+     * Checks if the SSO login button is visible.
+     * @return True if the SSO login button is visible, false otherwise.
+     */
+    public boolean isSSOButtonVisible() {
+        return isElementVisible(btnSSOLogin);
     }
 }
