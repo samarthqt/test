@@ -14,3 +14,7 @@ When I enter invalid username and/or password
 And I click on the Login button
 Then I should not be logged in
 And an appropriate error message should be displayed on the login page
+@1
+Scenario: Display "Login with SSO" button on the login screen
+Given I launch the CoCo URL
+Then I should see a "Login with SSO" button on the login screen

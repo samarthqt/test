@@ -1,4 +1,4 @@
-package bdd1.page_objects;
+package com.pageobjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -14,6 +14,10 @@ public class AdminProfilePage extends WebReusableComponents {
     protected By adminLoginButton = By.id("adminLoginButton");
     protected By adminUsernameField = By.id("adminUsername");
     protected By adminPasswordField = By.id("adminPassword");
+    protected By usersMenuOption = By.id("usersMenuOption");
+    protected By createNewUserOption = By.id("createNewUserOption");
+    protected By releaseLabel = By.id("releaseLabel");
+    protected By lastDeployedDateLabel = By.id("lastDeployedDateLabel");
 
     public AdminProfilePage() {
         PageFactory.initElements(driver, this);
@@ -34,26 +38,41 @@ public class AdminProfilePage extends WebReusableComponents {
         Assert.assertTrue(isElementVisible(menuItems), "Navigation to user profile failed.");
     }
 
-    public void verifyAdminMenusDisplayed(List<String> expectedMenus) {
-        List<String> actualMenus = getElementsText(menuItems);
-        Assert.assertTrue(actualMenus.containsAll(expectedMenus), "Not all expected menus are displayed.");
+    public void verifyPageRedirection(String expectedURL) {
+        String currentURL = getCurrentURL();
+        Assert.assertEquals(currentURL, expectedURL, "User is not redirected to the expected page.");
     }
 
-    public List<String> getElementsText(By locator) {
-        List<String> texts = new ArrayList<>();
-        List<WebElement> elements = getElements(locator);
-        for (WebElement element : elements) {
-            texts.add(element.getText());
-        }
-        return texts;
-    }
-
-    private boolean isElementVisible(By locator) {
+    public boolean isElementVisible(By locator) {
         try {
             waitUntilElementVisible(locator, 3);
             return true;
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public void clickUsersMenuOption() {
+        waitUntilElementVisible(usersMenuOption, 3);
+        clickElement(usersMenuOption);
+    }
+
+    public boolean isCreateNewUserOptionVisible() {
+        return isElementVisible(createNewUserOption);
+    }
+
+    public boolean isLabelDisplayed(String label) {
+        By labelLocator = null;
+        switch (label) {
+            case "Release":
+                labelLocator = releaseLabel;
+                break;
+            case "Last Deployed Date":
+                labelLocator = lastDeployedDateLabel;
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown label: " + label);
+        }
+        return isElementVisible(labelLocator);
     }
 }

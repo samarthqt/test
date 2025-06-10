@@ -59,4 +59,9 @@ public class LoginFunctionalitySteps extends LoginPage {
         String actualErrorMessage = getErrorMessage();
         Assert.assertEquals(actualErrorMessage, expectedErrorMessage, "Error message does not match.");
     }
+
+    @Then("I should see a \"Login with SSO\" button on the login screen")
+    public void iShouldSeeALoginWithSSOButtonOnTheLoginScreen() {
+        Assert.assertTrue(isElementVisible(btnLoginWithSSO), "Login with SSO button is not visible on the login screen.");
+    }
 }
