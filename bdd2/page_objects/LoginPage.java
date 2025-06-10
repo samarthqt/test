@@ -14,6 +14,7 @@ public class LoginPage extends WebReusableComponents {
     protected By txtPassword = By.id("password");
     protected By btnLogin = By.id("loginButton");
     protected By errorMessage = By.id("errorMessage");
+    protected By btnSSOLogin = By.id("ssoLoginButton");
 
     public LoginPage() {
         PageFactory.initElements(driver, this);
@@ -62,5 +63,13 @@ public class LoginPage extends WebReusableComponents {
         waitUntilElementVisible(errorMessage, 3);
         String actualMessage = getTextFromElement(errorMessage);
         Assert.assertEquals(actualMessage, expectedMessage, "Error message does not match.");
+    }
+
+    /**
+     * Verifies the presence of the "Login with SSO" button.
+     */
+    public void verifySSOButtonPresence() {
+        waitUntilElementVisible(btnSSOLogin, 3);
+        Assert.assertTrue(isElementDisplayed(btnSSOLogin), "SSO Login button is not displayed.");
     }
 }

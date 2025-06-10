@@ -33,28 +33,23 @@ public class AdminProfileSteps extends AdminProfilePage {
         verifyAllAdminMenusDisplayed();
     }
 
-    @Then("I should see the \"Projects\" menu option")
-    public void iShouldSeeTheProjectsMenuOption() {
-        verifyProjectsMenuDisplayed();
-    }
-
-    @When("I click on the \"Projects\" menu option")
+    @When("I click on the Projects menu option")
     public void iClickOnTheProjectsMenuOption() {
         clickProjectsMenu();
     }
 
-    @Then("I should be redirected to the Projects page")
-    public void iShouldBeRedirectedToTheProjectsPage() {
-        verifyProjectsPageRedirection();
+    @Then("I should be redirected to the Users page")
+    public void iShouldBeRedirectedToTheUsersPage() {
+        verifyUsersPageRedirection();
     }
 
-    @Given("I have navigated to the Projects page")
-    public void iHaveNavigatedToTheProjectsPage() {
-        navigateToProjectsPage();
+    @Given("I am on the Users page")
+    public void iAmOnTheUsersPage() {
+        navigateToUsersPage();
     }
 
-    @Then("I should see the \"Create New Project\" option on the Projects page")
-    public void iShouldSeeTheCreateNewProjectOptionOnTheProjectsPage() {
-        verifyCreateNewProjectOption();
+    @Then("I should see the \"create new User\" option available")
+    public void iShouldSeeTheCreateNewUserOptionAvailable() {
+        verifyCreateNewUserOption();
     }
 }

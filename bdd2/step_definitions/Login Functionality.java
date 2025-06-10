@@ -48,4 +48,14 @@ public class LoginFunctionalitySteps extends LoginPage {
         String expectedErrorMessage = testHarness.getData("LoginData", "ExpectedErrorMessage");
         verifyErrorMessage(expectedErrorMessage);
     }
+
+    @When("I am on the login screen")
+    public void iAmOnTheLoginScreen() {
+        // Assuming the login screen is the default screen after launching the URL
+    }
+
+    @Then("I should see a button labeled \"Login with SSO\" displayed on the screen")
+    public void iShouldSeeAButtonLabeledLoginWithSSODisplayedOnTheScreen() {
+        verifySSOButtonPresence();
+    }
 }
