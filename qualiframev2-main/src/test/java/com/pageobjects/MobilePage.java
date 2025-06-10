@@ -1,221 +1,186 @@
-/*
- *  © [2022] Qualitest. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.pageobjects;
 
-import java.util.Properties;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
-
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
 import com.framework.components.ScriptHelper;
 import com.framework.components.Settings;
 import com.framework.cucumber.TestHarness;
 import com.framework.reusable.MobileResuableComponents;
 
-
 public class MobilePage extends MobileResuableComponents {
 
-	TestHarness testHarness = new TestHarness();
+    private TestHarness testHarness = new TestHarness();
 
+    // Android locators
+    private String commonTxt = "//android.widget.EditText[contains(@resource-id,'var1')]";
+    private By selectDOB = By.xpath("//android.view.View[@content-desc='01 January 2004']");
+    private By btnOK = By.xpath("//*[@text='OK']");
+    private By btnAgree = By.xpath("//android.widget.CheckBox[contains(@resource-id,'chk_agree')]");
+    private By btnRegister = By.xpath("//android.widget.Button[contains(@resource-id,'btn_register')]");
 
-	//****************************************************************************************************//
-	//***************************        Android locators 			     *********************************//
-	//****************************************************************************************************//
+    // iOS locators
+    private By homeScreenlbl = By.xpath("//XCUIElementTypeStaticText[@name='Restaurant']");
+    private By seearchRestaurent = By.xpath("//XCUIElementTypeStaticText[@name='Bulrush']");
+    private By selectRestaurentbtn = By.xpath("(//XCUIElementTypeStaticText[@name='More Info'])[1]");
+    private By addFoodFromMenu = By.xpath("//XCUIElementTypeButton[@name='Buy Now']");
+    private By addNewCardbtn = By.xpath("//XCUIElementTypeButton[@name='Add New Card']");
+    private By creditCardNumber = By.xpath("(//XCUIElementTypeTextField)[1]");
+    private By creditCardName = By.xpath("(//XCUIElementTypeTextField)[2]");
+    private By creditCardIssueDate = By.xpath("(//XCUIElementTypeTextField)[3]");
+    private By creditCardExpireOn = By.xpath("(//XCUIElementTypeTextField)[4]");
+    private By verifyPurchaseSuccessfulMessage = By.xpath("//XCUIElementTypeStaticText[@name='Purchase was successful']");
+    private By cardOwnerlabel = By.xpath("//XCUIElementTypeStaticText[@name='Card Owner']");
+    private By acceptAllCookiesBtn = By.xpath("//*[@class='cc-btn cc-accept-all cc-btn-no-href']");
+    private By searchProductTxtBox = By.className("header-search-input");
+    private By serachButton = By.className("header-search-button");
+    private By wishListButton = By.xpath("//*[text()='Add to wishlist']");
 
-	String commonTxt = "//android.widget.EditText[contains(@resource-id,'var1')]";
-	By selectDOB = By.xpath("//android.view.View[@content-desc='01 January 2004']");
-	By btnOK = By.xpath("//*[@text='OK']");
-	By btnAgree = By.xpath("//android.widget.CheckBox[contains(@resource-id,'chk_agree')]");
-	By btnRegister = By.xpath("//android.widget.Button[contains(@resource-id,'btn_register')]");
+    public MobilePage() {
+        super();
+        PageFactory.initElements(driver, this);
+    }
 
-	//****************************************************************************************************//
-	//***************************        iOS locators 			         *********************************//
-	//****************************************************************************************************//
+    public void enterEmail(String emailaddress) {
+        Random rand = new Random();
+        int rand_int1 = rand.nextInt(10000);
+        By emailAddress = generateLocator("XPATH", replaceLocator(commonTxt, "register_email_address"));
+        enterText(emailAddress, rand_int1 + emailaddress);
+    }
 
-	By homeScreenlbl = By.xpath("//XCUIElementTypeStaticText[@name='Restaurant']");
-	By seearchRestaurent = By.xpath("//XCUIElementTypeStaticText[@name='Bulrush']");
-	By selectRestaurentbtn = By.xpath("(//XCUIElementTypeStaticText[@name='More Info'])[1]");
-	By addFoodFromMenu = By.xpath("//XCUIElementTypeButton[@name='Buy Now']");
-	By addNewCardbtn = By.xpath("//XCUIElementTypeButton[@name='Add New Card']");
-	By creditCardNumber = By.xpath("(//XCUIElementTypeTextField)[1]");
-	By creditCardName = By.xpath("(//XCUIElementTypeTextField)[2]");
-	By creditCardIssueDate = By.xpath("(//XCUIElementTypeTextField)[3]");
-	By creditCardExpireOn = By.xpath("(//XCUIElementTypeTextField)[4]");
-	By verifyPurchaseSuccessfulMessage= By.xpath("//XCUIElementTypeStaticText[@name='Purchase was successful']");
-	By cardOwnerlabel = By.xpath("//XCUIElementTypeStaticText[@name='Card Owner']");
-	By acceptAllCookiesBtn = By.xpath("//*[@class='cc-btn cc-accept-all cc-btn-no-href']");
-	By searchProductTxtBox = By.className("header-search-input");
-	By serachButton = By.className("header-search-button");
-	By wishListButton = By.xpath("//*[text()='Add to wishlist']");
+    public void enterPassword(String pwd) {
+        By password = generateLocator("XPATH", replaceLocator(commonTxt, "register_password"));
+        enterText(password, pwd);
+    }
 
+    public void enterCnfrmPaswd(String pwd) {
+        By cnfrmPaswd = generateLocator("XPATH", replaceLocator(commonTxt, "register_confirm_password"));
+        enterText(cnfrmPaswd, pwd);
+    }
 
-	public MobilePage(ScriptHelper scriptHelper) {
-		super(scriptHelper);
-	}
+    public void enterfirstname(String fname) {
+        By firstName = generateLocator("XPATH", replaceLocator(commonTxt, "register_forename"));
+        enterText(firstName, fname);
+    }
 
-	public MobilePage() {
-		super();
-	}
+    public void entersurname(String sname) {
+        By surName = generateLocator("XPATH", replaceLocator(commonTxt, "register_surname"));
+        if (!elementVisible(surName)) {
+            swipeScreen(Direction.UP);
+        }
+        enterText(surName, sname);
+    }
 
-	public void enterEmail(String emailaddress) {
-		Random rand = new Random();
-		int rand_int1 = rand.nextInt(10000);
-		By emailAddress = generateLocator("XPATH", replaceLocator(commonTxt, "register_email_address"));
-		enterText(emailAddress, rand_int1 + emailaddress);
-	}
+    public void enterpostcode(String postcode) {
+        By postCode = generateLocator("XPATH", replaceLocator(commonTxt, "register_postcode"));
+        swipeScreen(Direction.UP);
+        enterText(postCode, postcode);
+    }
 
-	public void enterPassword(String pwd) {
-		By password = generateLocator("XPATH", replaceLocator(commonTxt, "register_password"));
-		enterText(password, pwd);
-	}
+    public void clickDOB() {
+        By dob = generateLocator("XPATH", replaceLocator(commonTxt, "register_dob"));
+        ClickElement(dob);
+    }
 
-	public void enterCnfrmPaswd(String pwd) {
-		By cnfrmPaswd = generateLocator("XPATH", replaceLocator(commonTxt, "register_confirm_password"));
-		enterText(cnfrmPaswd, pwd);
-	}
+    public void seleectDOB() {
+        ClickElement(selectDOB);
+    }
 
-	public void enterfirstname(String fname) {
-		By firstName = generateLocator("XPATH", replaceLocator(commonTxt, "register_forename"));
-		enterText(firstName, fname);
-	}
+    public void clickOK() {
+        ClickElement(btnOK);
+    }
 
-	public void entersurname(String sname) {
-		By surName = generateLocator("XPATH", replaceLocator(commonTxt, "register_surname"));
-		if(!elementVisible(surName)) {
-			swipeScreen(Direction.UP);
-		}
-		enterText(surName, sname);
-	}
+    public void clickRegister() {
+        ClickElement(btnRegister);
+    }
 
-	public void enterpostcode(String postcode) {
-		By postCode = generateLocator("XPATH", replaceLocator(commonTxt, "register_postcode"));
-		swipeScreen(Direction.UP);
-		enterText(postCode, postcode);
-	}
+    public void clickAgree() {
+        ClickElement(btnAgree);
+    }
 
-	public void clickDOB() {
-		By dob = generateLocator("XPATH", replaceLocator(commonTxt, "register_dob"));
-		ClickElement(dob);
-	}
+    public void launchMobileAppRealDevice() {
+        Properties mobileProperties = Settings.getMobilePropertiesInstance();
+        if (mobileProperties.get("ios_appreset").toString().equalsIgnoreCase("true")) {
+            driver.resetApp();
+        }
+        driver.launchApp();
+        Assert.assertTrue(driver != null, "App is not launched successfully in Real device");
+    }
 
-	public void seleectDOB() {
-		ClickElement(selectDOB);
-	}
+    public void verifyHomeScreenRestaurentApp(String title) {
+        String homescreen = driver.findElement(homeScreenlbl).getAttribute("label");
+        Assert.assertEquals(homescreen, title, "Home screen title does not match");
+    }
 
-	public void clickOK() {
-		ClickElement(btnOK);
-	}
+    public void selectRestaurent(String hotelName) {
+        String serachHotel = driver.findElement(seearchRestaurent).getAttribute("label");
+        if (serachHotel.equalsIgnoreCase(hotelName)) {
+            ClickElement(selectRestaurentbtn);
+        }
+    }
 
-	public void clickRegister() {
-		ClickElement(btnRegister);
-	}
+    public void selectFoodInMenuList(String foodMenu) {
+        ClickElement(addFoodFromMenu);
+    }
 
-	public void clickAgree() {
-		ClickElement(btnAgree);
-	}
+    public void selectFoodInMenuList() {
+        ClickElement(selectRestaurentbtn);
+        ClickElement(addFoodFromMenu);
+    }
 
-	public void launchMobileAppRealDevice() {
-		Properties mobileProperties = Settings.getMobilePropertiesInstance();
-		if(mobileProperties.get("ios_appreset").toString().equalsIgnoreCase("true")) {
-			driver.resetApp();
-		}
-		driver.launchApp();
-		System.out.println("App is launched successfully in Real device");
-	}
+    public void verifyFoodInCart() {
+        Assert.assertTrue(driver.findElement(addNewCardbtn).isDisplayed(), "Food is not added to the cart");
+    }
 
-	public void verifyHomeScreenRestaurentApp(String title) {
-		String homescreen = driver.findElement(homeScreenlbl).getAttribute("label");
-		System.out.println("Home screen Text" + homescreen);
-		if (homescreen.equalsIgnoreCase(title)) {
-		}
-	}
+    public void enterCrediCardNumber(String CreditCardNumber) {
+        enterText(creditCardNumber, CreditCardNumber);
+    }
 
-	public void selectRestaurent(String hotelName) {
-		String serachHotel = driver.findElement(seearchRestaurent).getAttribute("label");
-		System.out.println("Hotel found in the app " + serachHotel);
-		if (serachHotel.equalsIgnoreCase(hotelName)) {
-			ClickElement(selectRestaurentbtn);
-		}
-	}
+    public void enterCrediCardName(String CreditCardName) {
+        enterText(creditCardName, CreditCardName);
+    }
 
-	public void selectFoodInMenuList(String foodMenu) {
-		ClickElement(addFoodFromMenu);
-	}
+    public void enterCrediCardIssueOn(String CreditCardissueOn) {
+        ClickElement(cardOwnerlabel);
+        ClickElement(cardOwnerlabel);
+        enterText(creditCardIssueDate, CreditCardissueOn);
+    }
 
-	public void selectFoodInMenuList() {
-		System.out.println("click on More info");
-		ClickElement(selectRestaurentbtn);
-		ClickElement(addFoodFromMenu);
-	}
+    public void enterCrediCardExpiresOn(String CreditCardExpiresOn) {
+        ClickElement(cardOwnerlabel);
+        ClickElement(cardOwnerlabel);
+        enterText(creditCardExpireOn, CreditCardExpiresOn);
+    }
 
-	public void verifyFoodInCart() {
-		if (driver.findElement(addNewCardbtn).isDisplayed()) {
-			System.out.println("Food addedd to the cart");
-		}
-	}
+    public void orderSuccessfulConfirmationMessage() {
+        ClickElement(cardOwnerlabel);
+        ClickElement(cardOwnerlabel);
+        ClickElement(addNewCardbtn);
+        Assert.assertTrue(driver.findElement(verifyPurchaseSuccessfulMessage).isDisplayed(), "Order is not successful");
+    }
 
-	public void enterCrediCardNumber(String CreditCardNumber) {
-		enterText(creditCardNumber,CreditCardNumber);
-	}
+    public void launcMobileBrowserURL(String tcid, String url) {
+        testHarness.initializeTestData(tcid);
+        driver.get(url);
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        ClickElement(acceptAllCookiesBtn);
+    }
 
-	public void enterCrediCardName(String CreditCardName) {
-		enterText(creditCardName,CreditCardName);
-	}
-	public void enterCrediCardIssueOn(String CreditCardissueOn) {
-		ClickElement(cardOwnerlabel);
-		ClickElement(cardOwnerlabel);
-		enterText(creditCardIssueDate,CreditCardissueOn);
-	}
-	public void enterCrediCardExpiresOn(String CreditCardExpiresOn) {
-		ClickElement(cardOwnerlabel);
-		ClickElement(cardOwnerlabel);
-		enterText(creditCardExpireOn,CreditCardExpiresOn);
-	}
+    public void serachProduct(String product) {
+        ClickElement(searchProductTxtBox);
+        enterText(searchProductTxtBox, product);
+    }
 
-	public void orderSuccessfulConfirmationMessage() {
-		ClickElement(cardOwnerlabel);
-		ClickElement(cardOwnerlabel);
-		ClickElement(addNewCardbtn);
-		if (driver.findElement(verifyPurchaseSuccessfulMessage).isDisplayed()) {
-			System.out.println("Payments Crad details accepted and Order is Successful");
-		}
-	}
+    public void verifyProductSearch() {
+        WebElement searchButton = driver.findElement(serachButton);
+        Assert.assertTrue(searchButton.isDisplayed(), "Search button is not displayed");
+    }
 
-
-	public void launcMobileBrowserURL(String tcid,String url) {
-		testHarness.initializeTestData(tcid);
-		driver.get(url);
-		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		ClickElement(acceptAllCookiesBtn);
-	}
-
-	public void serachProduct(String product) {
-		ClickElement(searchProductTxtBox);
-		enterText(searchProductTxtBox, product);
-	}
-
-	public void verifyProductSearch() {
-		if(driver.findElement(wishListButton).isDisplayed()){
-			System.out.println("Product is displayed");
-		}
-	}
-
-	public void addProductInWishList() {
-		ClickElement(wishListButton);
-	}
-
+    public void addProductInWishList() {
+        ClickElement(wishListButton);
+        Assert.assertTrue(driver.findElement(wishListButton).isDisplayed(), "Product is not added to wishlist");
+    }
 }

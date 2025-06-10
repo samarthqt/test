@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import com.framework.reusable.WebReusableComponents;
+import java.util.*;
 
 public class SSOLoginPage extends WebReusableComponents {
 
@@ -96,7 +97,7 @@ public class SSOLoginPage extends WebReusableComponents {
 
     public void enterInvalidSSOCredentials(String username, String credentials) {
         setAdminUsername(username);
-        setSSOCredentials(credentials);
+        enterSSOCredentials(username, credentials);
         submitSSOCredentials();
     }
 

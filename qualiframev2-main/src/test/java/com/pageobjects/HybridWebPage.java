@@ -1,109 +1,160 @@
-/*
- *  © [2022] Qualitest. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.pageobjects;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-
-import com.framework.components.ApplitoolsOperations;
-import com.framework.components.ScriptHelper;
 import com.framework.reusable.WebReusableComponents;
+import java.util.*;
 
 public class HybridWebPage extends WebReusableComponents {
 
-	public HybridWebPage(ScriptHelper scriptHelper) {
-		super(scriptHelper);
-	}
+    protected By txtUserName = By.id("username");
+    protected By txtPassword = By.id("password");
+    protected By btnLogin = By.id("loginButton");
+    protected By btnProceedToCheckout = By.id("proceedToCheckout");
+    protected By txtFullName = By.id("fullName");
+    protected By txtAddress = By.id("address");
+    protected By txtCity = By.id("city");
+    protected By txtPostalCode = By.id("postalCode");
+    protected By txtPhone = By.id("phone");
+    protected By paymentMethodDropdown = By.id("paymentMethod");
+    protected By txtCardNumber = By.id("cardNumber");
+    protected By txtExpiryDate = By.id("expiryDate");
+    protected By txtCVV = By.id("cvv");
+    protected By btnPlaceOrder = By.id("placeOrder");
+    protected By orderConfirmationMessage = By.id("orderConfirmationMessage");
+    protected By btnPayWithPayPal = By.id("payWithPayPal");
+    protected By btnLoginToPayPal = By.id("paypalLogin");
+    protected By btnConfirmPayPalPayment = By.id("confirmPaypalPayment");
 
-	protected By homeLink = By.linkText("Techlistic");
-	protected By btnAcceptCookies = By.id("ez-accept-all");
-	protected By lblHeader = By.xpath("//span[text()='AUTOMATION PRACTICE ME']");
-	protected By btnOk = By.xpath("//a[contains(text(),'OK')]");
-	protected By txtFirstName = By.name("firstname");
-	protected By txtLastName = By.name("lastname");
-	protected By btnGender = By.id("sex-0");
-	protected By btnExp = By.id("exp-6");
-	protected By btnProf = By.id("profession-0");
-	protected By btnToolUFT = By.id("tool-0");
-	protected By btnToolProtractor = By.id("tool-1");
-	protected By btnToolSelenium = By.id("tool-2");
-	protected By selectContinents = By.id("continents");
-	protected By btnSubmit = By.id("submit");
-	protected By btnCookie = By.xpath("//a[contains(text(),'Got it')]");
-	
-	ApplitoolsOperations appliTools = new ApplitoolsOperations();
+    public HybridWebPage() {
+        PageFactory.initElements(driver, this);
+    }
 
-	public void launchApp(String url) {
-		launchUrl(url);
-		//maximizeWindow();
-		appliTools.openEyes(driver);
-		appliTools.captureContent("");
-	}
+    public void launchApp(String url) {
+        launchUrl(url);
+        maximizeWindow();
+    }
 
-	public void clickAcceptCookies() {
-		clickElement(btnAcceptCookies);
-	}
-	
-	public void verifyHomeScreen() {
-		Assert.assertTrue(elementVisible(lblHeader, 20));
-	}
-	
-	public void clickOkButton() {
-		if(elementVisible(btnOk)) {
-			clickElement(btnOk);
-		}
-	}
-	
-	public void enterFistName(String firstname) {
-		enterText(txtFirstName, firstname);
-	}
-	
-	public void enterLastName(String lastname) {
-		enterText(txtLastName, lastname);
-	}
-	
-	public void clickGender() {
-		clickElement(btnGender);
-	}
-	
-	public void clickExperience() {
-		clickElement(btnExp);
-	}
-	
-	public void clickProfession() {
-		clickElement(btnProf);
-	}
-	
-	public void clickToolUFT() {
-		clickElement(btnToolUFT);
-	}
-	
-	public void clickToolProtractor() {
-		clickElement(btnToolProtractor);
-	}
-	
-	public void clickToolSelenium() {
-		clickElement(btnToolSelenium);
-	}
-	
-	public void selectCountry(String value) {
-		selectByValue(selectContinents,value);
-	}
+    public void clickAcceptCookies() {
+        clickElement(btnAcceptCookies);
+    }
 
-	public void clickSubmit() {
-		clickElement(btnSubmit);
-	}
+    public void verifyHomeScreen() {
+        Assert.assertTrue(elementVisible(lblHeader, 20), "Home screen is not visible.");
+    }
+
+    public void clickOkButton() {
+        if (elementVisible(btnOk)) {
+            clickElement(btnOk);
+        }
+    }
+
+    public void enterFistName(String firstname) {
+        waitUntilElementVisible(txtFirstName, 3);
+        enterText(txtFirstName, firstname);
+    }
+
+    public void enterLastName(String lastname) {
+        waitUntilElementVisible(txtLastName, 3);
+        enterText(txtLastName, lastname);
+    }
+
+    public void clickGender() {
+        waitUntilElementVisible(btnGender, 3);
+        clickElement(btnGender);
+    }
+
+    public void clickExperience() {
+        waitUntilElementVisible(btnExp, 3);
+        clickElement(btnExp);
+    }
+
+    public void clickProfession() {
+        waitUntilElementVisible(btnProf, 3);
+        clickElement(btnProf);
+    }
+
+    public void clickToolUFT() {
+        waitUntilElementVisible(btnToolUFT, 3);
+        clickElement(btnToolUFT);
+    }
+
+    public void clickToolProtractor() {
+        waitUntilElementVisible(btnToolProtractor, 3);
+        clickElement(btnToolProtractor);
+    }
+
+    public void clickToolSelenium() {
+        waitUntilElementVisible(btnToolSelenium, 3);
+        clickElement(btnToolSelenium);
+    }
+
+    public void selectCountry(String value) {
+        waitUntilElementVisible(selectContinents, 3);
+        selectByValue(selectContinents, value);
+    }
+
+    public void clickSubmit() {
+        waitUntilElementVisible(btnSubmit, 3);
+        clickElement(btnSubmit);
+    }
+
+    public void enterUserName(String username) {
+        waitUntilElementVisible(txtUserName, 3);
+        enterText(txtUserName, username);
+    }
+
+    public void enterPassword(String password) {
+        waitUntilElementVisible(txtPassword, 3);
+        enterText(txtPassword, password);
+    }
+
+    public void clickLoginButton() {
+        waitUntilElementVisible(btnLogin, 3);
+        clickElement(btnLogin);
+    }
+
+    public void verifyHomePageRedirection(String expectedURL) {
+        String currentURL = getCurrentURL();
+        Assert.assertEquals(currentURL, expectedURL, "User is not redirected to the homepage.");
+    }
+
+    public void proceedToCheckout() {
+        waitUntilElementVisible(btnProceedToCheckout, 3);
+        clickElement(btnProceedToCheckout);
+    }
+
+    public void enterShippingDetails(String fullName, String address, String city, String postalCode, String phone) {
+        waitUntilElementVisible(txtFullName, 3);
+        enterText(txtFullName, fullName);
+        enterText(txtAddress, address);
+        enterText(txtCity, city);
+        enterText(txtPostalCode, postalCode);
+        enterText(txtPhone, phone);
+    }
+
+    public void selectPaymentMethod(String method) {
+        waitUntilElementVisible(paymentMethodDropdown, 3);
+        selectByValue(paymentMethodDropdown, method);
+    }
+
+    public void enterCreditCardDetails(String cardNumber, String expiryDate, String cvv) {
+        waitUntilElementVisible(txtCardNumber, 3);
+        enterText(txtCardNumber, cardNumber);
+        enterText(txtExpiryDate, expiryDate);
+        enterText(txtCVV, cvv);
+    }
+
+    public void placeOrder() {
+        waitUntilElementVisible(btnPlaceOrder, 3);
+        clickElement(btnPlaceOrder);
+    }
+
+    public void verifyOrderConfirmation(String expectedMessage) {
+        waitUntilElementVisible(orderConfirmationMessage, 3);
+        String actualMessage = getTextFromElement(orderConfirmationMessage);
+        Assert.assertEquals(actualMessage, expectedMessage, "Order confirmation message does not match.");
+    }
 }
