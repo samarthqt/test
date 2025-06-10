@@ -1,4 +1,5 @@
 package com.pageobjects;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
@@ -10,6 +11,7 @@ public class LoginPage extends WebReusableComponents {
     protected By txtUserName = By.id("username");
     protected By txtPassword = By.id("password");
     protected By btnLogin = By.id("loginButton");
+    protected By btnSSOLogin = By.id("ssoLoginButton");
     protected By errorMessage = By.id("errorMessage");
     protected By homepageContent = By.id("homepageContent");
 
@@ -32,9 +34,9 @@ public class LoginPage extends WebReusableComponents {
         clickElement(btnLogin);
     }
 
-    public void verifyHomePageRedirection(String expectedURL) {
+    public void verifyHomePageRedirection() {
         String currentURL = getCurrentURL();
-        Assert.assertEquals(currentURL, expectedURL, "User is not redirected to the homepage.");
+        Assert.assertEquals(currentURL, getAppUrl() + "/home", "User is not redirected to the homepage.");
     }
 
     public void verifyLoginPageDisplayed() {
@@ -45,14 +47,32 @@ public class LoginPage extends WebReusableComponents {
         Assert.assertTrue(isUrlAccessible(getAppUrl()), "URL is not accessible.");
     }
 
-    public void verifyUsernameEntered(String expectedUsername) {
-        String actualUsername = getElementAttribute(txtUserName, "value");
-        Assert.assertEquals(actualUsername, expectedUsername, "Username is not entered correctly.");
+    public void verifySSOButtonDisplayed() {
+        Assert.assertTrue(isElementVisible(btnSSOLogin), "SSO button is not displayed.");
     }
 
-    public void verifyPasswordEntered(String expectedPassword) {
-        String actualPassword = getElementAttribute(txtPassword, "value");
-        Assert.assertEquals(actualPassword, expectedPassword, "Password is not entered correctly.");
+    public void clickSSOButton() {
+        waitUntilElementVisible(btnSSOLogin, 3);
+        clickElement(btnSSOLogin);
+    }
+
+    public void verifySSOLoginPageRedirection() {
+        String currentURL = getCurrentURL();
+        Assert.assertEquals(currentURL, getAppUrl() + "/sso", "User is not redirected to the SSO login page.");
+    }
+
+    public void enterSSOUsername(String username) {
+        waitUntilElementVisible(txtUserName, 3);
+        enterText(txtUserName, username);
+    }
+
+    public void enterSSOPassword(String password) {
+        waitUntilElementVisible(txtPassword, 3);
+        enterText(txtPassword, password);
+    }
+
+    public void submitSSOLoginForm() {
+        clickLoginButton();
     }
 
     public void verifyUserSpecificContent() {

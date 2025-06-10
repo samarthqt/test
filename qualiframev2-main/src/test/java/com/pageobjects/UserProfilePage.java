@@ -9,12 +9,8 @@ import java.util.*;
 public class UserProfilePage extends WebReusableComponents {
 
     protected By userProfileSection = By.id("userProfileSection");
-    protected By menuItemUserName = By.id("menuItemUserName");
-    protected By menuItemMailID = By.id("menuItemMailID");
-    protected By menuItemHome = By.id("menuItemHome");
-    protected By menuItemDashboards = By.id("menuItemDashboards");
-    protected By menuItemVersion = By.id("menuItemVersion");
-    protected By menuItemLogout = By.id("menuItemLogout");
+    protected By releaseLabel = By.id("releaseLabel");
+    protected By lastDeployedDateLabel = By.id("lastDeployedDateLabel");
 
     public UserProfilePage() {
         PageFactory.initElements(driver, this);
@@ -38,18 +34,10 @@ public class UserProfilePage extends WebReusableComponents {
 
     public By getMenuItemLocator(String menuItem) {
         switch (menuItem) {
-            case "User name":
-                return menuItemUserName;
-            case "Mail ID":
-                return menuItemMailID;
-            case "Home":
-                return menuItemHome;
-            case "Dashboards":
-                return menuItemDashboards;
-            case "Version":
-                return menuItemVersion;
-            case "Logout":
-                return menuItemLogout;
+            case "Release":
+                return releaseLabel;
+            case "Last Deployed Date":
+                return lastDeployedDateLabel;
             default:
                 throw new IllegalArgumentException("Invalid menu item: " + menuItem);
         }
