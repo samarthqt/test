@@ -16,3 +16,27 @@ Then User should see the selected products removed from the cart
 Examples:
 | tc_id                 |
 | SeleniumPracticeTest5 |
+@5
+Scenario: Remove a single product from cart
+Given Launch Application using "SeleniumPracticeTest5"
+Then verify login page displayed successfully
+When User enters userCredentials in text field
+And User clicks Login button
+Then verify home page displayed successfully
+When User adds a product to the cart
+And User clicks Cart button
+Then User should see the added product in the cart
+When User selects the product to remove
+And User clicks Remove button
+Then User should see the product removed from the cart
+@5
+Scenario: Attempt to remove a product not in the cart
+Given Launch Application using "SeleniumPracticeTest5"
+Then verify login page displayed successfully
+When User enters userCredentials in text field
+And User clicks Login button
+Then verify home page displayed successfully
+When User clicks Cart button
+Then User should see no products in the cart
+When User attempts to remove a product not present in the cart
+Then User should see an error message indicating no products to remove
