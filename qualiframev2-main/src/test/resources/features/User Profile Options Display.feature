@@ -1,5 +1,5 @@
 Feature: User Profile Options Display
-@TC-5
+@3
 Scenario: Verify user-related menus are displayed correctly on the homepage
 Given the user is logged in successfully
 When the user navigates to the user profile section

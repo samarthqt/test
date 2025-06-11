@@ -1,5 +1,5 @@
 Feature: Admin Profile Options Display
-@TC-4
+@2
 Scenario: Verify that all admin-related menus are displayed correctly on the homepage
 Given the admin user is logged in successfully
 When the user navigates to the user profile section
