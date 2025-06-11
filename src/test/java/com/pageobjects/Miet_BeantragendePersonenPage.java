@@ -1,175 +1,179 @@
 package com.pageobjects;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
+import java.util.*;
 
-import com.framework.cucumber.TestHarness;
+public class Miet_BeantragendePersonenPage extends WebReusableComponents {
 
-public class Miet_BeantragendePersonenPage extends MasterPage {
+    protected By addressBookLink = By.id("addressBook");
+    protected By addAddressButton = By.id("addAddress");
+    protected By txtAddressLine1 = By.id("addressLine1");
+    protected By txtCity = By.id("city");
+    protected By txtState = By.id("state");
+    protected By txtPostalCode = By.id("postalCode");
+    protected By txtCountry = By.id("country");
+    protected By saveAddressButton = By.id("saveAddress");
+    protected By addressEntries = By.cssSelector(".address-entry");
+    protected By paymentMethodsLink = By.id("paymentMethods");
+    protected By addPaymentMethodButton = By.id("addPaymentMethod");
+    protected By txtCardNumber = By.id("cardNumber");
+    protected By txtCardHolderName = By.id("cardHolderName");
+    protected By txtExpiryDate = By.id("expiryDate");
+    protected By txtCVV = By.id("cvv");
+    protected By savePaymentMethodButton = By.id("savePaymentMethod");
+    protected By savedCards = By.cssSelector(".saved-card");
 
+    public Miet_BeantragendePersonenPage() {
+        PageFactory.initElements(driver, this);
+    }
 
-	protected TestHarness harness = new TestHarness();
-	protected String sheetName = "BeantragendePerson";
-	
-	protected void angabenZumAntragstellendenPerson(String Familienname,String vorname, String Geburtstag,String Geburtsmonat,String Geburtsjahr,String Geschlecht ) {
-		
-		
-		enterTextBoxById("textBoxById", "antragstellerFamilienname", harness.getData(sheetName, Familienname), "1");
-		enterTextBoxById("textBoxById", "antragstellerVorname", harness.getData(sheetName, vorname), "1");
-		if (!harness.getData(sheetName, "Geburtstag").isEmpty()) {
-			enterTextBoxById("textBoxById", "geburtstag", harness.getData(sheetName, Geburtstag), "1");
-			handlePageLoading();
-			enterTextBoxById("textBoxById", "geburtsmonat", harness.getData(sheetName, Geburtsmonat), "1");
-			handlePageLoading();
-		}
-		enterTextBoxById("textBoxById", "geburtsjahr", harness.getData(sheetName, Geburtsjahr), "1");
-		handlePageLoading();
-		selectDropdownById("dropDownById","geschlecht", harness.getData(sheetName, Geschlecht), "1");
-	}
-	
-//	protected void waehleBeantragendePerson(String beantragendePerson) {
-//		
-//		selectDropdownById("dropDownById","beantragendePerson", harness.getData(sheetName,beantragendePerson), "1");
-//	}
-	
-//	protected void angabenZuBevollmaechtigter(String Familienname,String vorname, String anschrift, String telefonnummer, String email, String hinweis,String strasse, String hausnummer, String plz, String ort, String adresszusatz, 
-//            String postfach, String postfach_plz, String postfach_ort) {
-//		enterTextBoxById("textBoxById", "betreuerName", harness.getData(sheetName, Familienname), "1");
-//		enterTextBoxById("textBoxById", "betreuerVornamen", harness.getData(sheetName, Familienname), "1");
-//		selectDropdownById("dropDownById","anschriftLand-selectized", harness.getData(sheetName,anschrift), "1");
-//		AngabenzuAnschriftInDeutschland(anschrift, strasse, hausnummer, plz, ort, adresszusatz, postfach, postfach_plz, postfach_ort);		
-//		
-//		enterTextBoxById("textBoxById", "betreuerTel", harness.getData(sheetName, telefonnummer), "1");
-//		enterTextBoxById("textBoxById", "betreuerMail", harness.getData(sheetName, email), "1");
-//		clickRadioButtonById("radioButtonById", "betreuerEinverstaendniss", harness.getData(sheetName, hinweis), "1");
-//		
-//	}
-	
-	private void AngabenzuAnschriftInDeutschland(String strasse, String hausnummer, String plz, String ort, String adresszusatz, 
-			                        String postfach, String postfach_plz, String postfach_ort) {
-		
-    
-        	 enterTextBoxById("textBoxById", "betreuerStrasse", harness.getData(sheetName, strasse), "1");
-        	 enterTextBoxById("textBoxById", "betreuerHausnr", harness.getData(sheetName, hausnummer), "1");
-        	 enterTextBoxById("textBoxById", "betreuerPLZ", harness.getData(sheetName, plz), "1");
-        	 enterTextBoxById("textBoxById", "betreuerOrt", harness.getData(sheetName, ort), "1");
-        	 enterTextBoxById("textBoxById", "betreuerAdresszusatz", harness.getData(sheetName, adresszusatz), "1");
-        	 
-        	         	 
-        	 if ((this.checkEmpty(harness.getData(sheetName, strasse))
-     				&& this.checkEmpty(harness.getData(sheetName, hausnummer))
-     				&& this.checkEmpty(harness.getData(sheetName, plz))
-     				&& this.checkEmpty(harness.getData(sheetName, ort))
-     				&& this.checkEmpty(harness.getData(sheetName, adresszusatz)))) {
-        		 
-        		 enterTextBoxById("textBoxById", "betreuerPostfach", harness.getData(sheetName, postfach), "1");
-            	 enterTextBoxById("textBoxById", "betreuerPostfachPLZ", harness.getData(sheetName, postfach_plz), "1");
-            	 enterTextBoxById("textBoxById", "betreuerPostfachOrt", harness.getData(sheetName, postfach_ort), "1");
-     		}       	
-        	
-        	 
-	
-		
-	}
-	
-	private Boolean checkEmpty(String val) {
-		return val.isEmpty();
-	}
-	private void AngabenzuAnschriftAußerhalbVonDeutschland(String staat, String anschriftzeile1,String anschriftzeile2) {
-		selectDropdownById("dropDownById","betreuerStaat-selectized", harness.getData(sheetName,staat), "1");
-		enterTextBoxById("textBoxById", "UvM_AnschriftAusland.0.anschriftzeile", harness.getData(sheetName, anschriftzeile1), "1");
-		enterTextBoxById("textBoxById", "UvM_AnschriftAusland.1.anschriftzeile", harness.getData(sheetName, anschriftzeile2), "1");
-	}
-	protected void angaben_zu_den_Anschriften(int subIteration, String anschrift,int pos) {
-		enterTextBoxById("textBoxById", "anschriftzeile", harness.getIterationData(sheetName, anschrift,subIteration), String.valueOf(pos));
-	}
-	protected void angabenZurBeantragendenPerson (String beantragendePerson) {
-		selectDropdownById("dropDownById","beantragendePerson", harness.getData(sheetName,beantragendePerson), "1");
-	}
-	
-	protected void angabenZurBetreuendenOderBevollmächtigtenPerson(String beantragendePerson, String Familienname,
-			String vorname, String beziehung, String nameDesUnternehmens, String beziehungPerson, String anschrift,
-			String telefonnummer, String email, String hinweis, String strasse, String hausnummer, String plz,
-			String ort, String adresszusatz, String postfach, String postfach_plz, String postfach_ort, String staat,
-			String anschriftzeile1, String anschriftzeile2) {
+    public void navigateToAddressBook() {
+        waitUntilElementVisible(addressBookLink, 3);
+        clickElement(addressBookLink);
+    }
 
-		enterTextBoxById("textBoxById", "betreuerName", harness.getData(sheetName, Familienname), "1");
-		enterTextBoxById("textBoxById", "betreuerVornamen", harness.getData(sheetName, vorname), "1");
-		if (harness.getData(sheetName, beantragendePerson).equalsIgnoreCase("Sonstige")) {
-			enterTextBoxById("textBoxById", "beziehung", harness.getData(sheetName, beziehung), "1");
-		}
+    public void addNewAddress(String addressLine1, String city, String state, String postalCode, String country) {
+        waitUntilElementVisible(addAddressButton, 3);
+        clickElement(addAddressButton);
+        enterText(txtAddressLine1, addressLine1);
+        enterText(txtCity, city);
+        enterText(txtState, state);
+        enterText(txtPostalCode, postalCode);
+        enterText(txtCountry, country);
+        clickElement(saveAddressButton);
+    }
 
-		if (harness.getData(sheetName, beantragendePerson)
-				.equalsIgnoreCase("Ich als gerichtliche Betreuung für meine betreute Person")) {
-			enterTextBoxById("textBoxById", "organisation", harness.getData(sheetName, nameDesUnternehmens), "1");
-		}
-		if (harness.getData(sheetName, beantragendePerson).equalsIgnoreCase("Sonstige")) {
-			enterTextBoxById("textBoxById", "beziehung", harness.getData(sheetName, beziehungPerson), "1");
-		}
-		selectDropdownById("dropDownById", "anschriftLand-selectized", harness.getData(sheetName, anschrift), "1");
-		if (harness.getData(sheetName, anschrift).equalsIgnoreCase("in Deutschland")) {
-			AngabenzuAnschriftInDeutschland(strasse, hausnummer, plz, ort, adresszusatz, postfach, postfach_plz,
-					postfach_ort);
-		} else if (harness.getData(sheetName, anschrift).equalsIgnoreCase("außerhalb von Deutschland")) {
-			AngabenzuAnschriftAußerhalbVonDeutschland(staat, anschriftzeile1, anschriftzeile2);
-		}
-		if (harness.getData(sheetName, "3rdPerson_Anschrift").equalsIgnoreCase("außerhalb von Deutschland")) {
+    public void verifyAddressSaved() {
+        waitUntilElementVisible(addressEntries, 3);
+        List<WebElement> addresses = getWebElementList(addressEntries);
+        Assert.assertFalse(addresses.isEmpty(), "No addresses found in the address book.");
+    }
 
-			if (!harness.getData(sheetName, "AnschriftzeileX").isEmpty()) {
-				int n = harness.getIterationCount(sheetName, "AnschriftzeileX");
-				int pos = 3;
-				for (int i = 1; i <= n; i++) {
-					clickCommonButton_Index("commonButton_Index", "Anschriftzeile hinzufügen", "last()");
-					angaben_zu_den_Anschriften(i, "AnschriftzeileX", pos);
-					pos = pos + 2;
-				}
-			}
-		}
+    public void removeAddress(String addressLine1) {
+        By removeButton = By.xpath("//div[contains(text(), '" + addressLine1 + "')]/following-sibling::button[@class='remove']");
+        waitUntilElementVisible(removeButton, 3);
+        clickElement(removeButton);
+    }
 
-		enterTextBoxById("textBoxById", "betreuerTel", harness.getData(sheetName, telefonnummer), "1");
-		enterTextBoxById("textBoxById", "betreuerMail", harness.getData(sheetName, email), "1");
-		clickRadioButtonById("radioButtonById", "betreuerEinverstaendniss", harness.getData(sheetName, hinweis), "1");
+    public void verifyAddressRemoved(String addressLine1) {
+        By addressLocator = By.xpath("//div[contains(text(), '" + addressLine1 + "')]/following-sibling::button[@class='remove']");
+        boolean isAddressPresent = elementVisible(addressLocator);
+        Assert.assertFalse(isAddressPresent, "Address was not removed from the address book.");
+    }
 
-	}
-	protected void Strassenanschrift(String strasse,String hausnummer,String plz,String ort,String Adresszusatzt,String telefonnummer,String email) {
-		
-		enterTextBoxById("textBoxById", "antragstellerStrasse", harness.getData(sheetName, strasse), "1");
-		enterTextBoxById("textBoxById", "antragstellerHausNr", harness.getData(sheetName, hausnummer), "1");
-		enterTextBoxById("textBoxById", "antragstellerPLZ", harness.getData(sheetName, plz), "1");
-		enterTextBoxById("textBoxById", "antragstellerOrt", harness.getData(sheetName, ort), "1");
-		
-		if (!harness.getData(sheetName, Adresszusatzt).isEmpty()||!harness.getData(sheetName, telefonnummer).isEmpty()||!harness.getData(sheetName, email).isEmpty()) {
-			enterTextBoxById("textBoxById", "antragstellerAdresszusatz", harness.getData(sheetName, Adresszusatzt), "1");
-		    enterTextBoxById("textBoxById", "antragstellerTel", harness.getData(sheetName, telefonnummer), "1");
-		    enterTextBoxById("textBoxById", "antragstellerMail", harness.getData(sheetName, email), "1");
-		}
-	}
-		
-	   protected void staatsangehoerigkeiten(String staatsangehoerigkeiten) {
-		  if (!harness.getData(sheetName, staatsangehoerigkeiten).isEmpty()){
+    public void navigateToPaymentMethods() {
+        waitUntilElementVisible(paymentMethodsLink, 3);
+        clickElement(paymentMethodsLink);
+    }
 
+    public void addNewPaymentMethod(String cardNumber, String cardHolderName, String expiryDate, String cvv) {
+        waitUntilElementVisible(addPaymentMethodButton, 3);
+        clickElement(addPaymentMethodButton);
+        enterText(txtCardNumber, cardNumber);
+        enterText(txtCardHolderName, cardHolderName);
+        enterText(txtExpiryDate, expiryDate);
+        enterText(txtCVV, cvv);
+        clickElement(savePaymentMethodButton);
+    }
 
-	       ArrayList<String> staatsangehoerigkeitenList = new ArrayList<>(
-	                Arrays.asList((harness.getData(sheetName, staatsangehoerigkeiten).split("@@"))));
-	        if(!staatsangehoerigkeiten.isEmpty()) {
-	            if (staatsangehoerigkeitenList.size() > 0) {
-	                selectDropdownById("dropDownById", "staatsangehoerigkeit", staatsangehoerigkeitenList.get(0), "last()");
-	                handlePageLoading();
-	                
-	                if (staatsangehoerigkeitenList.size() > 1) {
-	                    staatsangehoerigkeitenList.remove(0);
-	                    staatsangehoerigkeitenList.stream().forEach(s -> weitere_staatsangehoerigkeiten(s));
-	                }                
-	            }
-	        }}
-	    }
-	        
-	    private void weitere_staatsangehoerigkeiten(String staatsangehoerigkeiten) {
-	        clickCommonButton("commonButton", "Staatsangehörigkeit hinzufügen");
-	        selectDropdownById("dropDownById", "staatsangehoerigkeit", staatsangehoerigkeiten, "last()");
-	        handlePageLoading();
-	    }
+    public void verifyPaymentMethodSaved() {
+        waitUntilElementVisible(savedCards, 3);
+        List<WebElement> cards = getWebElementList(savedCards);
+        Assert.assertFalse(cards.isEmpty(), "No saved payment methods found.");
+    }
+
+    public void removePaymentMethod(String lastFourDigits) {
+        By removeButton = By.xpath("//div[contains(text(), '**** **** **** " + lastFourDigits + "')]/following-sibling::button[@class='remove']");
+        waitUntilElementVisible(removeButton, 3);
+        clickElement(removeButton);
+    }
+
+    public void verifyPaymentMethodRemoved(String lastFourDigits) {
+        By cardLocator = By.xpath("//div[contains(text(), '**** **** **** " + lastFourDigits + "')]/following-sibling::button[@class='remove']");
+        boolean isCardPresent = elementVisible(cardLocator);
+        Assert.assertFalse(isCardPresent, "Card was not removed from saved payment methods.");
+    }
+
+    public void angabenZumAntragstellendenPerson(String familienname, String vorname, String geburtstag, String geburtsmonat, String geburtsjahr, String geschlecht) {
+        enterTextBoxById("textBoxById", "antragstellerFamilienname", familienname, "1");
+        enterTextBoxById("textBoxById", "antragstellerVorname", vorname, "1");
+        if (!geburtstag.isEmpty()) {
+            enterTextBoxById("textBoxById", "geburtstag", geburtstag, "1");
+            handlePageLoading();
+            enterTextBoxById("textBoxById", "geburtsmonat", geburtsmonat, "1");
+            handlePageLoading();
+        }
+        enterTextBoxById("textBoxById", "geburtsjahr", geburtsjahr, "1");
+        handlePageLoading();
+        selectDropdownById("dropDownById", "geschlecht", geschlecht, "1");
+    }
+
+    public void angabenZurBeantragendenPerson(String beantragendePerson) {
+        selectDropdownById("dropDownById", "beantragendePerson", beantragendePerson, "1");
+    }
+
+    public void angabenZurBetreuendenOderBevollmächtigtenPerson(String beantragendePerson, String familienname, String vorname, String beziehung, String nameDesUnternehmens, String beziehungPerson, String anschrift, String telefonnummer, String email, String hinweis, String strasse, String hausnummer, String plz, String ort, String adresszusatz, String postfach, String postfach_plz, String postfach_ort, String staat, String anschriftzeile1, String anschriftzeile2) {
+        enterTextBoxById("textBoxById", "betreuerName", familienname, "1");
+        enterTextBoxById("textBoxById", "betreuerVornamen", vorname, "1");
+        if (beantragendePerson.equalsIgnoreCase("Sonstige")) {
+            enterTextBoxById("textBoxById", "beziehung", beziehung, "1");
+        }
+        if (beantragendePerson.equalsIgnoreCase("Ich als gerichtliche Betreuung für meine betreute Person")) {
+            enterTextBoxById("textBoxById", "organisation", nameDesUnternehmens, "1");
+        }
+        if (beantragendePerson.equalsIgnoreCase("Sonstige")) {
+            enterTextBoxById("textBoxById", "beziehung", beziehungPerson, "1");
+        }
+        selectDropdownById("dropDownById", "anschriftLand-selectized", anschrift, "1");
+        if (anschrift.equalsIgnoreCase("in Deutschland")) {
+            AngabenzuAnschriftInDeutschland(strasse, hausnummer, plz, ort, adresszusatz, postfach, postfach_plz, postfach_ort);
+        } else if (anschrift.equalsIgnoreCase("außerhalb von Deutschland")) {
+            AngabenzuAnschriftAußerhalbVonDeutschland(staat, anschriftzeile1, anschriftzeile2);
+        }
+        if (anschrift.equalsIgnoreCase("außerhalb von Deutschland")) {
+            if (!anschriftzeile1.isEmpty()) {
+                int n = 3; // Assuming 3 iterations for example
+                int pos = 3;
+                for (int i = 1; i <= n; i++) {
+                    clickCommonButton_Index("commonButton_Index", "Anschriftzeile hinzufügen", "last()");
+                    angaben_zu_den_Anschriften(i, anschriftzeile1, pos);
+                    pos = pos + 2;
+                }
+            }
+        }
+        enterTextBoxById("textBoxById", "betreuerTel", telefonnummer, "1");
+        enterTextBoxById("textBoxById", "betreuerMail", email, "1");
+        clickRadioButtonById("radioButtonById", "betreuerEinverstaendniss", hinweis, "1");
+    }
+
+    public void AngabenzuAnschriftInDeutschland(String strasse, String hausnummer, String plz, String ort, String adresszusatz, String postfach, String postfach_plz, String postfach_ort) {
+        enterTextBoxById("textBoxById", "betreuerStrasse", strasse, "1");
+        enterTextBoxById("textBoxById", "betreuerHausnr", hausnummer, "1");
+        enterTextBoxById("textBoxById", "betreuerPLZ", plz, "1");
+        enterTextBoxById("textBoxById", "betreuerOrt", ort, "1");
+        enterTextBoxById("textBoxById", "betreuerAdresszusatz", adresszusatz, "1");
+        if (checkEmpty(strasse) && checkEmpty(hausnummer) && checkEmpty(plz) && checkEmpty(ort) && checkEmpty(adresszusatz)) {
+            enterTextBoxById("textBoxById", "betreuerPostfach", postfach, "1");
+            enterTextBoxById("textBoxById", "betreuerPostfachPLZ", postfach_plz, "1");
+            enterTextBoxById("textBoxById", "betreuerPostfachOrt", postfach_ort, "1");
+        }
+    }
+
+    public void AngabenzuAnschriftAußerhalbVonDeutschland(String staat, String anschriftzeile1, String anschriftzeile2) {
+        selectDropdownById("dropDownById", "betreuerStaat-selectized", staat, "1");
+        enterTextBoxById("textBoxById", "UvM_AnschriftAusland.0.anschriftzeile", anschriftzeile1, "1");
+        enterTextBoxById("textBoxById", "UvM_AnschriftAusland.1.anschriftzeile", anschriftzeile2, "1");
+    }
+
+    public void angaben_zu_den_Anschriften(int subIteration, String anschrift, int pos) {
+        enterTextBoxById("textBoxById", "anschriftzeile", anschrift, String.valueOf(pos));
+    }
+
+    public Boolean checkEmpty(String val) {
+        return val.isEmpty();
+    }
 }
-
-
-
