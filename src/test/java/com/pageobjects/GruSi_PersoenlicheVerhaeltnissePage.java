@@ -1,586 +1,225 @@
 package com.pageobjects;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
+import java.util.*;
 
-import org.openqa.selenium.Keys;
+public class GruSi_PersoenlicheVerhaeltnissePage extends WebReusableComponents {
 
-import com.framework.cucumber.TestHarness;
+    protected By txtDoktorgrade = By.id("doktorgrade");
+    protected By txtSteuerlicheIdentifikationsnummer = By.id("steuerlicheIdentifikationsnummer");
+    protected By txtAnschriftZeilen = By.id("anschriftZeilen");
+    protected By btnAntragAbbrechen = By.id("antragAbbrechen");
+    protected By dropdownStaatsangehoerigkeiten = By.id("staatsangehoerigkeit");
+    protected By txtName = By.id("name");
+    protected By txtGeburtdaten = By.id("geburtdaten");
+    protected By dropdownGeschlecht = By.id("geschlecht");
+    protected By dropdownFamilienStand = By.id("familienStand");
+    protected By txtKommunikation = By.id("kommunikation");
+    protected By txtAnschrift = By.id("anschrift");
+    protected By txtBesondereWohnformAnschrift = By.id("besondereWohnformAnschrift");
+    protected By txtBesondereWohnformAnschriftAusland = By.id("besondereWohnformAnschriftAusland");
+    protected By txtAnschriftInDeutschland = By.id("anschriftInDeutschland");
+    protected By txtStaat = By.id("staat");
+    protected By txtVerhaeltnisse = By.id("verhaeltnisse");
+    protected By txtHaushaltsmitglieder = By.id("haushaltsmitglieder");
+    protected By txtHaushaltsmitgliedName = By.id("haushaltsmitgliedName");
+    protected By txtHaushaltsmitgliedGeburtsdaten = By.id("haushaltsmitgliedGeburtsdaten");
+    protected By dropdownHaushaltsmitgliedGeschlecht = By.id("haushaltsmitgliedGeschlecht");
+    protected By dropdownHaushaltsmitgliedFamilienstand = By.id("haushaltsmitgliedFamilienstand");
+    protected By dropdownHaushaltsmitgliedStaatsangehoerigkeiten = By.id("haushaltsmitgliedStaatsangehoerigkeiten");
+    protected By txtHaushaltsmitgliedUnterbringung = By.id("haushaltsmitgliedUnterbringung");
+    protected By txtWeitereHaushaltStaatsangehoerigkeiten = By.id("weitereHaushaltStaatsangehoerigkeiten");
+    protected By txtWeitereAntragstellerAnschriftInDeutschland = By.id("weitereAntragstellerAnschriftInDeutschland");
+    protected By txtBestellungEinerGesetzlichenBetreuung = By.id("bestellungEinerGesetzlichenBetreuung");
+    protected By txtBestellungEinerGesetzlichenBetreeungAnschriftInlandPostal = By.id("bestellungEinerGesetzlichenBetreeungAnschriftInlandPostal");
+    protected By txtBestellungEinerGesetzlichenBetreungAnschriftAusland = By.id("bestellungEinerGesetzlichenBetreungAnschriftAusland");
+    protected By txtBesondereWohnformAnschriftInland = By.id("besondereWohnformAnschriftInland");
+    protected By txtVerpflichtungserklaerung = By.id("verpflichtungserklaerung");
+    protected By txtAuslandsaufenthalteInDenKommenden12Monaten = By.id("auslandsaufenthalteInDenKommenden12Monaten");
 
-public class GruSi_PersoenlicheVerhaeltnissePage extends MasterPage {
-	
-	protected TestHarness harness = new TestHarness();
+    public GruSi_PersoenlicheVerhaeltnissePage() {
+        PageFactory.initElements(driver, this);
+    }
 
+    public void enterDoktorgrade(String doktorgrade) {
+        waitUntilElementVisible(txtDoktorgrade, 3);
+        enterText(txtDoktorgrade, doktorgrade);
+    }
 
-	/*
-	 * Data Sheet Columns
-	 * ================================
-	 */
-	
-	//Persönliche Verhältnisse
-	protected String sheetName = "Persoenliche Verhaeltnisse";
-	
-	protected static final String Beziehung_zur_ersten_Antragstellenden_Person="Beziehung zur ersten Antragstellenden Person";
-	protected static final String Doktorgrade="Doktorgrade";
-	protected static final String Familienname="Familienname";
-	protected static final String Vornamen="Vorname(n)";
-	protected static final String Geburtsname="Geburtsname";
-	protected static final String Geburtstag="Geburtstag";
-	protected static final String Geburtsmonat="Geburtsmonat";
-	protected static final String Geburtsjahr="Geburtsjahr";
-	protected static final String Geburtsort="Geburtsort";
-	protected static final String Geschlecht="Geschlecht";
-	protected static final String Wo_befindet_sich_die_Anschrift="Wo befindet sich die Anschrift";
-	protected static final String Strasse="Strasse";
-	protected static final String Hausnummer="Hausnummer";
-	protected static final String Postleitzahl="Postleitzahl";
-	protected static final String Ort="Ort";
-	protected static final String Adresszusatz="Adresszusatz";
-	protected static final String Antragstellung_weiter_fortsetzen="Antragstellung weiter fortsetzen";
-	protected static final String Staat="Staat";
-	protected static final String Anschriftzeilen="Anschriftzeilen";
-	protected static final String Telefonnummer="Telefonnummer";
-	protected static final String Email_Adresse="Email Adresse";
-	protected static final String Steuerliche_Identifikationsnummer="Steuerliche Identifikationsnummer";
-	protected static final String Familienstand="Familienstand";
-	protected static final String Familienstand_seit_wann="Familienstand seit wann";
-	protected static final String Staatsangehoerigkeiten="Staatsangehoerigkeit(en)";
-	protected static final String Aufenthaltsrechtlicher_Status="Aufenthaltsrechtlicher Status";
-	protected static final String Aufenthaltsrechtlicher_Status_Sonstiges="Aufenthaltsrechtlicher Status - Sonstiges";
-	protected static final String Einreisedatum_Deutschland="Einreisedatum Deutschland";
-	protected static final String Auslandsaufenthalt_geplant="Auslandsaufenthalt geplant";
-	protected static final String Auslandsaufenthalte_Zeitraum_Anfang="Auslandsaufenthalte - Zeitraum - Anfang";
-	protected static final String Auslandsaufenthalte_Zeitraum_Ende="Auslandsaufenthalte - Zeitraum - Ende";
-	protected static final String Verpflichtungserklärung_liegt_vor="Verpflichtungserklärung liegt vor";
-	protected static final String Verpflichtungserklärung_Datum="Verpflichtungserklärung - Datum";
-	protected static final String Gesetzlichen_Betreuung="Gesetzlichen Betreuung";
-	protected static final String Gesetzliche_Betreuung_Familienname="Gesetzliche Betreuung - Familienname";
-	protected static final String Gesetzliche_Betreuung_Vornamen="Gesetzliche Betreuung - Vorname(n)";
-	protected static final String Betreuung_Anschrift="Betreuung - Anschrift";
-	protected static final String Betreuung_Strasse="Betreuung - Straße";
-	protected static final String Betreuung_Hausnummer="Betreuung - Hausnummer";
-	protected static final String Betreuung_PLZ="Betreuung - PLZ";
-	protected static final String Betreuung_Ort="Betreuung - Ort";
-	protected static final String Betreuung_Adresszusatz="Betreuung - Adresszusatz";
-	protected static final String Betreuung_Postfach="Betreuung - Postfach";
-	protected static final String Betreuung_Postfach_PLZ="Betreuung - Postfach PLZ";
-	protected static final String Betreuung_Postfach_Ort="Betreuung - Postfach Ort";
-	protected static final String Betreuung_Staat="Betreuung - Staat";
-	protected static final String Betreuung_Anschriftzeilen="Betreuung - Anschriftzeilen";
-	protected static final String Leben_Sie_in_einer_besonderen_Wohnform="Leben Sie in einer besonderen Wohnform";
-	protected static final String Leben_Sie_in_einer_stationaeren_Einrichtung="Leben Sie in einer stationären Einrichtung";
-	protected static final String Vorherige_Wohnanschrift="Vorherige Wohnanschrift";
-	protected static final String Vorherige_Leistung="Vorherige Leistung";
-	protected static final String Zustaendige_Behoerde="Zuständige Behörde";
-	protected static final String Vorherige_Leistung_Ende="Vorherige Leistung - Ende";
-	protected static final String Leben_Sie_alleine_in_Ihrem_Haushalt="Leben Sie alleine in Ihrem Haushalt";
-	
-	//Haushaltsmitglieder
-	protected String haushaltsMitgliederSheetName = "Haushaltsmitglieder";
-	protected static final String Haushaltsmitglied_Familienname="Haushaltsmitglied - Familienname";
-	protected static final String Haushaltsmitglied_Vornamen="Haushaltsmitglied - Vornamen";
-	protected static final String Haushaltsmitglied_Geschlecht="Haushaltsmitglied - Geschlecht";
-	protected static final String Haushaltsmitglied_Geburtstag="Haushaltsmitglied - Geburtstag";
-	protected static final String Haushaltsmitglied_Geburtsmonat="Haushaltsmitglied - Geburtsmonat";
-	protected static final String Haushaltsmitglied_Geburtsjahr="Haushaltsmitglied - Geburtsjahr";
-	protected static final String Haushaltsmitglied_Familienstand="Haushaltsmitglied - Familienstand";
-	protected static final String Haushaltsmitgleid_Staatsangehoerigkeiten="Haushaltsmitgleid - Staatsangehörigkeiten";
-	protected static final String Haushaltsmitgleid_Aufenthaltsrechtlicher_Status="Haushaltsmitglied - Aufenthaltsrechtlicher Status";
-	protected static final String Sonstiger_aufenthaltsrechtlicher_Status="Sonstiger aufenthaltsrechtlicher Status";
-	protected static final String Datum_der_Einreise_in_Deutschland="Datum der Einreise in Deutschland";
-	protected static final String Haushaltsmitglied_Unterbringung="Haushaltsmitglied - Unterbringung";
-	protected static final String Verhaeltnisse="Verhältnisse";
-	protected static final String Sonstige_Verhaeltnisse_Beschreibung="Sonstige Verhältnisse - Beschreibung";
+    public void steuerlicheIdentifikationsnummer(String identifikationsnummer) {
+        waitUntilElementVisible(txtSteuerlicheIdentifikationsnummer, 3);
+        enterText(txtSteuerlicheIdentifikationsnummer, identifikationsnummer);
+    }
 
+    public void anschriftZeilen(String anschriftZeilen) {
+        waitUntilElementVisible(txtAnschriftZeilen, 3);
+        enterText(txtAnschriftZeilen, anschriftZeilen);
+    }
 
-	/*
-	 * ================================
-	 */
+    public void antragAbbrechen() {
+        waitUntilElementVisible(btnAntragAbbrechen, 3);
+        clickElement(btnAntragAbbrechen);
+    }
 
+    public void staatsangehoerigkeiten(String staatsangehoerigkeit) {
+        waitUntilElementVisible(dropdownStaatsangehoerigkeiten, 3);
+        selectByValue(dropdownStaatsangehoerigkeiten, staatsangehoerigkeit);
+    }
 
-	protected void beziehung_zur_ersten_antragstellenden_person(String iteration, String beziehung) {
-		if(!harness.getData(sheetName, iteration, beziehung).isEmpty()) {
-			selectDropdownById("dropDownById", "beziehung", harness.getData(sheetName, iteration, beziehung), "last()");
-		}
-	}
-	protected void staatsangehoerigkeiten(String iteration, String staatsangehoerigkeit) {
+    public void name(String name) {
+        waitUntilElementVisible(txtName, 3);
+        enterText(txtName, name);
+    }
 
-		String dropdownId = "staatsangehoerigkeit";
-		ArrayList<String> staatsangehoerigkeiten = new ArrayList<>(
-				Arrays.asList((harness.getData(sheetName, iteration, "Staatsangehoerigkeit(en)").split("@@"))));
-		if (staatsangehoerigkeiten.size() > 0) {
-			if(!harness.getData(sheetName, iteration, "Staatsangehoerigkeit(en)").isEmpty()) {
-				selectDropdownById("dropDownById", dropdownId, staatsangehoerigkeiten.get(0), "last()");
-				
-				if (staatsangehoerigkeiten.size() > 1) {
-					staatsangehoerigkeiten.remove(0);
-					staatsangehoerigkeiten.stream().forEach(s -> weitere_staatsangehoerigkeiten(iteration, dropdownId,s));
-				}
-			}
-		}
-	}
-	protected void weitere_staatsangehoerigkeiten(String iteration, String dropdownId, String staatsangehoerigkeiten) {
-		handlePageLoading();
-		clickButtonById("commonButtonById", "btn_Staatsangehoerigkeit_add","last()");
-		handlePageLoading();
-		selectDropdownById("dropDownById", dropdownId, staatsangehoerigkeiten, "last()");
-		handlePageLoading();
-	}
-	
-	protected void staatsangehoerigkeiten_falls_nicht_deutsch_aufenthaltsdaten(String iteration, String status, String sonstige, String einreiseDatum) {
-		
-		if(!harness.getData(sheetName, iteration, status).isEmpty()) {
-			selectDropdownById("dropDownById", "aufenthaltStatus", harness.getData(sheetName, iteration, status), "last()");
-			
-			if (harness.getData(sheetName, iteration, status).equalsIgnoreCase("sonstiges")) {
-				enterTextBoxById("textBoxById", "sonstiges", harness.getData(sheetName, iteration, sonstige), "last()");
-			}
-			
-			enterTextBoxById("textBoxById", "einreisedatum", harness.getData(sheetName, iteration, einreiseDatum), "last()");
-		}
-	}
+    public void geburtdaten(String geburtdaten) {
+        waitUntilElementVisible(txtGeburtdaten, 3);
+        enterText(txtGeburtdaten, geburtdaten);
+    }
 
+    public void geschlecht(String geschlecht) {
+        waitUntilElementVisible(dropdownGeschlecht, 3);
+        selectByValue(dropdownGeschlecht, geschlecht);
+    }
 
+    public void familienStand(String familienStand) {
+        waitUntilElementVisible(dropdownFamilienStand, 3);
+        selectByValue(dropdownFamilienStand, familienStand);
+    }
 
-	protected void auslandsaufenthalte_in_den_kommenden_12_Monaten(String iteration, String auslandsaufenthaltGeplant, String anfang, String ende) {
-		if(!harness.getData(sheetName, iteration, auslandsaufenthaltGeplant).isEmpty()) {
-			clickRadioButtonById("radioButtonById", "auslandsaufenthaltGeplant", harness.getData(sheetName, iteration, auslandsaufenthaltGeplant), "last()");
-			
-			if (harness.getData(sheetName, iteration, auslandsaufenthaltGeplant).equalsIgnoreCase("Ja")) {
-				enterTextBoxById("textBoxById", "auslandAnfang", harness.getData(sheetName, iteration, anfang), "last()");
-				handlePageLoading();
-				sendKeysToWindow(Keys.ESCAPE);
-				enterTextBoxById("textBoxById", "auslandEnde", harness.getData(sheetName, iteration, ende), "last()");
-				handlePageLoading();
-			}
-		}
-	}
+    public void kommunikation(String kommunikation) {
+        waitUntilElementVisible(txtKommunikation, 3);
+        enterText(txtKommunikation, kommunikation);
+    }
 
-	protected void enterDoktorgrade(String iteration, String testdata) {
-		if (!harness.getData(sheetName, iteration, testdata).isEmpty()) {
-			//List<String> doktorgrade = Arrays.asList(harness.getData(sheetName, iteration, testdata).split(";"));
-			//doktorgrade.stream().forEach(s -> selectDropdownById("dropDownById", "doktorgrade", s.trim(),"last()"));
-			enterTextBoxById("textBoxById", "doktorgrade", harness.getData(sheetName, iteration, testdata), "last()");
-		}
-	}
-	
-	protected void name(String iteration, String familienname, String vornamen, String geburtsname) {
-		enterTextBoxById("textBoxById", "familienname", harness.getData(sheetName, iteration, familienname), "last()");
-		enterTextBoxById("textBoxById", "vornamen", harness.getData(sheetName, iteration, vornamen), "last()");
-		if (!harness.getData(sheetName, iteration, "Geburtsname").isEmpty())
-			enterTextBoxById("textBoxById", "geburtsname", harness.getData(sheetName, iteration, geburtsname), "last()");
-	}
+    public void anschrift(String anschrift) {
+        waitUntilElementVisible(txtAnschrift, 3);
+        enterText(txtAnschrift, anschrift);
+    }
 
-	protected void geburtdaten(String iteration, String tag, String monat, String jahr, String ort) {
-		if (!harness.getData(sheetName, iteration, "Geburtstag").isEmpty()) {
-			enterTextBoxById("textBoxById", "gebTag", harness.getData(sheetName, iteration, tag), "last()");
-			handlePageLoading();
-		}
-		if (!harness.getData(sheetName, iteration, "Geburtsmonat").isEmpty()) {
-			enterTextBoxById("textBoxById", "gebMonat", harness.getData(sheetName, iteration, monat), "last()");
-			handlePageLoading();
-		}
-		enterTextBoxById("textBoxById", "gebJahr", harness.getData(sheetName, iteration, jahr), "last()");
+    public void besondereWohnformAnschrift(String wohnformAnschrift) {
+        waitUntilElementVisible(txtBesondereWohnformAnschrift, 3);
+        enterText(txtBesondereWohnformAnschrift, wohnformAnschrift);
+    }
 
-		if (!harness.getData(sheetName, iteration, "Geburtsort").isEmpty()) {
-			enterTextBoxById("textBoxById", "gebOrt", harness.getData(sheetName, iteration, ort), "last()");
-		}
-	}
-	
-	protected void geschlecht(String iteration, String geschlecht) {
-		selectDropdownById("dropDownById","geschlecht", harness.getData(sheetName, iteration, geschlecht), "last()");
-	}
-	
-	protected void anschrift(String iteration, String anschriftsland) {
-		selectDropdownById("dropDownById","anschriftLand", harness.getData(sheetName, iteration, anschriftsland), "last()");
-		handlePageLoading();
+    public void besondereWohnformAnschriftAusland(String wohnformAnschriftAusland) {
+        waitUntilElementVisible(txtBesondereWohnformAnschriftAusland, 3);
+        enterText(txtBesondereWohnformAnschriftAusland, wohnformAnschriftAusland);
+    }
 
+    public void anschriftInDeutschland(String anschriftInDeutschland) {
+        waitUntilElementVisible(txtAnschriftInDeutschland, 3);
+        enterText(txtAnschriftInDeutschland, anschriftInDeutschland);
+    }
 
-	}
+    public void staat(String staat) {
+        waitUntilElementVisible(txtStaat, 3);
+        enterText(txtStaat, staat);
+    }
 
-	protected void anschriftInDeutschland(String iteration, String str, String hsnr, String plz, String ort, String adresszusatz) {
-		enterTextBoxById("textBoxById", "strasse", harness.getData(sheetName, iteration, str), "last()");
-		
-		if (!harness.getData(sheetName, iteration, hsnr).isEmpty()) {
-			enterTextBoxById("textBoxById", ".hausnr", harness.getData(sheetName, iteration, hsnr), "last()");
-		}
-		enterTextBoxById("textBoxById", ".plz", harness.getData(sheetName, iteration, plz), "last()");
-		enterTextBoxById("textBoxById", ".ort", harness.getData(sheetName, iteration, ort), "last()");
-		
-		if (!harness.getData(sheetName, iteration, adresszusatz).isEmpty())
-			enterTextBoxById("textBoxById", ".adresszusatz", harness.getData(sheetName, iteration, adresszusatz), "last()");
+    public void verhaeltnisse(String verhaeltnisse) {
+        waitUntilElementVisible(txtVerhaeltnisse, 3);
+        enterText(txtVerhaeltnisse, verhaeltnisse);
+    }
 
-	}
+    public void haushaltsmitglieder(String haushaltsmitglieder) {
+        waitUntilElementVisible(txtHaushaltsmitglieder, 3);
+        enterText(txtHaushaltsmitglieder, haushaltsmitglieder);
+    }
 
-	protected void anschriftAusserhalbDeutschland(String iteration, String antragstellungFortsetzenJaNein) {
-		clickRadioButtonById("radioButtonById", "fortsetzenAntrag", harness.getData(sheetName, iteration, antragstellungFortsetzenJaNein), "last()");
-	}
-	
-	protected void antrag_abbrechen(String iteration) {
-		clickCommonButton("commonButton", harness.getData(sheetName, iteration, "Abbrechen oder Fortfahren"));
-	}
-	
-	protected void staat(String iteration, String staat) {
-		selectDropdownById("dropDownById", "staat-", harness.getData(sheetName, iteration, staat), "last()");
-	}
+    public void angabenZumHaushaltsmitgliedName(String name) {
+        waitUntilElementVisible(txtHaushaltsmitgliedName, 3);
+        enterText(txtHaushaltsmitgliedName, name);
+    }
 
-	protected void anschriftZeilen(String iteration, String anschriftzeilen) {
-		int n = harness.getIterationCount(iteration,sheetName, anschriftzeilen);
-		for (int i = 1; i <= n; i++) {
-			if(i>2) {
-				clickCommonButton_Index("commonButton_Index", "Anschriftzeile hinzufügen", "last()");
-				handlePageLoading();
-			}
-			enterTextBoxById("anschriftzeileById", "anschriftzeile", harness.getIterationData(iteration, sheetName, anschriftzeilen, i), String.valueOf(i));
-			handlePageLoading();
-		}
-	}
+    public void angabenZumHaushaltsmitgliedGeburtsdaten(String geburtsdaten) {
+        waitUntilElementVisible(txtHaushaltsmitgliedGeburtsdaten, 3);
+        enterText(txtHaushaltsmitgliedGeburtsdaten, geburtsdaten);
+    }
 
-	protected void kommunikation(String iteration, String tel, String email) {
-		if(!harness.getData(sheetName, iteration, tel).isEmpty()) {
-			handlePageLoading();
-			enterTextBoxById("textBoxById", ".tel", harness.getData(sheetName, iteration, tel), "last()");
-		}
-		if(!harness.getData(sheetName, iteration, email).isEmpty()) {
-			handlePageLoading();
-			enterTextBoxById("textBoxById", "mail", harness.getData(sheetName, iteration, email), "last()");
-		}
-	}
+    public void angabenZumHaushaltsmitgliedGeschlecht(String geschlecht) {
+        waitUntilElementVisible(dropdownHaushaltsmitgliedGeschlecht, 3);
+        selectByValue(dropdownHaushaltsmitgliedGeschlecht, geschlecht);
+    }
 
-	protected void steuerlicheIdentifikationsnummer(String iteration, String steurlicheIdentNr) {
-		if (!harness.getData(sheetName, iteration, steurlicheIdentNr).isEmpty()) {
-			enterTextBoxById("textBoxById", "steuerID", harness.getData(sheetName, iteration, steurlicheIdentNr), "last()");
-		}
-	}
+    public void angabenZumHaushaltsmitgliedFamilienstand(String familienstand) {
+        waitUntilElementVisible(dropdownHaushaltsmitgliedFamilienstand, 3);
+        selectByValue(dropdownHaushaltsmitgliedFamilienstand, familienstand);
+    }
 
-	protected void familienStand(String iteration, String familienStand, String seitWann) {
-		if (!harness.getData(sheetName, iteration, familienStand).isEmpty()) {
-			selectDropdownById("dropDownById", "familienstand", harness.getData(sheetName, iteration, familienStand), "last()");
-		}
-		if (!(harness.getData(sheetName, iteration, familienStand).equalsIgnoreCase("ledig") 
-				|| harness.getData(sheetName, iteration, familienStand).equalsIgnoreCase("nicht bekannt"))
-				&& !(harness.getData(sheetName, iteration, familienStand).isEmpty())) {
-			
-			enterTextBoxById("textBoxById", "datum", harness.getData(sheetName, iteration, seitWann), "last()");
-		
-		}
-	}
+    public void angabenZumHaushaltsmitgliedStaatsangehoerigkeiten(String staatsangehoerigkeiten) {
+        waitUntilElementVisible(dropdownHaushaltsmitgliedStaatsangehoerigkeiten, 3);
+        selectByValue(dropdownHaushaltsmitgliedStaatsangehoerigkeiten, staatsangehoerigkeiten);
+    }
 
-	protected void verpflichtungserklaerung(String  iteration, String verpflichtungLiegtVor, String verpflichtungDatum) {
-		if(!harness.getData(sheetName, iteration, verpflichtungLiegtVor).isEmpty()) {
-			clickRadioButtonById("radioButtonById", "verpflichtung", harness.getData(sheetName, iteration, verpflichtungLiegtVor), "last()");
-			
-			if (harness.getData(sheetName,  iteration, verpflichtungLiegtVor).equalsIgnoreCase("Ja")) {
-				handlePageLoading();
-				enterTextBoxById("textBoxById", "verpflichtungDatum", harness.getData(sheetName, iteration, verpflichtungDatum), "last()");
-				handlePageLoading();
-			}
-		}
-	}
+    public void angabenZumHaushaltsmitgliedUnterbringung(String unterbringung) {
+        waitUntilElementVisible(txtHaushaltsmitgliedUnterbringung, 3);
+        enterText(txtHaushaltsmitgliedUnterbringung, unterbringung);
+    }
 
-	protected void bestellung_einer_gesetzlichen_Betreuung(String  iteration, String gezetzlicheBetreuung, String familienname, String vornamen) {
-		if(!harness.getData(sheetName, iteration, gezetzlicheBetreuung).isEmpty()) {
-			handlePageLoading();
-			clickRadioButtonById("radioButtonById", "bestellungBetreuung", harness.getData(sheetName, iteration, gezetzlicheBetreuung), "last()");
-			if (harness.getData(sheetName, iteration, gezetzlicheBetreuung).equalsIgnoreCase("Ja")) {
-				enterTextBoxById("textBoxById", "betreuteFamilienname", harness.getData(sheetName, iteration, familienname), "last()");
-				enterTextBoxById("textBoxById", "betreuteVornamen", harness.getData(sheetName, iteration, vornamen), "last()");
-			}
-			
-		}
-	}
+    public void weitereHaushaltStaatsangehoerigkeiten(String staatsangehoerigkeiten) {
+        waitUntilElementVisible(txtWeitereHaushaltStaatsangehoerigkeiten, 3);
+        enterText(txtWeitereHaushaltStaatsangehoerigkeiten, staatsangehoerigkeiten);
+    }
 
-	protected void bestellung_einer_gesetzlichen_Betreung_Anschrift(String iteration, String anschrift) {
-		if(!harness.getData(sheetName, iteration, anschrift).isEmpty()) {
-			selectDropdownById("dropDownById", "betreuteAnschriftLand", harness.getData(sheetName, iteration, anschrift), "last()");
-		}
-	}
+    public void weitereAntragstellerAnschriftInDeutschland(String anschrift) {
+        waitUntilElementVisible(txtWeitereAntragstellerAnschriftInDeutschland, 3);
+        enterText(txtWeitereAntragstellerAnschriftInDeutschland, anschrift);
+    }
 
+    public void bestellungEinerGesetzlichenBetreuung(String betreuung) {
+        waitUntilElementVisible(txtBestellungEinerGesetzlichenBetreuung, 3);
+        enterText(txtBestellungEinerGesetzlichenBetreuung, betreuung);
+    }
 
-	protected void bestellung_einer_gesetzlichen_Betreung_Anschrift_Inland(String iteration, String str, String hsnr, String plz, String ort, String adresszusatz) {
-		enterTextBoxById("textBoxById", "betreuteDeStrasse", harness.getData(sheetName, iteration, str), "last()");
-		handlePageLoading();
-		if (!harness.getData(sheetName, iteration, hsnr).isEmpty()) {
-			enterTextBoxById("textBoxById", "betreuteDeHausnr", harness.getData(sheetName, iteration, hsnr), "last()");
-		}
-		handlePageLoading();
-		enterTextBoxById("textBoxById", "betreuteDePlz", harness.getData(sheetName, iteration, plz), "last()");
-		handlePageLoading();
-		enterTextBoxById("textBoxById", "betreuteDeOrt", harness.getData(sheetName, iteration, ort), "last()");
-		handlePageLoading();
-		
-		if (!harness.getData(sheetName, iteration, adresszusatz).isEmpty()) {
-			enterTextBoxById("textBoxById", "betreuteDeAdresszusatz", harness.getData(sheetName, iteration, adresszusatz), "last()");
-		}
-	}
-	
-	protected void bestellung_einer_gesetzliche_Betreeung_Anschrift_Inland_Postal(String iteration, String postfach, String plz, String ort) {
-		enterTextBoxById("textBoxById", ".betreutePostfach", harness.getData(sheetName, iteration, postfach), "last()");
-		enterTextBoxById("textBoxById", ".betreutePostfachPlz", harness.getData(sheetName, iteration, plz), "last()");
-		enterTextBoxById("textBoxById", ".betreutePostfachOrt", harness.getData(sheetName, iteration, ort), "last()");
-	}
+    public void bestellungEinerGesetzlichenBetreeungAnschriftInlandPostal(String anschrift) {
+        waitUntilElementVisible(txtBestellungEinerGesetzlichenBetreeungAnschriftInlandPostal, 3);
+        enterText(txtBestellungEinerGesetzlichenBetreeungAnschriftInlandPostal, anschrift);
+    }
 
-	protected void bestellung_einer_gesetzlichen_Betreung_Anschrift_Ausland(String iteration, String staat, String anschriftzeilen) {
-		String prefixId = String.valueOf(Integer.parseInt(iteration) - 1);
-		selectDropdownById("dropDownById", prefixId + ".betreuteStaat", harness.getData(sheetName, iteration, staat), "last()");
+    public void bestellungEinerGesetzlichenBetreungAnschriftAusland(String anschrift) {
+        waitUntilElementVisible(txtBestellungEinerGesetzlichenBetreungAnschriftAusland, 3);
+        enterText(txtBestellungEinerGesetzlichenBetreungAnschriftAusland, anschrift);
+    }
 
-		int n = harness.getIterationCount(iteration, sheetName, anschriftzeilen);
-		for (int i = 1; i <= n; i++) {
-			prefixId = String.valueOf(Integer.parseInt(iteration) - 1) + ".GruSi_VerhAnschriftBetreute."+String.valueOf(i-1);
-			if(i>2) {
-				clickButtonById("commonButtonById", String.valueOf(Integer.parseInt(iteration) - 1)+".btn_BetreuteAnschriftzeile_add", "last()");
-				handlePageLoading();
-			}
-			enterTextBoxById("anschriftzeileById", prefixId+ ".betreuteAnschriftzeile", harness.getIterationData(iteration, sheetName, anschriftzeilen, i), "last()");
-			handlePageLoading();
+    public void besondereWohnformAnschriftInland(String anschrift) {
+        waitUntilElementVisible(txtBesondereWohnformAnschriftInland, 3);
+        enterText(txtBesondereWohnformAnschriftInland, anschrift);
+    }
 
-		}
-	}
+    public void verpflichtungserklaerung(String erklaerung) {
+        waitUntilElementVisible(txtVerpflichtungserklaerung, 3);
+        enterText(txtVerpflichtungserklaerung, erklaerung);
+    }
 
-	protected void leben_in_einer_besonderen_Wohnform(String iteration, String besondereWohnform, String stationaerEinrichtung, String vorherigeAnschrift) {
-		if(!harness.getData(sheetName, iteration, besondereWohnform).isEmpty()) {
-			clickRadioButtonById("radioButtonById", "besondereWohnform", harness.getData(sheetName, iteration, besondereWohnform), "last()");
-		}
-		if(!harness.getData(sheetName, iteration, stationaerEinrichtung).isEmpty()) {
-			handlePageLoading();
-			clickRadioButtonById("radioButtonById", "stationaerEinrichtung", harness.getData(sheetName, iteration, stationaerEinrichtung), "last()");
-		}
+    public void auslandsaufenthalteInDenKommenden12Monaten(String aufenthalte) {
+        waitUntilElementVisible(txtAuslandsaufenthalteInDenKommenden12Monaten, 3);
+        enterText(txtAuslandsaufenthalteInDenKommenden12Monaten, aufenthalte);
+    }
 
-		if (harness.getData(sheetName, iteration, besondereWohnform).equalsIgnoreCase("Ja")
-				|| harness.getData(sheetName, iteration, stationaerEinrichtung).equalsIgnoreCase("Ja")) {
-			besondere_Wohnform_Anschrift(iteration, "dropDownById","vorherigeAnschriftLand","2",sheetName,vorherigeAnschrift);
-		}
-	}
+    private void waitUntilElementVisible(By locator, int timeout) {
+        WebDriverWait wait = new WebDriverWait(driver, timeout);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
 
-	protected void besondere_Wohnform_Anschrift(String iteration, String elementType, String id, String value, String sheet,String column) {
-		selectDropdownById(elementType, id, harness.getData(sheet, iteration, column), "last()");
-		if (harness.getData(sheet, iteration, column).equalsIgnoreCase("in Deutschland")) {
-			besondere_Wohnform_Anschrift_Inland(
-					iteration,
-					"Besondere Wohnform - Straße",
-					"Besondere Wohnform - Hausnummer",
-					"Besondere Wohnform - PLZ",
-					"Besondere Wohnform - Ort",
-					"Besondere Wohnform - Adresszusatz");
-		} else if (harness.getData(sheet, iteration, column).equalsIgnoreCase("außerhalb von Deutschland")) {
-			besondere_Wohnform_Anschrift_Ausland(iteration, "Besondere Wohnform - Staat", "Besondere Wohnform Anschriftszeilen");
-		}
-	}
+    private void enterText(By locator, String text) {
+        WebElement element = driver.findElement(locator);
+        element.clear();
+        element.sendKeys(text);
+    }
 
-	protected void besondere_Wohnform_Anschrift_Inland(String iteration, String str, String hsnr, String plz, String ort, String adresszusatz) {
-		enterTextBoxById("textBoxById", "vorherigeDeStrasse", harness.getData(sheetName, iteration, str), "last()");
-		
-		if (!harness.getData(sheetName, iteration, hsnr).isEmpty()) {
-			enterTextBoxById("textBoxById", "vorherigeDeHausnr", harness.getData(sheetName, iteration, hsnr), "last()");
-		}
-		handlePageLoading();
-		enterTextBoxById("textBoxById", "vorherigeDePlz", harness.getData(sheetName, iteration, plz), "last()");
-		handlePageLoading();
-		enterTextBoxById("textBoxById", "vorherigeDeOrt", harness.getData(sheetName, iteration, ort), "last()");
+    private void clickElement(By locator) {
+        WebElement element = driver.findElement(locator);
+        element.click();
+    }
 
-		if (!harness.getData(sheetName, iteration, adresszusatz).isEmpty())
-			enterTextBoxById("textBoxById", "vorherigeDeAdresszusatz", harness.getData(sheetName, iteration, adresszusatz), "last()");
-		handlePageLoading();
-	}
-
-	//to be refactored
-	protected void besondere_Wohnform_Anschrift_Ausland(String iteration, String staat, String anschriftzeilen) {
-		String prefixId = String.valueOf(Integer.parseInt(iteration) - 1);
-		selectDropdownById("dropDownById", prefixId+".vorherigeStaat", harness.getData(sheetName, iteration, staat), "last()");
-		
-		int n = harness.getIterationCount(iteration,sheetName, anschriftzeilen);
-		for (int i = 1; i <= n; i++) {
-			prefixId = String.valueOf(Integer.parseInt(iteration) - 1) + ".GruSi_VerhAnschriftVorherige."+String.valueOf(i-1);
-			if(i>2) {
-				clickButtonById("commonButtonById", String.valueOf(Integer.parseInt(iteration) - 1)+".btn_VorherigeAnschriftzeile_add", "last()");
-				handlePageLoading();
-			}
-			enterTextBoxById("anschriftzeileById", prefixId + ".vorherigeAnschriftzeile", harness.getIterationData(iteration, sheetName, anschriftzeilen, i), "last()");
-			handlePageLoading();
-		}
-	}
-
-	protected void vorheriger_Bezug_von_Grundsicherungsleistungen(String iteration, String vorherigeLstg, String zustaendigeBehoerde, String endeLstg) {
-		if(!harness.getData(sheetName, iteration,vorherigeLstg).isEmpty()) {
-			clickRadioButtonById("radioButtonById", "vorherigeLeistungen", harness.getData(sheetName, iteration,vorherigeLstg), "last()");
-			
-			if (harness.getData(sheetName, iteration, vorherigeLstg).equalsIgnoreCase("Ja")) {
-				enterTextBoxById("textBoxById", "zustaendigeBehoerde", harness.getData(sheetName, iteration, zustaendigeBehoerde), "last()");
-				enterTextBoxById("textBoxById", "endeLeistungen", harness.getData(sheetName, iteration, endeLstg), "last()");
-			}
-		}
-	}
-
-//	protected void antragsteller_hinzufuegen() {
-//		clickCommonButton_Index("commonButton_Index", "Antragsteller hinzufügen", "last()");
-//		selectDropdownById("dropDownById", "beziehung", harness.getData(sheetName, "Beziehung zur ersten antragstellenden Person"), "last()");
-//		enterDoktorgrade("weiterer Antragsteller - Doktorgrade");
-//		enterTextBoxById("textBoxById", "familienname", harness.getData(sheetName, "weitere Antragsteller - Familienname"), "last()");
-//		enterTextBoxById("textBoxById", "vornamen", harness.getData(sheetName, "weitere Antragsteller - Vorname(n)"), "last()");
-//
-//		if (!harness.getData(sheetName, "weitere Antragsteller - Geburtsname").isEmpty())
-//			enterTextBoxById("textBoxById", "geburtsname", harness.getData(sheetName, "weitere Antragsteller - Geburtsname"), "last()");
-//
-//		if (!harness.getData(sheetName, "weitere Antragsteller - Geburtstag").isEmpty()) {
-//			enterTextBoxById("textBoxById", "gebTag", harness.getData(sheetName, "weitere Antragsteller - Geburtstag"), "last()");
-//			handlePageLoading();
-//			enterTextBoxById("textBoxById", "gebMonat", harness.getData(sheetName, "weitere Antragsteller - Geburtsmonat"), "last()");
-//
-//		}
-//		enterTextBoxById("textBoxById", "gebJahr", harness.getData(sheetName, "weitere Antragsteller - Geburtsjahr"), "last()");
-//
-//		if (!harness.getData(sheetName, "Geburtsort").isEmpty())
-//			enterTextBoxById("textBoxById", "gebOrt", harness.getData(sheetName, "weitere Antragsteller - Geburtsort"),"last()");
-//		selectDropdownById("dropDownById", "geschlecht", harness.getData(sheetName, "weitere Antragsteller - Geschlecht"), "last()");
-//		
-////		weitere_Antragsteller_Anschrift();
-//	
-//	}
-	
-//	protected void weitere_Antragsteller_Anschrift() {
-//		selectDropdownById("dropDownById","anschriftLand", harness.getData(sheetName, "weitere Antragsteller - Anschriftsland"), "last()");
-//
-//		if (harness.getData(sheetName, "weitere Antragsteller - Anschriftsland").equalsIgnoreCase("in Deutschland")) {
-//			weitere_Antragsteller_AnschriftInDeutschland();
-//		} else if (harness.getData(sheetName, "weitere Antragsteller - Anschriftsland").equalsIgnoreCase("außerhalb von Deutschland")) {
-//			weitere_Antragsteller_AnschriftAusserhalbDeutschland();
-//		}
-//	}
-	
-	private void weitere_Antragsteller_AnschriftInDeutschland() {
-		enterTextBoxById("textBoxById", "strasse", harness.getData(sheetName, "Strasse"), "last()");
-		
-		if (!harness.getData(sheetName, "Hausnummer").isEmpty())
-			enterTextBoxById("textBoxById", "hausnr", harness.getData(sheetName, "Hausnummer"), "last()");
-		enterTextBoxById("textBoxById", "plz", harness.getData(sheetName, "Postleitzahl"), "1");
-		enterTextBoxById("textBoxById", "Verhaeltnisse.0.ort", harness.getData(sheetName, "Ort"), "last()");
-		
-		if (!harness.getData(sheetName, "Adresszusatz").isEmpty())
-			enterTextBoxById("textBoxById", "adresszusatz", harness.getData(sheetName, "Adresszusatz"), "last()");
-
-	}
-	
-	protected void haushaltsmitglieder(String haushaltAlleine) {
-		clickRadioButtonById("radioButtonById", "haushaltAlleine", harness.getData(sheetName, haushaltAlleine), "last()");
-	}
-	
-	/*
-	 * ===================
-	 * Haushaltsmitglieder
-	 * ===================
-	 */
-	protected void angaben_zum_haushaltsmitglied_name(String iteration, String familienname, String vornamen) {
-		//haushaltFamilienname haushaltVornamen haushaltGeschlecht haushaltGebTag haushaltGebMonat haushaltGebJahr haushaltFamilienstand 
-		if(!harness.getData(haushaltsMitgliederSheetName, iteration, familienname).isEmpty()) {
-			enterTextBoxById("textBoxById", "haushaltFamilienname", harness.getData(haushaltsMitgliederSheetName, iteration, familienname), "last()");
-		}
-		if(!harness.getData(haushaltsMitgliederSheetName, iteration, vornamen).isEmpty()) {
-			enterTextBoxById("textBoxById", "haushaltVornamen", harness.getData(haushaltsMitgliederSheetName, iteration, vornamen), "last()");
-		}
-	}
-	
-	protected void angaben_zum_haushaltsmitglied_geschlecht(String iteration, String geschlecht) {
-		if(!harness.getData(haushaltsMitgliederSheetName, iteration, geschlecht).isEmpty()) {
-			selectDropdownById("dropDownById", "haushaltGeschlecht", harness.getData(haushaltsMitgliederSheetName, iteration, geschlecht), "1");
-		}
-	}
-	
-	protected void angaben_zum_haushaltsmitglied_geburtsdaten(String iteration, String tag, String monat, String jahr) {
-		if(!harness.getData(haushaltsMitgliederSheetName, iteration, tag).isEmpty()) {
-			enterTextBoxById("textBoxById", "haushaltGebTag", harness.getData(haushaltsMitgliederSheetName, iteration, tag), "last()");
-			handlePageLoading();
-		}
-		if(!harness.getData(haushaltsMitgliederSheetName, iteration, monat).isEmpty()) {
-			enterTextBoxById("textBoxById", "haushaltGebMonat", harness.getData(haushaltsMitgliederSheetName, iteration,  monat), "last()");
-			handlePageLoading();
-		}
-		enterTextBoxById("textBoxById", "haushaltGebJahr", harness.getData(haushaltsMitgliederSheetName, iteration, jahr), "last()");
-		handlePageLoading();
-	}
-	
-	protected void angaben_zum_haushaltsmitglied_familienstand(String iteration, String familienstand) {
-		if(!harness.getData(haushaltsMitgliederSheetName, iteration, familienstand).isEmpty()) {
-			selectDropdownById("dropDownById", "haushaltFamilienstand", harness.getData(haushaltsMitgliederSheetName, iteration, familienstand), "1");
-		}
-	}
-	
-	protected void angaben_zum_haushaltsmitglied_staatsangehoerigkeiten(String iteration, String staatsangehoerigkeit) {
-		String dropdownId = "haushaltStaatsangehoerigkeit";
-
-		ArrayList<String> staatsangehoerigkeiten = new ArrayList<>(Arrays
-				.asList((harness.getData(haushaltsMitgliederSheetName, iteration, staatsangehoerigkeit).split("@@"))));
-
-		if (staatsangehoerigkeiten.size() > 0) {
-			if (Integer.parseInt(iteration) == 1) {
-				selectDropdownById("dropDownById", dropdownId, staatsangehoerigkeiten.get(0), "1");
-
-				if (staatsangehoerigkeiten.size() > 1) {
-					staatsangehoerigkeiten.remove(0);
-					staatsangehoerigkeiten.stream().forEach(s -> weitere_haushaltStaatsangehoerigkeiten(iteration, dropdownId, s));
-				}
-			} 
-			// Beim dem zweiten Haushalt wird das erste Feld zur Staatsangehörigkeit nicht vom Beginn an angezeigt
-			else if(Integer.parseInt(iteration) > 1){
-				staatsangehoerigkeiten.stream().forEach(s -> weitere_haushaltStaatsangehoerigkeiten(iteration, dropdownId, s));
-			}
-
-		}
-
-	}
-	
-	protected void weitere_haushaltStaatsangehoerigkeiten(String iteration, String dropdownId, String staatsangehoerigkeiten) {
-		handlePageLoading();
-		clickCommonButton_Index("commonButton_Index", "Staatsangehörigkeit hinzufügen","last()");
-		handlePageLoading();
-		selectDropdownById("dropDownById", dropdownId, staatsangehoerigkeiten, "last()");
-		handlePageLoading();
-	}
-	
-	
-	protected void angaben_zum_haushaltsmitglied_staatsangehoerigkeiten_falls_nicht_deutsch(String iteration, String status, String sonstigerStatus, String einreiseDatum) {
-		if(!harness.getData(haushaltsMitgliederSheetName, iteration, status).isEmpty()) {
-			selectDropdownById("dropDownById", "haushaltAufenthaltStatus", harness.getData(haushaltsMitgliederSheetName, iteration, status), "last()");
-			if(harness.getData(haushaltsMitgliederSheetName, iteration, status).equalsIgnoreCase("Sonstiges")) {
-				enterTextBoxById("textBoxById", "haushaltSonstiges", harness.getData(haushaltsMitgliederSheetName, iteration, sonstigerStatus), "last()");
-			}
-		}
-		if(!harness.getData(haushaltsMitgliederSheetName, iteration, einreiseDatum).isEmpty()) {
-			enterTextBoxById("textBoxById", "haushaltEinreise", harness.getData(haushaltsMitgliederSheetName, iteration, einreiseDatum), "last()");
-		}
-
-
-	}
-	
-	protected void angaben_zum_haushaltsmitglied_Unterbringung(String iteration, String unterbringung) {
-		if(!harness.getData(haushaltsMitgliederSheetName, iteration, unterbringung).isEmpty()) {
-			enterTextBoxById("textBoxById", "haushaltUnterbringung", harness.getData(haushaltsMitgliederSheetName, iteration, unterbringung), "last()");
-		}
-	}
-	
-	protected void angaben_zum_haushaltsmitglied_verhaeltnisse(String iteration, String verhaeltnisse, String sonstigeVerhaeltnisse) {
-		int n = harness.getIterationCount(iteration, haushaltsMitgliederSheetName, verhaeltnisse);
-		for (int i = 1; i <= n; i++) {
-			// Beim dem zweiten Haushalt wird das erste Feld zur Verhältnis nicht vom Beginn an angezeigt
-			if(Integer.parseInt(iteration)>1) {
-				clickCommonButton_Index("commonButton_Index", "Verhältnis hinzufügen", "last()");
-				handlePageLoading();
-			}
-			else if(Integer.parseInt(iteration) == 1) {
-				if(i>1) {
-					clickCommonButton_Index("commonButton_Index", "Verhältnis hinzufügen", "last()");
-					handlePageLoading();
-				}
-			}
-
-			selectDropdownById("dropDownById", "haushaltVerhaeltnis", harness.getIterationData(iteration, haushaltsMitgliederSheetName, verhaeltnisse, i), "last()");
-			if(harness.getIterationData(iteration, haushaltsMitgliederSheetName, verhaeltnisse, i).equalsIgnoreCase("Sonstiges")) {
-				enterTextBoxById("textBoxById", "haushaltVerhaeltnisSonstiges", harness.getIterationData(iteration, haushaltsMitgliederSheetName, sonstigeVerhaeltnisse,i), "last()");
-			}
-		}
-	}
-	
-	
-	
-
+    private void selectByValue(By locator, String value) {
+        WebElement element = driver.findElement(locator);
+        element.sendKeys(value);
+    }
 }

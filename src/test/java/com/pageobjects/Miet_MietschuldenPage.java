@@ -1,90 +1,109 @@
 package com.pageobjects;
 
-import com.framework.cucumber.TestHarness;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
+import java.util.*;
 
-public class Miet_MietschuldenPage extends MasterPage {
-	
-	protected TestHarness harness = new TestHarness();
-	protected String sheetName = "Mietschulden";
-	
-	protected void Begruendung(String gruendeMietschulden,String ratenzahlung,String sonstigeGruende,String mieteBezahlt ) {
-		
-		 selectDropdownById("dropDownById", "gruendeMietschulden", harness.getData(sheetName,gruendeMietschulden), "last()");
-		 selectDropdownById("dropDownById", "ratenzahlung", harness.getData(sheetName,ratenzahlung), "last()");
-		 if(harness.getData(sheetName, gruendeMietschulden).equalsIgnoreCase("Sonstige Gründe")||harness.getData(sheetName, ratenzahlung).equals("Sonstige Gründe")) {
-			 enterTextBoxById("textBoxById", "sonstigeGruende", harness.getData(sheetName, sonstigeGruende), "last()");
-		 }
-		 if(harness.getData(sheetName, gruendeMietschulden).equalsIgnoreCase("Monatliche Miete wurde nicht gezahlt")){
-			 enterTextBoxById("textBoxById", "mieteBezahlt", harness.getData(sheetName, mieteBezahlt), "last()");
-		 }
-	}
-	
-	protected void StanddesVerfahrens(String einverstaendnisMietverhaeltnis,String mahnung,String kuendigung,
-			String raeumungsklage,String einverstaendnisRuecknahme,
-			String raeumungstitel,String raeumungstermin,String raeumungsterminDatum,String raeumungVerzicht) {
-		clickRadioButtonById("radioButtonById", "einverstaendnisMietverhaeltnis", harness.getData(sheetName, einverstaendnisMietverhaeltnis), "last()");
-		if(!harness.getData(sheetName, mahnung).isEmpty()) {  
-		clickRadioButtonById("radioButtonById", "mahnung", harness.getData(sheetName, mahnung), "last()");}
-		if(!harness.getData(sheetName, kuendigung).isEmpty()) {  
-		clickRadioButtonById("radioButtonById", "kuendigung", harness.getData(sheetName, kuendigung), "last()");}
-		if(!harness.getData(sheetName, raeumungsklage).isEmpty()) {  
-		clickRadioButtonById("radioButtonById", "raeumungsklage", harness.getData(sheetName, raeumungsklage), "last()");}
-		if(harness.getData(sheetName, raeumungsklage).equalsIgnoreCase("Ja")){
-			if(!harness.getData(sheetName, einverstaendnisRuecknahme).isEmpty()) {  
-		clickRadioButtonById("radioButtonById", "einverstaendnisRuecknahme", harness.getData(sheetName, einverstaendnisRuecknahme), "last()");}
-		}
-		if(!harness.getData(sheetName, raeumungstitel).isEmpty()) { 
-		clickRadioButtonById("radioButtonById", "raeumungstitel", harness.getData(sheetName, raeumungstitel), "last()");}
-		if(!harness.getData(sheetName, raeumungstermin).isEmpty()) { 
-		clickRadioButtonById("radioButtonById", "raeumungstermin", harness.getData(sheetName, raeumungstermin), "last()");}
-		if(harness.getData(sheetName, raeumungstermin).equalsIgnoreCase("Ja")) {
-			if(!harness.getData(sheetName, raeumungsterminDatum).isEmpty()) { 
-			enterTextBoxById("textBoxById", "raeumungsterminDatum", harness.getData(sheetName, raeumungsterminDatum), "last()");}
-		}
-		if(!harness.getData(sheetName, raeumungVerzicht).isEmpty()) { 
-		clickRadioButtonById("radioButtonById", "raeumungVerzicht", harness.getData(sheetName, raeumungVerzicht), "last()");}
-	
-	}
-	protected void FruehereMietrueckstaende(String mietrueckstaende,String datum,String mietschuldenHoehe,
-			String uebernahmeMietschulden,String wohnungsverlust,String datumWohnungsverlust,String strasse,String hausnr,String plz,
-			String ort,String adresszusatz,String staat,String anschriftMietschulden1,String anschriftMietschulden2) {
-		clickRadioButtonById("radioButtonById", "mietrueckstaende", harness.getData(sheetName, mietrueckstaende), "last()");
-		if(harness.getData(sheetName, mietrueckstaende).equalsIgnoreCase("Ja")) {
-			enterTextBoxById("textBoxById","datum",harness.getData(sheetName, datum), "last()");
-			enterTextBoxById("textBoxById","mietschuldenHoehe",harness.getData(sheetName, mietschuldenHoehe), "last()");
-			enterTextBoxById("textBoxById","uebernahmeMietschulden",harness.getData(sheetName, uebernahmeMietschulden), "last()");
-		}
-		
-		clickRadioButtonById("radioButtonById", "wohnungsverlust", harness.getData(sheetName, wohnungsverlust), "last()");
-		if(harness.getData(sheetName, wohnungsverlust).equalsIgnoreCase("Ja")) {
-			enterTextBoxById("textBoxById","datumWohnungsverlust",harness.getData(sheetName, datumWohnungsverlust), "last()");
-			enterTextBoxById("textBoxById","strasse",harness.getData(sheetName, strasse), "last()");
-			enterTextBoxById("textBoxById","hausnr",harness.getData(sheetName, hausnr), "last()");
-			enterTextBoxById("textBoxById","plz",harness.getData(sheetName, plz), "last()");
-			enterTextBoxById("textBoxById","ort",harness.getData(sheetName, ort), "last()");
-			enterTextBoxById("textBoxById","adresszusatz",harness.getData(sheetName, adresszusatz), "last()");
-			selectDropdownById("dropDownById", "staat", harness.getData(sheetName,staat), "last()");
-			enterTextBoxById("textBoxById","Ausland.0.anschriftMietschulden",harness.getData(sheetName, anschriftMietschulden1), "last()");
-			enterTextBoxById("textBoxById","Ausland.1.anschriftMietschulden",harness.getData(sheetName, anschriftMietschulden2), "last()");
-		}
-	}
-	
-	protected void angaben_zu_den_Anschriften(int subIteration, String anschrift,int pos) {
-		enterTextBoxById("textBoxById", "anschriftMietschulden", harness.getIterationData(sheetName, anschrift,subIteration), String.valueOf(pos));
-	}
+public class Miet_MietschuldenPage extends WebReusableComponents {
 
-	protected void Insolvenzverfahren(String insolvenzverfahren,String datumInsolvenz,String sicherungMiete,String begruendungAntrag) {
-		if(!harness.getData(sheetName, insolvenzverfahren).isEmpty()) { 
-		clickRadioButtonById("radioButtonById", "insolvenzverfahren", harness.getData(sheetName, insolvenzverfahren), "last()");}
-		if(harness.getData(sheetName, insolvenzverfahren).equalsIgnoreCase("Ja")) {
-			if(!harness.getData(sheetName, datumInsolvenz).isEmpty()) { 
-			enterTextBoxById("textBoxById","datumInsolvenz",harness.getData(sheetName, datumInsolvenz), "last()");}
-			}
-		if(!harness.getData(sheetName, sicherungMiete).isEmpty()) { 
-		enterTextBoxById("textBoxById","sicherungMiete",harness.getData(sheetName, sicherungMiete), "last()");}
-		if(!harness.getData(sheetName, begruendungAntrag).isEmpty()) { 
-		enterTextBoxById("textBoxById","begruendungAntrag",harness.getData(sheetName, begruendungAntrag), "last()");}
-	}
-    
-	
+    protected By paymentMethodsLink = By.id("paymentMethods");
+    protected By addPaymentMethodButton = By.id("addPaymentMethod");
+    protected By txtCardNumber = By.id("cardNumber");
+    protected By txtCardHolderName = By.id("cardHolderName");
+    protected By txtExpiryDate = By.id("expiryDate");
+    protected By txtCVV = By.id("cvv");
+    protected By savePaymentMethodButton = By.id("savePaymentMethod");
+    protected By savedCards = By.cssSelector(".saved-card");
+    protected By removeCardButton(String lastFourDigits) {
+        return By.xpath("//div[contains(text(), '**** **** **** " + lastFourDigits + "')]/following-sibling::button[@class='remove']");
+    }
+    protected By btnProceedToCheckout = By.id("proceedToCheckout");
+    protected By txtFullName = By.id("fullName");
+    protected By txtAddress = By.id("address");
+    protected By txtCity = By.id("city");
+    protected By txtPostalCode = By.id("postalCode");
+    protected By txtPhone = By.id("phone");
+    protected By paymentMethodDropdown = By.id("paymentMethod");
+    protected By btnPlaceOrder = By.id("placeOrder");
+    protected By orderConfirmationMessage = By.id("orderConfirmationMessage");
+    protected By btnPayWithPayPal = By.id("payWithPayPal");
+    protected By btnLoginToPayPal = By.id("paypalLogin");
+    protected By btnConfirmPayPalPayment = By.id("confirmPaypalPayment");
+
+    public Miet_MietschuldenPage() {
+        PageFactory.initElements(driver, this);
+    }
+
+    public void navigateToPaymentMethods() {
+        waitUntilElementVisible(paymentMethodsLink, 3);
+        clickElement(paymentMethodsLink);
+    }
+
+    public void addNewPaymentMethod(String cardNumber, String cardHolderName, String expiryDate, String cvv) {
+        waitUntilElementVisible(addPaymentMethodButton, 3);
+        clickElement(addPaymentMethodButton);
+        enterText(txtCardNumber, cardNumber);
+        enterText(txtCardHolderName, cardHolderName);
+        enterText(txtExpiryDate, expiryDate);
+        enterText(txtCVV, cvv);
+        clickElement(savePaymentMethodButton);
+    }
+
+    public void verifyPaymentMethodSaved() {
+        waitUntilElementVisible(savedCards, 3);
+        List<WebElement> cards = getWebElementList(savedCards);
+        Assert.assertFalse(cards.isEmpty(), "No saved payment methods found.");
+    }
+
+    public void removePaymentMethod(String lastFourDigits) {
+        By removeButton = removeCardButton(lastFourDigits);
+        waitUntilElementVisible(removeButton, 3);
+        clickElement(removeButton);
+    }
+
+    public void verifyPaymentMethodRemoved(String lastFourDigits) {
+        By cardLocator = removeCardButton(lastFourDigits);
+        boolean isCardPresent = elementVisible(cardLocator);
+        Assert.assertFalse(isCardPresent, "Card was not removed from saved payment methods.");
+    }
+
+    public void proceedToCheckout() {
+        waitUntilElementVisible(btnProceedToCheckout, 3);
+        clickElement(btnProceedToCheckout);
+    }
+
+    public void enterShippingDetails(String fullName, String address, String city, String postalCode, String phone) {
+        waitUntilElementVisible(txtFullName, 3);
+        enterText(txtFullName, fullName);
+        enterText(txtAddress, address);
+        enterText(txtCity, city);
+        enterText(txtPostalCode, postalCode);
+        enterText(txtPhone, phone);
+    }
+
+    public void selectPaymentMethod(String method) {
+        waitUntilElementVisible(paymentMethodDropdown, 3);
+        selectByValue(paymentMethodDropdown, method);
+    }
+
+    public void enterCreditCardDetails(String cardNumber, String expiryDate, String cvv) {
+        waitUntilElementVisible(txtCardNumber, 3);
+        enterText(txtCardNumber, cardNumber);
+        enterText(txtExpiryDate, expiryDate);
+        enterText(txtCVV, cvv);
+    }
+
+    public void placeOrder() {
+        waitUntilElementVisible(btnPlaceOrder, 3);
+        clickElement(btnPlaceOrder);
+    }
+
+    public void verifyOrderConfirmation(String expectedMessage) {
+        waitUntilElementVisible(orderConfirmationMessage, 3);
+        String actualMessage = getTextFromElement(orderConfirmationMessage);
+        Assert.assertEquals(actualMessage, expectedMessage, "Order confirmation message does not match.");
+    }
 }

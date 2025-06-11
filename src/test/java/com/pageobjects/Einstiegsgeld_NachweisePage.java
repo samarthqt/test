@@ -1,107 +1,81 @@
 package com.pageobjects;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
+import com.framework.selenium.SeleniumTestParameters;
+import java.util.*;
 
-import com.framework.cucumber.TestHarness;
+public class Einstiegsgeld_NachweisePage extends WebReusableComponents {
 
-public class Einstiegsgeld_NachweisePage extends MasterPage {
-	
-	protected TestHarness harness = new TestHarness();
-	protected String sheetName = "Nachweise";
-	
-	protected static final String Nachweis_Vollmacht="Nachweis Vollmacht";
-	protected static final String Lebenslauf="Lebenslauf";
-	protected static final String Businessplan="Businessplan";
-	protected static final String Tragfaehigkeitsbescheinigung="Tragfähigkeitsbescheinigung";
-	protected static final String Finanzierungsplan="Finanzierungsplan";
-	protected static final String Umsatz_und_Rentabilitaetsvorschau="Umsatz- und Rentabilitätsvorschau";
-	protected static final String Gewerbeanmeldung="Gewerbeanmeldung";
-	protected static final String Arbeitsvertrag="Arbeitsvertrag";
-	
-	private String oldSheetName = "Bedarfsermittlung";
-	protected static final String Handelt_es_sich_bei_der_aufzunehmenden_Taetigkeit_um_eine_sozialversicherungspflichtige_Beschaeftigung
-	="Handelt es sich bei der aufzunehmenden Tätigkeit um eine sozialversicherungspflichtige Beschäftigung oder eine selbstständige Tätigkeit?";
+    protected By txtUserName = By.id("username");
+    protected By txtPassword = By.id("password");
+    protected By btnLogin = By.id("loginButton");
+    protected By paymentMethodsLink = By.id("paymentMethods");
+    protected By addPaymentMethodButton = By.id("addPaymentMethod");
+    protected By txtCardNumber = By.id("cardNumber");
+    protected By txtCardHolderName = By.id("cardHolderName");
+    protected By txtExpiryDate = By.id("expiryDate");
+    protected By txtCVV = By.id("cvv");
+    protected By savePaymentMethodButton = By.id("savePaymentMethod");
+    protected By savedCards = By.cssSelector(".saved-card");
 
-	private String antragsteller = "BeantragendePerson";
-	protected static final String Beantragende_Person="Beantragende Person";
-	
-	protected void uploads() {
+    public Einstiegsgeld_NachweisePage() {
+        PageFactory.initElements(driver, this);
+    }
 
-		if (!harness.getData(antragsteller, Beantragende_Person).equalsIgnoreCase("Ich für mich selbst")) {
-			if(!harness.getData(sheetName, Nachweis_Vollmacht).isEmpty()) {
-				uploadFileInNachweise("uploadFileNachweise_3", "Nachweis Vollmacht",
-						harness.getData(sheetName, Nachweis_Vollmacht));
-				Assert.assertTrue(isLabelManageAttachments());
-				clickAttachmentClose();			
-			}
-		}
+    public void enterUserName(String username) {
+        waitUntilElementVisible(txtUserName, 3);
+        enterText(txtUserName, username);
+    }
 
-		if (harness.getData(oldSheetName,
-				Handelt_es_sich_bei_der_aufzunehmenden_Taetigkeit_um_eine_sozialversicherungspflichtige_Beschaeftigung)
-				.equalsIgnoreCase("Selbstständige Tätigkeit")) {
-			if(!harness.getData(sheetName, Lebenslauf).isEmpty()) {
-				uploadFileInNachweise("uploadFileNachweise_3", "Lebenslauf", harness.getData(sheetName, Lebenslauf));
-				Assert.assertTrue(isLabelManageAttachments());
-				clickAttachmentClose();
-				handlePageLoading();
-				
-			}
-			
-			if(!harness.getData(sheetName, Businessplan).isEmpty()) {
-				uploadFileInNachweise("uploadFileNachweise_3", "Businessplan", harness.getData(sheetName, Businessplan));
-				Assert.assertTrue(isLabelManageAttachments());
-				clickAttachmentClose();
-				handlePageLoading();				
-			}
+    public void enterPassword(String password) {
+        waitUntilElementVisible(txtPassword, 3);
+        enterText(txtPassword, password);
+    }
 
-			
-			if(!harness.getData(sheetName, Tragfaehigkeitsbescheinigung).isEmpty()) {
-				uploadFileInNachweise("uploadFileNachweise_3", "Tragfähigkeitsbescheinigung",
-						harness.getData(sheetName, Tragfaehigkeitsbescheinigung));
-				Assert.assertTrue(isLabelManageAttachments());
-				clickAttachmentClose();
-				handlePageLoading();				
-			}
+    public void clickLoginButton() {
+        waitUntilElementVisible(btnLogin, 3);
+        clickElement(btnLogin);
+    }
 
-			
-			if(!harness.getData(sheetName, Finanzierungsplan).isEmpty()) {
-				uploadFileInNachweise("uploadFileNachweise_3", "Finanzierungsplan",
-						harness.getData(sheetName, Finanzierungsplan));
-				Assert.assertTrue(isLabelManageAttachments());
-				clickAttachmentClose();
-				handlePageLoading();
-			}
+    public void verifyHomePageRedirection(String expectedURL) {
+        String currentURL = getCurrentURL();
+        Assert.assertEquals(currentURL, expectedURL, "User is not redirected to the homepage.");
+    }
 
+    public void navigateToPaymentMethods() {
+        waitUntilElementVisible(paymentMethodsLink, 3);
+        clickElement(paymentMethodsLink);
+    }
 
-			if(!harness.getData(sheetName, Umsatz_und_Rentabilitaetsvorschau).isEmpty()) {
-				uploadFileInNachweise("uploadFileNachweise_3", "Umsatz- und Rentabilitätsvorschau",
-						harness.getData(sheetName, Umsatz_und_Rentabilitaetsvorschau));
-				Assert.assertTrue(isLabelManageAttachments());
-				clickAttachmentClose();
-				handlePageLoading();
-			}
+    public void addNewPaymentMethod(String cardNumber, String cardHolderName, String expiryDate, String cvv) {
+        waitUntilElementVisible(addPaymentMethodButton, 3);
+        clickElement(addPaymentMethodButton);
+        enterText(txtCardNumber, cardNumber);
+        enterText(txtCardHolderName, cardHolderName);
+        enterText(txtExpiryDate, expiryDate);
+        enterText(txtCVV, cvv);
+        clickElement(savePaymentMethodButton);
+    }
 
+    public void verifyPaymentMethodSaved() {
+        waitUntilElementVisible(savedCards, 3);
+        List<WebElement> cards = getWebElementList(savedCards);
+        Assert.assertFalse(cards.isEmpty(), "No saved payment methods found.");
+    }
 
-			if(!harness.getData(sheetName, Gewerbeanmeldung).isEmpty()) {
-				uploadFileInNachweise("uploadFileNachweise_3", "Gewerbeanmeldung",
-						harness.getData(sheetName, Gewerbeanmeldung));
-				Assert.assertTrue(isLabelManageAttachments());
-				clickAttachmentClose();
-				handlePageLoading();				
-			}
+    public void removePaymentMethod(String lastFourDigits) {
+        By removeButton = By.xpath("//div[contains(text(), '**** **** **** " + lastFourDigits + "')]/following-sibling::button[@class='remove']");
+        waitUntilElementVisible(removeButton, 3);
+        clickElement(removeButton);
+    }
 
-		} else {
-			if(!harness.getData(sheetName, Arbeitsvertrag).isEmpty()) {
-				uploadFileInNachweise("uploadFileNachweise_3", "Arbeitsvertrag (auch Entwurf)",
-						harness.getData(sheetName, Arbeitsvertrag));
-				Assert.assertTrue(isLabelManageAttachments());
-				clickAttachmentClose();
-			}
-
-		}
-	}
-	
-	protected String SN_AE = "Antrag einreichen";
-	protected static final String AE_Download_PDF="Download PDF";
-	protected static final String AE_Download_XML="Download XML";
+    public void verifyPaymentMethodRemoved(String lastFourDigits) {
+        By cardLocator = By.xpath("//div[contains(text(), '**** **** **** " + lastFourDigits + "')]/following-sibling::button[@class='remove']");
+        boolean isCardPresent = elementVisible(cardLocator);
+        Assert.assertFalse(isCardPresent, "Card was not removed from saved payment methods.");
+    }
 }

@@ -1,81 +1,106 @@
 package com.pageobjects;
 
-import com.framework.cucumber.TestHarness;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
+import java.util.*;
 
-public class Miet_HaushaltsmitgliederPage extends MasterPage{
-	
+public class Miet_HaushaltsmitgliederPage extends WebReusableComponents {
 
-	protected TestHarness harness = new TestHarness();
-	protected String sheetName = "Haushaltsmitglieder";
+    protected By paymentMethodsLink = By.id("paymentMethods");
+    protected By addPaymentMethodButton = By.id("addPaymentMethod");
+    protected By txtCardNumber = By.id("cardNumber");
+    protected By txtCardHolderName = By.id("cardHolderName");
+    protected By txtExpiryDate = By.id("expiryDate");
+    protected By txtCVV = By.id("cvv");
+    protected By savePaymentMethodButton = By.id("savePaymentMethod");
+    protected By savedCards = By.cssSelector(".saved-card");
+    protected By btnProceedToCheckout = By.id("proceedToCheckout");
+    protected By txtFullName = By.id("fullName");
+    protected By txtAddress = By.id("address");
+    protected By txtCity = By.id("city");
+    protected By txtPostalCode = By.id("postalCode");
+    protected By txtPhone = By.id("phone");
+    protected By paymentMethodDropdown = By.id("paymentMethod");
+    protected By btnPlaceOrder = By.id("placeOrder");
+    protected By orderConfirmationMessage = By.id("orderConfirmationMessage");
+    protected By btnPayWithPayPal = By.id("payWithPayPal");
+    protected By btnLoginToPayPal = By.id("paypalLogin");
+    protected By btnConfirmPayPalPayment = By.id("confirmPaypalPayment");
 
+    public Miet_HaushaltsmitgliederPage() {
+        PageFactory.initElements(driver, this);
+    }
 
-	protected void LebendePersonen(String behinderung, String anzahlPersonen1, String weiterePersonen,String anzahlPersonen2) {
-		
-				clickRadioButtonById("radioButtonById", "HaushaltWeiterePersonen", harness.getData(sheetName, behinderung), "last()");
-		if (harness.getData(sheetName, behinderung).equalsIgnoreCase("Ja")) {
-			this.behinderung(anzahlPersonen1);
-		}
-		clickRadioButtonById("radioButtonById", "HaushaltPersonen", harness.getData(sheetName, weiterePersonen), "last()");
+    public void navigateToPaymentMethods() {
+        waitUntilElementVisible(paymentMethodsLink, 3);
+        clickElement(paymentMethodsLink);
+    }
 
-		if (harness.getData(sheetName, weiterePersonen).equalsIgnoreCase("Ja")) {
-			this.weiterePersonen(anzahlPersonen2);
-		}
-		
+    public void addNewPaymentMethod(String cardNumber, String cardHolderName, String expiryDate, String cvv) {
+        waitUntilElementVisible(addPaymentMethodButton, 3);
+        clickElement(addPaymentMethodButton);
+        enterText(txtCardNumber, cardNumber);
+        enterText(txtCardHolderName, cardHolderName);
+        enterText(txtExpiryDate, expiryDate);
+        enterText(txtCVV, cvv);
+        clickElement(savePaymentMethodButton);
+    }
 
-	}
+    public void verifyPaymentMethodSaved() {
+        waitUntilElementVisible(savedCards, 3);
+        List<WebElement> cards = getWebElementList(savedCards);
+        Assert.assertFalse(cards.isEmpty(), "No saved payment methods found.");
+    }
 
-	private void weiterePersonen(String anzahl2) {
-		if(!harness.getData(sheetName, anzahl2).isEmpty()){
-		enterCommonTextBox("commonTextBox", "Anzahl weiterer Personen im Haushalt", harness.getData(sheetName, anzahl2));
-		}
-		
-	}
+    public void proceedToCheckout() {
+        waitUntilElementVisible(btnProceedToCheckout, 3);
+        clickElement(btnProceedToCheckout);
+    }
 
+    public void enterShippingDetails(String fullName, String address, String city, String postalCode, String phone) {
+        waitUntilElementVisible(txtFullName, 3);
+        enterText(txtFullName, fullName);
+        enterText(txtAddress, address);
+        enterText(txtCity, city);
+        enterText(txtPostalCode, postalCode);
+        enterText(txtPhone, phone);
+    }
 
-	private void behinderung(String anzahl) {
-		if(!harness.getData(sheetName, anzahl).isEmpty()){
-		enterCommonTextBox("commonTextBox", "Anzahl der Personen", harness.getData(sheetName, anzahl));
-		}
-	}
-	
-	
-	public void informationen_zu_allen_im_Haushalt_lebenden_Personen(int subIteration,String familienname,String vorname,String tagDerGeburt, String geburtsmonat,
-			String geburtsjahr,String geschlecht, String verhaeltnisPerson,String sonstigesVerhaeltnis, String staatsangehoerigkeit) {
-		
-		enterTextBoxById("textBoxById", "Familienname", harness.getIterationData(sheetName, familienname,subIteration), String.valueOf(subIteration));
-		enterTextBoxById("textBoxById", "Vornamen", harness.getIterationData(sheetName, vorname,subIteration), String.valueOf(subIteration));
-		enterTextBoxById("textBoxById", "Geburtstag", harness.getIterationData(sheetName, tagDerGeburt,subIteration), String.valueOf(subIteration));
-		enterTextBoxById("textBoxById", "Geburtsmonat", harness.getIterationData(sheetName, geburtsmonat,subIteration), String.valueOf(subIteration));
-		enterTextBoxById("textBoxById", "Geburtsjahr", harness.getIterationData(sheetName, geburtsjahr,subIteration), String.valueOf(subIteration));
-		selectDropdownById("dropDownById", "geschlechtHaushaltsmitglied-selectized", harness.getIterationData(sheetName, geschlecht,subIteration), String.valueOf(subIteration));		
-		selectDropdownById("dropDownById", "AntragsstellerVerhaeltnis-selectized", harness.getIterationData(sheetName, verhaeltnisPerson,subIteration), String.valueOf(subIteration));
-		
-		if(harness.getIterationData(sheetName, verhaeltnisPerson,subIteration).equalsIgnoreCase("Sonstiges")){
-		enterTextBoxById("textBoxById", "SonstigesVerhaeltnis", harness.getIterationData(sheetName, sonstigesVerhaeltnis, subIteration), String.valueOf(subIteration));
-		}
-		selectDropdownById("dropDownById", "Staatsangehoerigkeit-selectized", harness.getIterationData(sheetName, staatsangehoerigkeit,subIteration), String.valueOf(subIteration));
-		
-	}
-	
-	protected void auslaendische_Staatsangehoerigkeit(int subIteration,int anzahlAuslaender,String staatsangehoerigkeit, String aufenthaltsStatus,String datumDerEinreise,String sonstigerStatus) {
-		if(!harness.getIterationData(sheetName, staatsangehoerigkeit,subIteration).equalsIgnoreCase("deutsch")) {
-			selectDropdownById("dropDownById", "Aufenthaltsstatus-selectized", harness.getIterationData(sheetName, aufenthaltsStatus,subIteration), String.valueOf(anzahlAuslaender));
-			enterTextBoxById("textBoxById", "Einreisedatum", harness.getIterationData(sheetName, datumDerEinreise,subIteration), String.valueOf(anzahlAuslaender));
-			
-			if(harness.getIterationData(sheetName, aufenthaltsStatus,subIteration).equalsIgnoreCase("Sonstiges")) {
-				enterTextBoxById("textBoxById", "Sonstiges", harness.getIterationData(sheetName, sonstigerStatus,subIteration), String.valueOf(anzahlAuslaender));
-			}
-		}
-	}
-	
-	
-	
+    public void selectPaymentMethod(String method) {
+        waitUntilElementVisible(paymentMethodDropdown, 3);
+        selectByValue(paymentMethodDropdown, method);
+    }
+
+    public void enterCreditCardDetails(String cardNumber, String expiryDate, String cvv) {
+        waitUntilElementVisible(txtCardNumber, 3);
+        enterText(txtCardNumber, cardNumber);
+        enterText(txtExpiryDate, expiryDate);
+        enterText(txtCVV, cvv);
+    }
+
+    public void placeOrder() {
+        waitUntilElementVisible(btnPlaceOrder, 3);
+        clickElement(btnPlaceOrder);
+    }
+
+    public void verifyOrderConfirmation(String expectedMessage) {
+        waitUntilElementVisible(orderConfirmationMessage, 3);
+        String actualMessage = getTextFromElement(orderConfirmationMessage);
+        Assert.assertEquals(actualMessage, expectedMessage, "Order confirmation message does not match.");
+    }
+
+    public void removePaymentMethod(String lastFourDigits) {
+        By removeButton = By.xpath("//div[contains(text(), '**** **** **** " + lastFourDigits + "')]/following-sibling::button[@class='remove']");
+        waitUntilElementVisible(removeButton, 3);
+        clickElement(removeButton);
+    }
+
+    public void verifyPaymentMethodRemoved(String lastFourDigits) {
+        By cardLocator = By.xpath("//div[contains(text(), '**** **** **** " + lastFourDigits + "')]/following-sibling::button[@class='remove']");
+        boolean isCardPresent = elementVisible(cardLocator);
+        Assert.assertFalse(isCardPresent, "Card was not removed from saved payment methods.");
+    }
 }
-	
-
-	
-	
-
-
-
-
