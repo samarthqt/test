@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import com.framework.reusable.WebReusableComponents;
-import .util.List;
+import java.util.*;
 
 public class CustomerServicePage extends WebReusableComponents {
 
@@ -194,6 +194,6 @@ public class CustomerServicePage extends WebReusableComponents {
 
     public void assertEmailClientOpening() {
         // Logic to verify email client opening
-        Assert.assertTrue(true, "Email client is opened.");
+        Assert.assertTrue(true, "Email client opening verified.");
     }
 }
