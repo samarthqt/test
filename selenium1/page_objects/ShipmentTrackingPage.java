@@ -1,8 +1,8 @@
 package selenium1.page_objects;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -11,20 +11,25 @@ import .util.List;
 
 public class ShipmentTrackingPage {
 
+    private final WebDriver driver;
+    private final WebDriverWait wait;
+
     private final By ordersModule = By.id("ordersModule");
     private final By orderList = By.cssSelector(".order-list");
     private final By orderDetails = By.cssSelector(".order-details");
     private final By shipmentStatusDropdown = By.id("shipmentStatus");
     private final By alertSystem = By.id("alertSystem");
 
-    public ShipmentTrackingPage() {
-        PageFactory.initElements(WebReusableComponents.getDriver(), this);
+    public ShipmentTrackingPage(WebDriver driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, 10);
+        PageFactory.initElements(driver, this);
     }
 
     public void navigateToOrdersModule() {
         waitUntilElementVisible(ordersModule, 3);
         clickElement(ordersModule);
-        Assert.assertTrue(WebReusableComponents.getDriver().findElement(orderList).isDisplayed(), "Failed to navigate to Orders Module.");
+        Assert.assertTrue(driver.findElement(orderList).isDisplayed(), "Failed to navigate to Orders Module.");
     }
 
     public void selectOrderById(String orderId) {
@@ -35,7 +40,7 @@ public class ShipmentTrackingPage {
             .findFirst()
             .orElseThrow(() -> new AssertionError("Order ID not found: " + orderId));
         clickElement(order);
-        Assert.assertTrue(WebReusableComponents.getDriver().findElement(orderDetails).isDisplayed(), "Failed to select order with ID: " + orderId);
+        Assert.assertTrue(driver.findElement(orderDetails).isDisplayed(), "Failed to select order with ID: " + orderId);
     }
 
     public void updateShipmentStatusToDispatched() {
@@ -58,12 +63,11 @@ public class ShipmentTrackingPage {
     }
 
     public void waitUntilElementVisible(By locator, int timeout) {
-        new WebDriverWait(WebReusableComponents.getDriver(), timeout)
-            .until(ExpectedConditions.visibilityOfElementLocated(locator));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public void clickElement(By locator) {
-        WebReusableComponents.getDriver().findElement(locator).click();
+        driver.findElement(locator).click();
     }
 
     public void clickElement(WebElement element) {
@@ -71,26 +75,26 @@ public class ShipmentTrackingPage {
     }
 
     public void enterText(By locator, String text) {
-        WebElement element = WebReusableComponents.getDriver().findElement(locator);
+        WebElement element = driver.findElement(locator);
         element.clear();
         element.sendKeys(text);
     }
 
     public void selectByValue(By locator, String value) {
-        WebElement dropdown = WebReusableComponents.getDriver().findElement(locator);
+        WebElement dropdown = driver.findElement(locator);
         dropdown.findElement(By.xpath(".//option[@value='" + value + "']")).click();
     }
 
     public String getTextFromElement(By locator) {
-        return WebReusableComponents.getDriver().findElement(locator).getText();
+        return driver.findElement(locator).getText();
     }
 
     public String getSelectedValue(By locator) {
-        WebElement dropdown = WebReusableComponents.getDriver().findElement(locator);
+        WebElement dropdown = driver.findElement(locator);
         return dropdown.findElement(By.cssSelector("option[selected='selected']")).getText();
     }
 
     public List<WebElement> getWebElementList(By locator) {
-        return WebReusableComponents.getDriver().findElements(locator);
+        return driver.findElements(locator);
     }
 }
