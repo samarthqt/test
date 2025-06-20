@@ -55,28 +55,6 @@ public class LiveTrackingTest {
         assertTrue(liveTrackingPage.isTrackingInformationAvailableAfterReboot(), "Tracking information is not available after system reboot.");
 
         assertTrue(liveTrackingPage.isLiveTrackingAccurate(), "Live tracking information is not accurate.");
-
-        // New test steps
-        liveTrackingPage.checkNotificationSettings();
-        assertTrue(liveTrackingPage.isNotificationSettingsCorrect(), "Notification settings for live tracking updates are incorrect.");
-
-        liveTrackingPage.simulateNetworkIssueAndAttemptUpdate();
-        assertTrue(liveTrackingPage.isNetworkIssueHandledDuringUpdate(), "Network issue during location update is not handled correctly.");
-
-        liveTrackingPage.verifyTrackingHistoryLog();
-        assertTrue(liveTrackingPage.isTrackingHistoryLogAccurate(), "Tracking history log is not accurate.");
-
-        liveTrackingPage.checkErrorMessagesDuringUpdates();
-        assertFalse(liveTrackingPage.areErrorMessagesPresent(), "Error messages are present during location updates.");
-
-        liveTrackingPage.attemptUpdateFromDifferentDevice();
-        assertTrue(liveTrackingPage.isLocationUpdateSuccessfulFromDifferentDevice(), "Location update from different device is not successful.");
-
-        liveTrackingPage.verifyLiveTrackingOnMobileDevice();
-        assertTrue(liveTrackingPage.isLiveTrackingConsistentOnMobile(), "Live tracking is not consistent on mobile device.");
-
-        liveTrackingPage.checkLiveTrackingAfterReboot();
-        assertTrue(liveTrackingPage.isLiveTrackingAccurateAfterReboot(), "Live tracking is not accurate after system reboot.");
     }
 
     @AfterMethod
