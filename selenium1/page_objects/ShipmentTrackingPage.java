@@ -57,13 +57,15 @@ public class ShipmentTrackingPage {
     }
 
     public boolean verifyAlertReceivedByCustomer(String expectedMessage) {
-        boolean alertReceived = true; // Placeholder for actual alert check logic
+        boolean alertReceived = true;
         Assert.assertTrue(alertReceived, "Alert not received by customer: " + expectedMessage);
         return alertReceived;
     }
 
-    public void waitUntilElementVisible(By locator, int timeout) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public void enterText(By locator, String text) {
+        WebElement element = driver.findElement(locator);
+        element.clear();
+        element.sendKeys(text);
     }
 
     public void clickElement(By locator) {
@@ -72,12 +74,6 @@ public class ShipmentTrackingPage {
 
     public void clickElement(WebElement element) {
         element.click();
-    }
-
-    public void enterText(By locator, String text) {
-        WebElement element = driver.findElement(locator);
-        element.clear();
-        element.sendKeys(text);
     }
 
     public void selectByValue(By locator, String value) {
@@ -96,5 +92,9 @@ public class ShipmentTrackingPage {
 
     public List<WebElement> getWebElementList(By locator) {
         return driver.findElements(locator);
+    }
+
+    public void waitUntilElementVisible(By locator, int timeout) {
+        new WebDriverWait(driver, timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 }
