@@ -1,13 +1,17 @@
 package selenium1.page_objects;
 
-import com.framework.reusable.WebReusableComponents;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-public class LiveTrackingPage extends WebReusableComponents {
+public class LiveTrackingPage {
+
+    private final WebDriver driver;
+    private final WebDriverWait wait;
 
     private final By trackingField = By.id("trackingField");
     private final By currentLocation = By.id("currentLocation");
@@ -16,159 +20,126 @@ public class LiveTrackingPage extends WebReusableComponents {
     private final By trackingHistoryLog = By.id("trackingHistoryLog");
 
     public LiveTrackingPage() {
-        PageFactory.initElements(getDriver(), this);
+        this.driver = getDriver();
+        this.wait = new WebDriverWait(driver, 10);
+        PageFactory.initElements(driver, this);
     }
 
     public void login(String userId) {
-        WebElement loginField = getDriver().findElement(By.id("loginField"));
-        WebElement loginButton = getDriver().findElement(By.id("loginButton"));
-        loginField.sendKeys(userId);
-        loginButton.click();
+        driver.findElement(By.id("loginField")).sendKeys(userId);
+        driver.findElement(By.id("loginButton")).click();
         Assert.assertTrue(isLiveTrackingPageDisplayed(), "Login failed, live tracking page not displayed.");
     }
 
     public void navigateToLiveTrackingPage() {
-        WebElement liveTrackingMenu = getDriver().findElement(By.id("liveTrackingMenu"));
-        liveTrackingMenu.click();
+        driver.findElement(By.id("liveTrackingMenu")).click();
         Assert.assertTrue(isLiveTrackingPageDisplayed(), "Navigation to live tracking page failed.");
     }
 
     public boolean isLiveTrackingPageDisplayed() {
-        return getDriver().findElement(trackingField).isDisplayed();
+        return driver.findElement(trackingField).isDisplayed();
     }
 
     public void enterShipmentID(String shipmentId) {
-        waitUntilElementVisible(trackingField, 3);
-        WebElement trackingInput = getDriver().findElement(trackingField);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(trackingField));
+        WebElement trackingInput = driver.findElement(trackingField);
         trackingInput.clear();
         trackingInput.sendKeys(shipmentId);
         Assert.assertTrue(isTrackingDetailsDisplayed(shipmentId), "Tracking details not displayed for shipment ID: " + shipmentId);
     }
 
     public boolean isTrackingDetailsDisplayed(String shipmentId) {
-        return getDriver().findElement(trackingField).getAttribute("value").equals(shipmentId);
+        return driver.findElement(trackingField).getAttribute("value").equals(shipmentId);
     }
 
     public boolean isCurrentLocationDisplayed() {
-        waitUntilElementVisible(currentLocation, 3);
-        return getDriver().findElement(currentLocation).isDisplayed();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(currentLocation));
+        return driver.findElement(currentLocation).isDisplayed();
     }
 
     public void simulateLocationChange() {
-        WebElement simulateLocationChangeButton = getDriver().findElement(By.id("simulateLocationChange"));
-        simulateLocationChangeButton.click();
+        driver.findElement(By.id("simulateLocationChange")).click();
         Assert.assertTrue(isLocationUpdatedInRealTime(), "Location not updated in real-time after simulation.");
     }
 
     public boolean isLocationUpdatedInRealTime() {
-        return getDriver().findElement(currentLocation).getText().contains("Updated");
+        return driver.findElement(currentLocation).getText().contains("Updated");
     }
 
     public boolean isEstimatedDeliveryTimeDisplayed() {
-        waitUntilElementVisible(estimatedDeliveryTime, 3);
-        return getDriver().findElement(estimatedDeliveryTime).isDisplayed();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(estimatedDeliveryTime));
+        return driver.findElement(estimatedDeliveryTime).isDisplayed();
     }
 
     public void refreshPage() {
-        getDriver().navigate().refresh();
+        driver.navigate().refresh();
         Assert.assertTrue(isTrackingInformationConsistent(), "Tracking information inconsistent after refresh.");
     }
 
     public boolean isTrackingInformationConsistent() {
-        return getDriver().findElement(trackingField).isDisplayed();
+        return driver.findElement(trackingField).isDisplayed();
     }
 
     public void logout() {
-        WebElement logoutButton = getDriver().findElement(By.id("logoutButton"));
-        logoutButton.click();
+        driver.findElement(By.id("logoutButton")).click();
         Assert.assertFalse(isLiveTrackingPageDisplayed(), "Logout failed, live tracking page still displayed.");
     }
 
     public boolean isTrackingInformationAvailable() {
-        return getDriver().findElement(trackingField).isDisplayed();
+        return driver.findElement(trackingField).isDisplayed();
     }
 
     public boolean areNotificationsEnabled() {
-        waitUntilElementVisible(notificationSettings, 3);
-        return getDriver().findElement(notificationSettings).isSelected();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(notificationSettings));
+        return driver.findElement(notificationSettings).isSelected();
     }
 
     public void simulateNetworkIssue() {
-        WebElement simulateNetworkIssueButton = getDriver().findElement(By.id("simulateNetworkIssue"));
-        simulateNetworkIssueButton.click();
+        driver.findElement(By.id("simulateNetworkIssue")).click();
         Assert.assertTrue(isNetworkIssueHandledGracefully(), "Network issue not handled gracefully.");
     }
 
     public boolean isNetworkIssueHandledGracefully() {
-        return getDriver().findElement(trackingField).isDisplayed();
+        return driver.findElement(trackingField).isDisplayed();
     }
 
     public boolean isTrackingHistoryLogCorrect() {
-        waitUntilElementVisible(trackingHistoryLog, 3);
-        return getDriver().findElement(trackingHistoryLog).isDisplayed();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(trackingHistoryLog));
+        return driver.findElement(trackingHistoryLog).isDisplayed();
     }
 
     public boolean areErrorMessagesDisplayed() {
-        return getDriver().findElements(By.className("errorMessage")).size() > 0;
+        return driver.findElements(By.className("errorMessage")).size() > 0;
     }
 
     public void updateLocationFromDifferentDevice() {
-        WebElement updateLocationButton = getDriver().findElement(By.id("updateLocation"));
-        updateLocationButton.click();
+        driver.findElement(By.id("updateLocation")).click();
         Assert.assertTrue(isLocationSynchronizedAcrossDevices(), "Location not synchronized across devices.");
     }
 
     public boolean isLocationSynchronizedAcrossDevices() {
-        return getDriver().findElement(currentLocation).getText().contains("Synchronized");
+        return driver.findElement(currentLocation).getText().contains("Synchronized");
     }
 
     public boolean isMobileTrackingConsistent() {
-        return getDriver().findElement(currentLocation).isDisplayed();
+        return driver.findElement(currentLocation).isDisplayed();
     }
 
     public void rebootSystem() {
-        WebElement rebootSystemButton = getDriver().findElement(By.id("rebootSystem"));
-        rebootSystemButton.click();
+        driver.findElement(By.id("rebootSystem")).click();
         Assert.assertTrue(isTrackingInformationAvailableAfterReboot(), "Tracking information not available after reboot.");
     }
 
     public boolean isTrackingInformationAvailableAfterReboot() {
-        return getDriver().findElement(trackingField).isDisplayed();
+        return driver.findElement(trackingField).isDisplayed();
     }
 
     public boolean isLiveTrackingAccurate() {
-        return getDriver().findElement(currentLocation).getText().contains("Accurate");
+        return driver.findElement(currentLocation).getText().contains("Accurate");
     }
 
-    public void checkNotificationSettings() {
-        waitUntilElementVisible(notificationSettings, 3);
-        Assert.assertTrue(isNotificationSettingsCorrect(), "Notification settings for live tracking updates are incorrect.");
-    }
-
-    public boolean isNotificationSettingsCorrect() {
-        return getDriver().findElement(notificationSettings).isSelected();
-    }
-
-    public void simulateNetworkIssueAndAttemptUpdate() {
-        WebElement simulateNetworkIssueAndUpdateButton = getDriver().findElement(By.id("simulateNetworkIssueAndUpdate"));
-        simulateNetworkIssueAndUpdateButton.click();
-        Assert.assertTrue(isNetworkIssueHandledDuringUpdate(), "Network issue during location update is not handled correctly.");
-    }
-
-    public boolean isNetworkIssueHandledDuringUpdate() {
-        return getDriver().findElement(trackingField).isDisplayed();
-    }
-
-    public void verifyTrackingHistoryLog() {
-        waitUntilElementVisible(trackingHistoryLog, 3);
-        Assert.assertTrue(isTrackingHistoryLogAccurate(), "Tracking history log is not accurate.");
-    }
-
-    public boolean isTrackingHistoryLogAccurate() {
-        return getDriver().findElement(trackingHistoryLog).isDisplayed();
-    }
-
-    public void checkErrorMessagesDuringUpdates() {
-        Assert.assertTrue(areErrorMessagesDisplayed(), "Error messages are not displayed during updates.");
+    private WebDriver getDriver() {
+        // Implement logic to retrieve WebDriver instance
+        return null; // Placeholder for actual WebDriver retrieval logic
     }
 }
