@@ -7,18 +7,19 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import .util.List;
 
 public class ShipmentTrackingPage {
 
-    private final WebDriver driver;
-    private final WebDriverWait wait;
+    protected WebDriver driver;
+    protected WebDriverWait wait;
 
-    private final By ordersModule = By.id("ordersModule");
-    private final By orderList = By.cssSelector(".order-list");
-    private final By orderDetails = By.cssSelector(".order-details");
-    private final By shipmentStatusDropdown = By.id("shipmentStatus");
-    private final By alertSystem = By.id("alertSystem");
+    protected By trackingField = By.id("trackingField");
+    protected By locationField = By.id("locationField");
+    protected By okButton = By.id("okButton");
+    protected By statusField = By.id("statusField");
+    protected By timestampField = By.id("timestampField");
+    protected By notificationSettings = By.id("notificationSettings");
+    protected By errorMessage = By.id("errorMessage");
 
     public ShipmentTrackingPage(WebDriver driver) {
         this.driver = driver;
@@ -26,75 +27,112 @@ public class ShipmentTrackingPage {
         PageFactory.initElements(driver, this);
     }
 
-    public void navigateToOrdersModule() {
-        waitUntilElementVisible(ordersModule, 3);
-        clickElement(ordersModule);
-        Assert.assertTrue(driver.findElement(orderList).isDisplayed(), "Failed to navigate to Orders Module.");
+    public void login(String userId) {
+        WebElement loginField = driver.findElement(By.id("loginField"));
+        loginField.sendKeys(userId);
+        WebElement loginButton = driver.findElement(By.id("loginButton"));
+        loginButton.click();
+        Assert.assertTrue(isTrackingPageDisplayed(), "Login failed, tracking page not displayed.");
     }
 
-    public void selectOrderById(String orderId) {
-        waitUntilElementVisible(orderList, 3);
-        WebElement order = getWebElementList(orderList)
-            .stream()
-            .filter(o -> o.getText().contains(orderId))
-            .findFirst()
-            .orElseThrow(() -> new AssertionError("Order ID not found: " + orderId));
-        clickElement(order);
-        Assert.assertTrue(driver.findElement(orderDetails).isDisplayed(), "Failed to select order with ID: " + orderId);
+    public void navigateToShipmentTrackingPage() {
+        WebElement trackingPageLink = driver.findElement(By.id("trackingPageLink"));
+        trackingPageLink.click();
+        Assert.assertTrue(isTrackingPageDisplayed(), "Failed to navigate to shipment tracking page.");
     }
 
-    public void updateShipmentStatusToDispatched() {
-        waitUntilElementVisible(shipmentStatusDropdown, 3);
-        selectByValue(shipmentStatusDropdown, "Dispatched");
-        Assert.assertEquals(getSelectedValue(shipmentStatusDropdown), "Dispatched", "Shipment status update failed.");
+    public boolean isTrackingPageDisplayed() {
+        return driver.findElement(trackingField).isDisplayed();
     }
 
-    public boolean checkAlertSystemForOutgoingAlerts(String customerEmail) {
-        waitUntilElementVisible(alertSystem, 3);
-        boolean alertExists = getTextFromElement(alertSystem).contains(customerEmail);
-        Assert.assertTrue(alertExists, "No outgoing alerts found for customer email: " + customerEmail);
-        return alertExists;
+    public void enterShipmentID(String shipmentId) {
+        WebElement shipmentIdField = driver.findElement(trackingField);
+        shipmentIdField.sendKeys(shipmentId);
+        Assert.assertTrue(isShipmentDetailsDisplayed(shipmentId), "Shipment details not displayed.");
     }
 
-    public boolean verifyAlertReceivedByCustomer(String expectedMessage) {
-        boolean alertReceived = true; // Placeholder for actual alert check logic
-        Assert.assertTrue(alertReceived, "Alert not received by customer: " + expectedMessage);
-        return alertReceived;
+    public boolean isShipmentDetailsDisplayed(String shipmentId) {
+        WebElement shipmentDetails = driver.findElement(By.id("shipmentDetails"));
+        return shipmentDetails.getText().contains(shipmentId);
     }
 
-    public void waitUntilElementVisible(By locator, int timeout) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public void selectLocation() {
+        WebElement locationDropdown = driver.findElement(locationField);
+        locationDropdown.click();
+        WebElement locationOption = driver.findElement(By.id("locationOption"));
+        locationOption.click();
+        Assert.assertTrue(locationOption.isSelected(), "Location selection failed.");
     }
 
-    public void clickElement(By locator) {
-        driver.findElement(locator).click();
+    public void clickOkButton() {
+        WebElement okBtn = driver.findElement(okButton);
+        okBtn.click();
+        Assert.assertTrue(isTrackingPageDisplayed(), "Failed to confirm action with OK button.");
     }
 
-    public void clickElement(WebElement element) {
-        element.click();
+    public String getCurrentStatus() {
+        WebElement statusElement = driver.findElement(statusField);
+        String status = statusElement.getText();
+        Assert.assertNotNull(status, "Current status is null.");
+        return status;
     }
 
-    public void enterText(By locator, String text) {
-        WebElement element = driver.findElement(locator);
-        element.clear();
-        element.sendKeys(text);
+    public void simulateStatusUpdate(String newStatus) {
+        WebElement statusElement = driver.findElement(statusField);
+        statusElement.clear();
+        statusElement.sendKeys(newStatus);
+        Assert.assertEquals(getCurrentStatus(), newStatus, "Status update simulation failed.");
     }
 
-    public void selectByValue(By locator, String value) {
-        WebElement dropdown = driver.findElement(locator);
-        dropdown.findElement(By.xpath(".//option[@value='" + value + "']")).click();
+    public String getLatestTimestamp() {
+        WebElement timestampElement = driver.findElement(timestampField);
+        String timestamp = timestampElement.getText();
+        Assert.assertNotNull(timestamp, "Latest timestamp is null.");
+        return timestamp;
     }
 
-    public String getTextFromElement(By locator) {
-        return driver.findElement(locator).getText();
+    public String getCurrentTime() {
+        WebElement timeElement = driver.findElement(By.id("currentTime"));
+        String currentTime = timeElement.getText();
+        Assert.assertNotNull(currentTime, "Current time is null.");
+        return currentTime;
     }
 
-    public String getSelectedValue(By locator) {
-        WebElement dropdown = driver.findElement(locator);
-        return dropdown.findElement(By.cssSelector("option[selected='selected']")).getText();
+    public void refreshPage() {
+        driver.navigate().refresh();
+        Assert.assertTrue(isTrackingPageDisplayed(), "Page refresh failed.");
     }
 
-    public List<WebElement> getWebElementList(By locator) {
-        return driver.findElements(locator);
+    public void logout() {
+        WebElement logoutButton = driver.findElement(By.id("logoutButton"));
+        logoutButton.click();
+        Assert.assertFalse(isTrackingPageDisplayed(), "Logout failed, tracking page still displayed.");
+    }
+
+    public boolean areNotificationsEnabled() {
+        WebElement notificationsToggle = driver.findElement(notificationSettings);
+        return notificationsToggle.isSelected();
+    }
+
+    public void simulateNetworkIssue() {
+        WebElement networkIssueButton = driver.findElement(By.id("networkIssueButton"));
+        networkIssueButton.click();
+        Assert.assertTrue(isErrorMessageDisplayed(), "Network issue simulation failed.");
+    }
+
+    public boolean handleNetworkIssueGracefully() {
+        WebElement retryButton = driver.findElement(By.id("retryButton"));
+        retryButton.click();
+        return !isErrorMessageDisplayed();
+    }
+
+    public boolean verifyShipmentHistoryLog() {
+        WebElement historyLog = driver.findElement(By.id("historyLog"));
+        return historyLog.isDisplayed();
+    }
+
+    public boolean isErrorMessageDisplayed() {
+        WebElement errorElement = driver.findElement(errorMessage);
+        return errorElement.isDisplayed();
     }
 }
