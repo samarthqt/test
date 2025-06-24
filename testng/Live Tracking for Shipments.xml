@@ -1,0 +1,9 @@
+<suite name="RetailTestSuite">
+    <test name="RetailTests">
+        <classes>
+            <class name="com.tests.CheckoutTest"/>
+            <class name="com.tests.CartTest"/>
+            <class name="com.tests.LoginTest"/>
+        </classes>
+    </test>
+</suite>

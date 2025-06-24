@@ -1,0 +1,7 @@
+<suite name="TestSuite">
+  <test name="AgileTestingTest">
+    <classes>
+      <class name="com.tests.AgileTestingTest"/>
+    </classes>
+  </test>
+</suite>

@@ -1,0 +1,7 @@
+<suite name="RegistrationTestSuite">
+  <test name="RegistrationTests">
+    <classes>
+      <class name="com.tests.RegistrationTest" />
+    </classes>
+  </test>
+</suite>
