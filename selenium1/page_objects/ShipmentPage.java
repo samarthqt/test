@@ -172,7 +172,7 @@ public class ShipmentPage {
     }
 
     private WebDriver getDriver() {
-        // Implement method to return WebDriver instance
-        return null;
+        // Implementation to retrieve the WebDriver instance
+        return WebReusableComponents.getDriver();
     }
 }
