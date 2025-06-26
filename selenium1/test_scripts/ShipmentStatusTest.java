@@ -58,6 +58,11 @@ public class ShipmentStatusTest {
 
         shipmentPage.rebootSystem();
         Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
+
+        // New steps appended for the test case
+        shipmentPage.selectLocation("LocationName");
+        shipmentPage.clickOkButton();
+        shipmentPage.verifyNotificationSettings();
     }
 
     @AfterMethod
