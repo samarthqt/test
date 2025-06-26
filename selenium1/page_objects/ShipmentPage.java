@@ -1,12 +1,12 @@
 package selenium1.page_objects;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
 public class ShipmentPage {
 
@@ -163,16 +163,16 @@ public class ShipmentPage {
         Assert.assertTrue(isTrackingPageDisplayed(), "System reboot failed, tracking page not displayed.");
     }
 
-    private WebElement waitUntilElementVisible(By locator) {
+    public WebDriver getDriver() {
+        // Implement logic to return the WebDriver instance
+        return null; // Placeholder for actual WebDriver instance
+    }
+
+    public WebElement waitUntilElementVisible(By locator) {
         return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    private WebElement waitUntilElementClickable(By locator) {
+    public WebElement waitUntilElementClickable(By locator) {
         return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.elementToBeClickable(locator));
-    }
-
-    private WebDriver getDriver() {
-        // Implement method to return WebDriver instance
-        return null;
     }
 }
