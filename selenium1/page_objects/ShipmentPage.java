@@ -10,6 +10,9 @@ import org.testng.Assert;
 
 public class ShipmentPage {
 
+    private WebDriver driver;
+    private WebDriverWait wait;
+
     protected By trackingPage = By.id("trackingPage");
     protected By shipmentIDField = By.id("shipmentID");
     protected By currentStatus = By.id("currentStatus");
@@ -32,7 +35,22 @@ public class ShipmentPage {
     protected By rebootButton = By.id("rebootButton");
 
     public ShipmentPage() {
-        PageFactory.initElements(getDriver(), this);
+        this.driver = getDriver();
+        this.wait = new WebDriverWait(driver, 10);
+        PageFactory.initElements(driver, this);
+    }
+
+    public WebDriver getDriver() {
+        // Implement logic to return WebDriver instance
+        return driver;
+    }
+
+    public WebElement waitUntilElementVisible(By locator) {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    public WebElement waitUntilElementClickable(By locator) {
+        return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
     public void login(String userID) {
@@ -95,7 +113,7 @@ public class ShipmentPage {
     }
 
     public void refreshPage() {
-        getDriver().navigate().refresh();
+        driver.navigate().refresh();
         Assert.assertTrue(isTrackingPageDisplayed(), "Page refresh failed, tracking page not displayed.");
     }
 
@@ -163,16 +181,32 @@ public class ShipmentPage {
         Assert.assertTrue(isTrackingPageDisplayed(), "System reboot failed, tracking page not displayed.");
     }
 
-    private WebElement waitUntilElementVisible(By locator) {
-        return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public void checkNotificationSettingsForShipmentUpdates() {
+        Assert.assertTrue(areNotificationsEnabled(), "Notification settings for shipment updates are not enabled.");
     }
 
-    private WebElement waitUntilElementClickable(By locator) {
-        return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.elementToBeClickable(locator));
+    public void simulateNetworkIssueAndAttemptStatusUpdate() {
+        simulateNetworkIssue();
+        simulateStatusUpdate("Delayed");
+        Assert.assertTrue(isNetworkIssueHandledGracefully(), "Network issue not handled during status update.");
     }
 
-    private WebDriver getDriver() {
-        // Implement method to return WebDriver instance
-        return null;
+    public void attemptStatusUpdateFromDifferentDevice() {
+        updateStatusFromDifferentDevice();
+        Assert.assertTrue(isStatusSynchronizedAcrossDevices(), "Status update from different device not synchronized.");
+    }
+
+    public void checkForErrorMessagesDuringStatusUpdates() {
+        simulateStatusUpdate("Invalid");
+        Assert.assertTrue(areErrorMessagesDisplayed(), "Error messages not displayed during status update.");
+    }
+
+    public void checkShipmentStatusAfterSystemReboot() {
+        rebootSystem();
+        Assert.assertTrue(isTrackingPageDisplayed(), "Shipment status not verified after system reboot.");
+    }
+
+    public void verifyShipmentStatusUsingSMSOnMobileDevice() {
+        Assert.assertTrue(verifyStatusOnMobileDevice(), "Shipment status verification using SMS on mobile device failed.");
     }
 }
