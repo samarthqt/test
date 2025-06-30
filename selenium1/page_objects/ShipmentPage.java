@@ -3,10 +3,10 @@ package selenium1.page_objects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 public class ShipmentPage {
 
@@ -33,6 +33,21 @@ public class ShipmentPage {
 
     public ShipmentPage() {
         PageFactory.initElements(getDriver(), this);
+    }
+
+    public WebDriver getDriver() {
+        // Implement driver retrieval logic
+        return null; // Replace with actual driver instance
+    }
+
+    public WebElement waitUntilElementVisible(By locator) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    public WebElement waitUntilElementClickable(By locator) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
     public void login(String userID) {
@@ -163,16 +178,17 @@ public class ShipmentPage {
         Assert.assertTrue(isTrackingPageDisplayed(), "System reboot failed, tracking page not displayed.");
     }
 
-    private WebElement waitUntilElementVisible(By locator) {
-        return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public void checkNotificationSettings() {
+        WebElement notificationsElement = waitUntilElementVisible(notifications);
+        Assert.assertTrue(notificationsElement.isDisplayed(), "Notification settings are not visible.");
     }
 
-    private WebElement waitUntilElementClickable(By locator) {
-        return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.elementToBeClickable(locator));
+    public void simulateNetworkIssueDuringUpdate() {
+        simulateNetworkIssue();
+        Assert.assertTrue(areErrorMessagesDisplayedDuringUpdate(), "Error messages not displayed during network issue.");
     }
 
-    private WebDriver getDriver() {
-        // Implement method to return WebDriver instance
-        return null;
+    public boolean areErrorMessagesDisplayedDuringUpdate() {
+        return areErrorMessagesDisplayed();
     }
 }
