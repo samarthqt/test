@@ -172,7 +172,8 @@ public class ShipmentPage {
     }
 
     private WebDriver getDriver() {
-        // Implement method to return WebDriver instance
-        return null;
+        // Implementation to retrieve the WebDriver instance
+        // This method should return the WebDriver instance used for the tests
+        return null; // Replace with actual WebDriver retrieval logic
     }
 }
