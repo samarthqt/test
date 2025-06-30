@@ -1,12 +1,12 @@
 package selenium1.page_objects;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class ShipmentPage {
 
@@ -172,7 +172,8 @@ public class ShipmentPage {
     }
 
     private WebDriver getDriver() {
-        // Implement method to return WebDriver instance
-        return null;
+        // This method should return the WebDriver instance used in the tests
+        // Implementation depends on the test setup
+        return null; // Placeholder for actual WebDriver instance
     }
 }
