@@ -1,0 +1,12 @@
+<suite name="UserTests">
+  <test name="UserRegistrationTest">
+    <classes>
+      <class name="com.tests.UserRegistrationTest"/>
+    </classes>
+  </test>
+  <test name="UserLoginTest">
+    <classes>
+      <class name="com.tests.UserLoginTest"/>
+    </classes>
+  </test>
+</suite>
