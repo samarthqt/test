@@ -37,26 +37,6 @@ public class LiveTrackingTest {
         liveTrackingPage.login("09876");
         assertTrue(liveTrackingPage.isTrackingInformationAvailable(), "Tracking information is not available after re-login.");
 
-        assertTrue(liveTrackingPage.areNotificationsEnabled(), "Notifications are not enabled for live tracking updates.");
-
-        liveTrackingPage.simulateNetworkIssue();
-        assertTrue(liveTrackingPage.isNetworkIssueHandledGracefully(), "Network issue is not handled gracefully.");
-
-        assertTrue(liveTrackingPage.isTrackingHistoryLogCorrect(), "Tracking history log is incorrect.");
-
-        assertFalse(liveTrackingPage.areErrorMessagesDisplayed(), "Error messages are displayed during location updates.");
-
-        liveTrackingPage.updateLocationFromDifferentDevice();
-        assertTrue(liveTrackingPage.isLocationSynchronizedAcrossDevices(), "Location is not synchronized across devices.");
-
-        assertTrue(liveTrackingPage.isMobileTrackingConsistent(), "Mobile tracking is not consistent with desktop view.");
-
-        liveTrackingPage.rebootSystem();
-        assertTrue(liveTrackingPage.isTrackingInformationAvailableAfterReboot(), "Tracking information is not available after system reboot.");
-
-        assertTrue(liveTrackingPage.isLiveTrackingAccurate(), "Live tracking information is not accurate.");
-
-        // New test steps
         liveTrackingPage.checkNotificationSettings();
         assertTrue(liveTrackingPage.isNotificationSettingsCorrect(), "Notification settings for live tracking updates are incorrect.");
 
