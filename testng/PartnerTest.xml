@@ -1,0 +1,7 @@
+<suite name="PartnerTestSuite">
+    <test name="PartnerTest">
+        <classes>
+            <class name="com.tests.PartnerTest"/>
+        </classes>
+    </test>
+</suite>
