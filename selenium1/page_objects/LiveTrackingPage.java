@@ -1,11 +1,10 @@
 package selenium1.page_objects;
 
-import com.framework.reusable.WebReusableComponents;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
 
 public class LiveTrackingPage extends WebReusableComponents {
 
@@ -88,24 +87,36 @@ public class LiveTrackingPage extends WebReusableComponents {
         return getDriver().findElement(trackingField).isDisplayed();
     }
 
-    public boolean areNotificationsEnabled() {
+    public void checkNotificationSettings() {
         waitUntilElementVisible(notificationSettings, 3);
+        Assert.assertTrue(isNotificationSettingsCorrect(), "Notification settings for live tracking updates are incorrect.");
+    }
+
+    public boolean isNotificationSettingsCorrect() {
         return getDriver().findElement(notificationSettings).isSelected();
     }
 
-    public void simulateNetworkIssue() {
-        WebElement simulateNetworkIssueButton = getDriver().findElement(By.id("simulateNetworkIssue"));
-        simulateNetworkIssueButton.click();
-        Assert.assertTrue(isNetworkIssueHandledGracefully(), "Network issue not handled gracefully.");
+    public void simulateNetworkIssueAndAttemptUpdate() {
+        WebElement simulateNetworkIssueAndUpdateButton = getDriver().findElement(By.id("simulateNetworkIssueAndUpdate"));
+        simulateNetworkIssueAndUpdateButton.click();
+        Assert.assertTrue(isNetworkIssueHandledDuringUpdate(), "Network issue during location update is not handled correctly.");
     }
 
-    public boolean isNetworkIssueHandledGracefully() {
+    public boolean isNetworkIssueHandledDuringUpdate() {
         return getDriver().findElement(trackingField).isDisplayed();
     }
 
-    public boolean isTrackingHistoryLogCorrect() {
+    public void verifyTrackingHistoryLog() {
         waitUntilElementVisible(trackingHistoryLog, 3);
+        Assert.assertTrue(isTrackingHistoryLogAccurate(), "Tracking history log is not accurate.");
+    }
+
+    public boolean isTrackingHistoryLogAccurate() {
         return getDriver().findElement(trackingHistoryLog).isDisplayed();
+    }
+
+    public void checkErrorMessagesDuringUpdates() {
+        Assert.assertTrue(areErrorMessagesDisplayed(), "Error messages are not displayed during updates.");
     }
 
     public boolean areErrorMessagesDisplayed() {
@@ -138,37 +149,5 @@ public class LiveTrackingPage extends WebReusableComponents {
 
     public boolean isLiveTrackingAccurate() {
         return getDriver().findElement(currentLocation).getText().contains("Accurate");
-    }
-
-    public void checkNotificationSettings() {
-        waitUntilElementVisible(notificationSettings, 3);
-        Assert.assertTrue(isNotificationSettingsCorrect(), "Notification settings for live tracking updates are incorrect.");
-    }
-
-    public boolean isNotificationSettingsCorrect() {
-        return getDriver().findElement(notificationSettings).isSelected();
-    }
-
-    public void simulateNetworkIssueAndAttemptUpdate() {
-        WebElement simulateNetworkIssueAndUpdateButton = getDriver().findElement(By.id("simulateNetworkIssueAndUpdate"));
-        simulateNetworkIssueAndUpdateButton.click();
-        Assert.assertTrue(isNetworkIssueHandledDuringUpdate(), "Network issue during location update is not handled correctly.");
-    }
-
-    public boolean isNetworkIssueHandledDuringUpdate() {
-        return getDriver().findElement(trackingField).isDisplayed();
-    }
-
-    public void verifyTrackingHistoryLog() {
-        waitUntilElementVisible(trackingHistoryLog, 3);
-        Assert.assertTrue(isTrackingHistoryLogAccurate(), "Tracking history log is not accurate.");
-    }
-
-    public boolean isTrackingHistoryLogAccurate() {
-        return getDriver().findElement(trackingHistoryLog).isDisplayed();
-    }
-
-    public void checkErrorMessagesDuringUpdates() {
-        Assert.assertTrue(areErrorMessagesDisplayed(), "Error messages are not displayed during updates.");
     }
 }
