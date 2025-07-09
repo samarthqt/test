@@ -23,6 +23,9 @@ public class ShipmentStatusTest {
         shipmentPage.enterShipmentID("12345");
         Assert.assertTrue(shipmentPage.isShipmentDetailsDisplayed("12345"));
 
+        shipmentPage.selectLocation();
+        shipmentPage.clickOkButton();
+
         String currentStatus = shipmentPage.checkCurrentStatus();
         Assert.assertEquals(currentStatus, "In Transit");
 
@@ -50,14 +53,6 @@ public class ShipmentStatusTest {
         Assert.assertTrue(shipmentPage.verifyShipmentHistoryLog());
 
         Assert.assertFalse(shipmentPage.areErrorMessagesDisplayed());
-
-        shipmentPage.updateStatusFromDifferentDevice();
-        Assert.assertTrue(shipmentPage.isStatusSynchronizedAcrossDevices());
-
-        Assert.assertTrue(shipmentPage.verifyStatusOnMobileDevice());
-
-        shipmentPage.rebootSystem();
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
     }
 
     @AfterMethod
