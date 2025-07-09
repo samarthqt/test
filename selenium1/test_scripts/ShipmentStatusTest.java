@@ -20,14 +20,14 @@ public class ShipmentStatusTest {
         shipmentPage.navigateToShipmentTrackingPage();
         Assert.assertTrue(shipmentPage.isTrackingPageDisplayed());
 
-        shipmentPage.enterShipmentID("12345");
-        Assert.assertTrue(shipmentPage.isShipmentDetailsDisplayed("12345"));
+        shipmentPage.enterShipmentID("123");
+        Assert.assertTrue(shipmentPage.isShipmentDetailsDisplayed("123"));
 
         String currentStatus = shipmentPage.checkCurrentStatus();
         Assert.assertEquals(currentStatus, "In Transit");
 
-        shipmentPage.simulateStatusUpdate("Out for Delivery");
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Out for Delivery");
+        shipmentPage.simulateStatusUpdate("Dispatched");
+        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Dispatched");
 
         shipmentPage.simulateStatusUpdate("Delivered");
         Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");

@@ -1,12 +1,13 @@
 package selenium1.page_objects;
 
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
 import .util.List;
 
 public class ShipmentTrackingPage {
@@ -19,9 +20,12 @@ public class ShipmentTrackingPage {
     private final By orderDetails = By.cssSelector(".order-details");
     private final By shipmentStatusDropdown = By.id("shipmentStatus");
     private final By alertSystem = By.id("alertSystem");
+    private final By orderHistory = By.id("orderHistory");
+    private final By auditTrailLogs = By.id("auditTrailLogs");
+    private final By customerPortalStatus = By.id("customerPortalStatus");
 
-    public ShipmentTrackingPage(WebDriver driver) {
-        this.driver = driver;
+    public ShipmentTrackingPage() {
+        this.driver = WebReusableComponents.getDriver();
         this.wait = new WebDriverWait(driver, 10);
         PageFactory.initElements(driver, this);
     }
@@ -57,13 +61,32 @@ public class ShipmentTrackingPage {
     }
 
     public boolean verifyAlertReceivedByCustomer(String expectedMessage) {
-        boolean alertReceived = true; // Placeholder for actual alert check logic
+        waitUntilElementVisible(alertSystem, 3);
+        boolean alertReceived = getTextFromElement(alertSystem).contains(expectedMessage);
         Assert.assertTrue(alertReceived, "Alert not received by customer: " + expectedMessage);
         return alertReceived;
     }
 
+    public void verifyOrderHistory(String orderId, String expectedEntry) {
+        waitUntilElementVisible(orderHistory, 3);
+        String historyText = getTextFromElement(orderHistory);
+        Assert.assertTrue(historyText.contains(expectedEntry), "Order history does not contain expected entry for order ID: " + orderId);
+    }
+
+    public void checkAuditTrailLogs(String orderId) {
+        waitUntilElementVisible(auditTrailLogs, 3);
+        String logsText = getTextFromElement(auditTrailLogs);
+        Assert.assertTrue(logsText.contains(orderId), "Audit logs do not contain expected entry for order ID: " + orderId);
+    }
+
+    public void confirmStatusInCustomerPortal(String orderId, String expectedStatus) {
+        waitUntilElementVisible(customerPortalStatus, 3);
+        String statusText = getTextFromElement(customerPortalStatus);
+        Assert.assertTrue(statusText.contains(expectedStatus), "Customer portal does not display expected status for order ID: " + orderId);
+    }
+
     public void waitUntilElementVisible(By locator, int timeout) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        new WebDriverWait(driver, timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public void clickElement(By locator) {
