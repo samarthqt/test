@@ -11,6 +11,12 @@ Given the user is on the shipment tracking page
 When the user enters Shipment ID "12345" in the tracking field
 Then shipment details for ID "12345" are displayed
 @TC-1
+Scenario: Select location and confirm
+Given shipment details are displayed for ID "12345"
+When the user selects the location in the location field
+And clicks on the OK button
+Then the location is confirmed for the shipment
+@TC-1
 Scenario: Check current shipment status
 Given shipment details are displayed for ID "12345"
 When the user checks the current status of the shipment
