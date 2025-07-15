@@ -1,5 +1,6 @@
 package selenium1.page_objects;
 
+import com.framework.reusable.WebReusableComponents;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-public class ShipmentPage {
+public class ShipmentPage extends WebReusableComponents {
 
     protected By trackingPage = By.id("trackingPage");
     protected By shipmentIDField = By.id("shipmentID");
@@ -26,10 +27,8 @@ public class ShipmentPage {
     protected By networkIssueButton = By.id("networkIssueButton");
     protected By networkError = By.id("networkError");
     protected By historyLog = By.id("historyLog");
-    protected By updateDeviceButton = By.id("updateDeviceButton");
-    protected By syncStatus = By.id("syncStatus");
-    protected By mobileStatus = By.id("mobileStatus");
-    protected By rebootButton = By.id("rebootButton");
+    protected By locationField = By.id("locationField");
+    protected By okButton = By.id("okButton");
 
     public ShipmentPage() {
         PageFactory.initElements(getDriver(), this);
@@ -64,6 +63,17 @@ public class ShipmentPage {
     public boolean isShipmentDetailsDisplayed(String shipmentID) {
         WebElement shipmentDetailsElement = waitUntilElementVisible(shipmentDetails);
         return shipmentDetailsElement.getText().contains(shipmentID);
+    }
+
+    public void selectLocation(String location) {
+        WebElement locationFieldElement = waitUntilElementVisible(locationField);
+        locationFieldElement.clear();
+        locationFieldElement.sendKeys(location);
+    }
+
+    public void clickOkButton() {
+        WebElement okButtonElement = waitUntilElementClickable(okButton);
+        okButtonElement.click();
     }
 
     public String checkCurrentStatus() {
@@ -137,41 +147,15 @@ public class ShipmentPage {
         return errorsDisplayed;
     }
 
-    public void updateStatusFromDifferentDevice() {
-        WebElement updateDeviceButtonElement = waitUntilElementClickable(updateDeviceButton);
-        updateDeviceButtonElement.click();
-        Assert.assertTrue(isStatusSynchronizedAcrossDevices(), "Status update from different device failed.");
-    }
-
-    public boolean isStatusSynchronizedAcrossDevices() {
-        WebElement syncStatusElement = waitUntilElementVisible(syncStatus);
-        boolean isSynchronized = syncStatusElement.isDisplayed();
-        Assert.assertTrue(isSynchronized, "Status is not synchronized across devices.");
-        return isSynchronized;
-    }
-
-    public boolean verifyStatusOnMobileDevice() {
-        WebElement mobileStatusElement = waitUntilElementVisible(mobileStatus);
-        boolean isVerified = mobileStatusElement.isDisplayed();
-        Assert.assertTrue(isVerified, "Status verification on mobile device failed.");
-        return isVerified;
-    }
-
-    public void rebootSystem() {
-        WebElement rebootButtonElement = waitUntilElementClickable(rebootButton);
-        rebootButtonElement.click();
-        Assert.assertTrue(isTrackingPageDisplayed(), "System reboot failed, tracking page not displayed.");
-    }
-
-    private WebElement waitUntilElementVisible(By locator) {
+    public WebElement waitUntilElementVisible(By locator) {
         return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    private WebElement waitUntilElementClickable(By locator) {
+    public WebElement waitUntilElementClickable(By locator) {
         return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.elementToBeClickable(locator));
     }
 
-    private WebDriver getDriver() {
+    public WebDriver getDriver() {
         // Implement method to return WebDriver instance
         return null;
     }
