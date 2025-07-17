@@ -1,0 +1,7 @@
+<suite name="ShipmentStatusSuite">
+  <test name="ShipmentStatusTest">
+    <classes>
+      <class name="selenium1.test_scripts.RealTimeShipmentStatusTest"/>
+    </classes>
+  </test>
+</suite>

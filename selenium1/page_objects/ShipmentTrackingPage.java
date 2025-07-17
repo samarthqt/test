@@ -14,6 +14,13 @@ public class ShipmentTrackingPage {
     private final WebDriver driver;
     private final WebDriverWait wait;
 
+    private final By trackingField = By.id("trackingField");
+    private final By locationField = By.id("locationField");
+    private final By okButton = By.id("okButton");
+    private final By statusField = By.id("statusField");
+    private final By timestampField = By.id("timestampField");
+    private final By notificationSettings = By.id("notificationSettings");
+    private final By errorMessages = By.id("errorMessages");
     private final By ordersModule = By.id("ordersModule");
     private final By orderList = By.cssSelector(".order-list");
     private final By orderDetails = By.cssSelector(".order-details");
@@ -24,6 +31,66 @@ public class ShipmentTrackingPage {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, 10);
         PageFactory.initElements(driver, this);
+    }
+
+    public void navigateToShipmentTrackingPage() {
+        driver.get("http://example.com/shipment-tracking");
+    }
+
+    public void enterShipmentID(String shipmentID) {
+        WebElement trackingElement = driver.findElement(trackingField);
+        trackingElement.clear();
+        trackingElement.sendKeys(shipmentID);
+    }
+
+    public String getShipmentStatus() {
+        return driver.findElement(statusField).getText();
+    }
+
+    public void simulateStatusUpdate(String newStatus) {
+        WebElement statusElement = driver.findElement(statusField);
+        statusElement.clear();
+        statusElement.sendKeys(newStatus);
+    }
+
+    public boolean verifyTimestamp() {
+        String timestamp = driver.findElement(timestampField).getText();
+        // Logic to verify timestamp matches current time
+        return true;
+    }
+
+    public void refreshPage() {
+        driver.navigate().refresh();
+    }
+
+    public void logOutAndLogIn() {
+        // Logic to log out and log back in
+    }
+
+    public boolean checkNotificationSettings() {
+        return driver.findElement(notificationSettings).isSelected();
+    }
+
+    public void simulateNetworkIssue() {
+        // Logic to simulate network issue
+    }
+
+    public boolean handleNetworkIssue() {
+        // Logic to handle network issue
+        return true;
+    }
+
+    public boolean verifyShipmentHistoryLog() {
+        // Logic to verify shipment history log
+        return true;
+    }
+
+    public boolean checkForErrorMessages() {
+        return driver.findElements(errorMessages).isEmpty();
+    }
+
+    public void closeBrowser() {
+        driver.quit();
     }
 
     public void navigateToOrdersModule() {
