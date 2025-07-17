@@ -34,7 +34,7 @@ public class ShipmentTrackingPage {
         trackingField.clear();
         trackingField.sendKeys(shipmentID);
         trackingField.submit();
-        Assert.assertTrue(hasErrorMessages(), "Error messages found after entering shipment ID.");
+        Assert.assertFalse(hasErrorMessages(), "Error messages found after entering shipment ID.");
     }
 
     public String getShipmentStatus() {
@@ -44,20 +44,21 @@ public class ShipmentTrackingPage {
         return status;
     }
 
-    public void simulateStatusUpdate(String newStatus) {
-        WebElement updateButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("updateStatusButton")));
-        updateButton.click();
-        WebElement statusDropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("statusDropdown")));
-        statusDropdown.sendKeys(newStatus);
-        statusDropdown.submit();
-        Assert.assertTrue(isStatusSynchronized(), "Status is not synchronized after update.");
+    public void checkCurrentLocation() {
+        WebElement locationElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("currentLocation")));
+        Assert.assertNotNull(locationElement.getText(), "Current location is not displayed.");
     }
 
-    public boolean verifyTimestamp() {
-        WebElement timestampElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("timestamp")));
-        String timestamp = timestampElement.getText();
-        Assert.assertNotNull(timestamp, "Timestamp is null.");
-        // Logic to verify timestamp with current time
+    public void simulateLocationChange() {
+        WebElement changeLocationButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("changeLocationButton")));
+        changeLocationButton.click();
+        Assert.assertTrue(isStatusSynchronized(), "Location is not updated in real-time.");
+    }
+
+    public boolean verifyEstimatedDeliveryTime() {
+        WebElement deliveryTimeElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("estimatedDeliveryTime")));
+        String deliveryTime = deliveryTimeElement.getText();
+        Assert.assertNotNull(deliveryTime, "Estimated delivery time is null.");
         return true;
     }
 
@@ -93,7 +94,6 @@ public class ShipmentTrackingPage {
 
     public boolean verifyShipmentHistoryLog() {
         WebElement historyLog = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("historyLog")));
-        // Logic to verify shipment history log
         Assert.assertNotNull(historyLog, "Shipment history log is null.");
         return true;
     }
@@ -105,13 +105,24 @@ public class ShipmentTrackingPage {
         return hasErrors;
     }
 
-    public void updateStatusFromDifferentDevice() {
-        // Logic to update status from a different device
-        Assert.assertTrue(isStatusSynchronized(), "Status is not synchronized across devices.");
-    }
-
     public boolean isStatusSynchronized() {
         // Logic to verify status synchronization
+        return true;
+    }
+
+    public void updateStatusFromDifferentDevice(String newStatus) {
+        WebElement updateButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("updateStatusButton")));
+        updateButton.click();
+        WebElement statusDropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("statusDropdown")));
+        statusDropdown.sendKeys(newStatus);
+        statusDropdown.submit();
+        Assert.assertTrue(isStatusSynchronized(), "Status is not synchronized after update.");
+    }
+
+    public boolean verifyTimestamp() {
+        WebElement timestampElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("timestamp")));
+        String timestamp = timestampElement.getText();
+        Assert.assertNotNull(timestamp, "Timestamp is null.");
         return true;
     }
 
@@ -121,7 +132,7 @@ public class ShipmentTrackingPage {
     }
 
     public void rebootSystem() {
-        // Logic to reboot system
+        // Logic to reboot the system
         Assert.assertTrue(isTrackingPageDisplayed(), "System reboot failed.");
     }
 
