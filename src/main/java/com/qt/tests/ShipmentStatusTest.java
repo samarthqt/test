@@ -1,3 +1,4 @@
+```java
 package com.qt.tests;
 
 import org.testng.annotations.AfterMethod;
@@ -35,11 +36,20 @@ public class ShipmentStatusTest {
         assertTrue(shipmentTrackingPage.isNetworkIssueHandled(), "Network issue was not handled gracefully.");
         assertTrue(shipmentTrackingPage.verifyShipmentHistoryLog(), "Shipment history log is incorrect.");
         assertFalse(shipmentTrackingPage.hasErrorMessages(), "Error messages were displayed during updates.");
+        shipmentTrackingPage.enterShipmentID("54321");
+        assertEquals(shipmentTrackingPage.getShipmentStatus(), "Live tracking details for ID 54321 are displayed.", "Initial status is incorrect.");
+        shipmentTrackingPage.checkCurrentLocation();
+        shipmentTrackingPage.simulateLocationChange();
+        assertTrue(shipmentTrackingPage.verifyEstimatedDeliveryTime(), "Estimated delivery time is not displayed accurately.");
+        shipmentTrackingPage.refreshPage();
+        assertEquals(shipmentTrackingPage.getShipmentStatus(), "Live tracking details for ID 54321 are displayed.", "Status changed after refresh.");
+        shipmentTrackingPage.logOutAndLogIn();
+        assertEquals(shipmentTrackingPage.getShipmentStatus(), "Live tracking details for ID 54321 are displayed.", "Status changed after re-login.");
         shipmentTrackingPage.updateStatusFromDifferentDevice();
         assertTrue(shipmentTrackingPage.isStatusSynchronized(), "Status is not synchronized across devices.");
         assertTrue(shipmentTrackingPage.verifyMobileStatusConsistency(), "Mobile status is inconsistent.");
         shipmentTrackingPage.rebootSystem();
-        assertEquals(shipmentTrackingPage.getShipmentStatus(), "Delivered", "Status changed after system reboot.");
+        assertEquals(shipmentTrackingPage.getShipmentStatus(), "Live tracking details for ID 54321 are displayed.", "Status changed after system reboot.");
     }
 
     @AfterMethod
@@ -47,3 +57,4 @@ public class ShipmentStatusTest {
         shipmentTrackingPage.closeBrowser();
     }
 }
+```
