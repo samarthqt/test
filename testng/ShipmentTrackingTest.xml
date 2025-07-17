@@ -1,0 +1,7 @@
+<suite name="ShipmentTrackingSuite">
+    <test name="ShipmentTrackingTest">
+        <classes>
+            <class name="com.qt.tests.ShipmentTrackingTest"/>
+        </classes>
+    </test>
+</suite>
