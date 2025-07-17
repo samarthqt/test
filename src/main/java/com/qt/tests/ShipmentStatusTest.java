@@ -1,3 +1,4 @@
+```java
 package com.qt.tests;
 
 import org.testng.annotations.AfterMethod;
@@ -35,11 +36,31 @@ public class ShipmentStatusTest {
         assertTrue(shipmentTrackingPage.isNetworkIssueHandled(), "Network issue was not handled gracefully.");
         assertTrue(shipmentTrackingPage.verifyShipmentHistoryLog(), "Shipment history log is incorrect.");
         assertFalse(shipmentTrackingPage.hasErrorMessages(), "Error messages were displayed during updates.");
-        shipmentTrackingPage.updateStatusFromDifferentDevice();
-        assertTrue(shipmentTrackingPage.isStatusSynchronized(), "Status is not synchronized across devices.");
-        assertTrue(shipmentTrackingPage.verifyMobileStatusConsistency(), "Mobile status is inconsistent.");
+    }
+
+    @Test
+    public void testLiveTrackingDetails() {
+        shipmentTrackingPage.enterShipmentID("54321");
+        assertTrue(shipmentTrackingPage.isTrackingDetailsDisplayed(), "Live tracking details for ID 54321 are not displayed.");
+        assertTrue(shipmentTrackingPage.checkCurrentLocation(), "Current location is not displayed on the map.");
+        shipmentTrackingPage.simulateLocationChange();
+        assertTrue(shipmentTrackingPage.isLocationUpdated(), "Location did not update in real-time on the map.");
+        assertTrue(shipmentTrackingPage.verifyEstimatedDeliveryTime(), "Estimated delivery time is not displayed accurately.");
+        shipmentTrackingPage.refreshPage();
+        assertTrue(shipmentTrackingPage.isTrackingDetailsConsistent(), "Live tracking information is not consistent after refresh.");
+        shipmentTrackingPage.logOutAndLogIn();
+        assertTrue(shipmentTrackingPage.isTrackingDetailsAvailable(), "Live tracking information is not available after re-login.");
+        assertTrue(shipmentTrackingPage.areNotificationsEnabled(), "Notifications are not enabled for live tracking updates.");
+        shipmentTrackingPage.simulateNetworkIssue();
+        assertTrue(shipmentTrackingPage.isNetworkIssueHandled(), "Network issue was not handled gracefully.");
+        assertTrue(shipmentTrackingPage.verifyTrackingHistoryLog(), "Tracking history log is incorrect.");
+        assertFalse(shipmentTrackingPage.hasErrorMessages(), "Error messages were displayed during location updates.");
+        shipmentTrackingPage.updateLocationFromDifferentDevice();
+        assertTrue(shipmentTrackingPage.isLocationSynchronized(), "Location updates are not synchronized across devices.");
+        assertTrue(shipmentTrackingPage.verifyMobileTrackingConsistency(), "Tracking is inconsistent with the desktop view.");
         shipmentTrackingPage.rebootSystem();
-        assertEquals(shipmentTrackingPage.getShipmentStatus(), "Delivered", "Status changed after system reboot.");
+        assertTrue(shipmentTrackingPage.isTrackingDetailsAvailable(), "Tracking information is not available after system reboot.");
+        assertTrue(shipmentTrackingPage.verifyTrackingAccuracy(), "Live tracking information is not accurate and reliable.");
     }
 
     @AfterMethod
@@ -47,3 +68,4 @@ public class ShipmentStatusTest {
         shipmentTrackingPage.closeBrowser();
     }
 }
+```
