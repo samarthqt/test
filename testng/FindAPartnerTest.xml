@@ -1,0 +1,7 @@
+<suite name="FindAPartnerSuite">
+    <test name="FindAPartnerTest">
+        <classes>
+            <class name="selenium1.test_scripts.FindAPartnerTest"/>
+        </classes>
+    </test>
+</suite>
