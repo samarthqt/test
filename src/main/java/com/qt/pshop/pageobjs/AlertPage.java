@@ -10,15 +10,10 @@ import org.testng.Assert;
 
 public class AlertPage {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
-
     protected By outgoingAlerts = By.id("outgoingAlerts");
     protected By alertMessage = By.id("alertMessage");
 
-    public AlertPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10);
+    public AlertPage() {
         PageFactory.initElements(driver, this);
     }
 
@@ -26,7 +21,7 @@ public class AlertPage {
      * Clicks on the outgoing alerts element.
      */
     public void checkOutgoingAlerts() {
-        WebElement element = waitUntilElementVisible(outgoingAlerts);
+        WebElement element = waitUntilElementVisible(outgoingAlerts, 10);
         element.click();
     }
 
@@ -37,7 +32,7 @@ public class AlertPage {
      * @return True if the alert has been sent, false otherwise.
      */
     public boolean isAlertSent(String email) {
-        WebElement element = waitUntilElementVisible(outgoingAlerts);
+        WebElement element = waitUntilElementVisible(outgoingAlerts, 10);
         boolean isSent = element.getText().contains(email);
         Assert.assertTrue(isSent, "Alert not sent to the specified email.");
         return isSent;
@@ -50,7 +45,7 @@ public class AlertPage {
      * @return True if the alert message matches, false otherwise.
      */
     public boolean verifyAlertReceived(String expectedMessage) {
-        WebElement element = waitUntilElementVisible(alertMessage);
+        WebElement element = waitUntilElementVisible(alertMessage, 10);
         String actualMessage = element.getText();
         boolean isReceived = actualMessage.equals(expectedMessage);
         Assert.assertTrue(isReceived, "Alert message does not match the expected message.");
@@ -61,9 +56,11 @@ public class AlertPage {
      * Waits until the specified element is visible.
      * 
      * @param locator The locator of the element to wait for.
+     * @param timeOutInSeconds The timeout in seconds.
      * @return The visible WebElement.
      */
-    private WebElement waitUntilElementVisible(By locator) {
+    public WebElement waitUntilElementVisible(By locator, long timeOutInSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 }

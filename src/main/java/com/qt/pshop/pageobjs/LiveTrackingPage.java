@@ -8,8 +8,6 @@ import org.testng.Assert;
 
 public class LiveTrackingPage {
 
-    private WebDriver driver;
-
     protected By trackingField = By.id("trackingField");
     protected By currentLocationMap = By.id("currentLocationMap");
     protected By estimatedDeliveryTime = By.id("estimatedDeliveryTime");
@@ -17,8 +15,7 @@ public class LiveTrackingPage {
     protected By trackingHistoryLog = By.id("trackingHistoryLog");
     protected By errorMessage = By.id("errorMessage");
 
-    public LiveTrackingPage(WebDriver driver) {
-        this.driver = driver;
+    public LiveTrackingPage() {
         PageFactory.initElements(driver, this);
     }
 
@@ -49,7 +46,6 @@ public class LiveTrackingPage {
     }
 
     public void simulateLocationChange() {
-        // Simulate location change logic
         refreshPage();
         Assert.assertTrue(isLocationUpdatedInRealTime(), "Location is not updated in real-time.");
     }
@@ -75,7 +71,6 @@ public class LiveTrackingPage {
     }
 
     public void logOutAndLogIn() {
-        // Log out and log in logic
         navigateToLiveTrackingPage();
         Assert.assertTrue(isLiveTrackingInfoAvailable(), "Live tracking info is not available after log out and log in.");
     }
@@ -91,7 +86,6 @@ public class LiveTrackingPage {
     }
 
     public void simulateNetworkIssueAndUpdateLocation() {
-        // Simulate network issue and update logic
         Assert.assertTrue(isNetworkIssueHandledGracefully(), "Network issue is not handled gracefully.");
     }
 
@@ -111,7 +105,6 @@ public class LiveTrackingPage {
     }
 
     public void updateLocationFromDifferentDevice() {
-        // Update location from different device logic
         Assert.assertTrue(isLocationSynchronizedAcrossDevices(), "Location is not synchronized across devices.");
     }
 
@@ -126,7 +119,6 @@ public class LiveTrackingPage {
     }
 
     public void rebootSystem() {
-        // Reboot system logic
         navigateToLiveTrackingPage();
         Assert.assertTrue(isTrackingInfoAvailableAfterReboot(), "Tracking info is not available after reboot.");
     }
