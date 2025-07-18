@@ -1,27 +1,22 @@
 package com.qt.pshop.pageobjs;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import static com.framework.selenium.SeleniumTestParameters.getDriver;
 
 public class LoginPage {
-
-    private final WebDriver driver;
-    private final WebDriverWait wait;
 
     protected By usernameField = By.id("username");
     protected By passwordField = By.id("password");
     protected By loginButton = By.id("loginButton");
     protected By dashboard = By.id("dashboard");
 
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10);
-        PageFactory.initElements(driver, this);
+    public LoginPage() {
+        PageFactory.initElements(getDriver(), this);
     }
 
     /**
@@ -41,7 +36,7 @@ public class LoginPage {
      */
     public boolean isDashboardDisplayed() {
         waitUntilElementVisible(dashboard);
-        boolean isDisplayed = driver.findElement(dashboard).isDisplayed();
+        boolean isDisplayed = getDriver().findElement(dashboard).isDisplayed();
         Assert.assertTrue(isDisplayed, "Dashboard is not displayed.");
         return isDisplayed;
     }
@@ -53,7 +48,7 @@ public class LoginPage {
      */
     public void enterText(By locator, String text) {
         waitUntilElementVisible(locator);
-        WebElement element = driver.findElement(locator);
+        WebElement element = getDriver().findElement(locator);
         element.clear();
         element.sendKeys(text);
     }
@@ -63,7 +58,7 @@ public class LoginPage {
      */
     public void clickLoginButton() {
         waitUntilElementVisible(loginButton);
-        driver.findElement(loginButton).click();
+        getDriver().findElement(loginButton).click();
     }
 
     /**
@@ -71,6 +66,6 @@ public class LoginPage {
      * @param locator the locator of the element
      */
     public void waitUntilElementVisible(By locator) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        new WebDriverWait(getDriver(), 10).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 }

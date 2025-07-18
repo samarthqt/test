@@ -12,12 +12,8 @@ import .util.List;
 
 public class ShipmentTrackingPage {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
-
     public ShipmentTrackingPage() {
         PageFactory.initElements(driver, this);
-        wait = new WebDriverWait(driver, 10);
     }
 
     public void navigateToShipmentTrackingPage() {
@@ -30,35 +26,34 @@ public class ShipmentTrackingPage {
     }
 
     public void enterShipmentID(String shipmentID) {
-        WebElement trackingField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("trackingField")));
+        WebElement trackingField = waitUntilElementVisible(By.id("trackingField"));
         trackingField.clear();
         trackingField.sendKeys(shipmentID);
         trackingField.submit();
-        Assert.assertTrue(hasErrorMessages(), "Error messages found after entering shipment ID.");
+        Assert.assertFalse(hasErrorMessages(), "Error messages found after entering shipment ID.");
     }
 
     public String getShipmentStatus() {
-        WebElement statusElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("shipmentStatus")));
+        WebElement statusElement = waitUntilElementVisible(By.id("shipmentStatus"));
         String status = statusElement.getText();
         Assert.assertNotNull(status, "Shipment status is null.");
         return status;
     }
 
     public void simulateStatusUpdate(String newStatus) {
-        WebElement updateButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("updateStatusButton")));
+        WebElement updateButton = waitUntilElementClickable(By.id("updateStatusButton"));
         updateButton.click();
-        WebElement statusDropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("statusDropdown")));
+        WebElement statusDropdown = waitUntilElementVisible(By.id("statusDropdown"));
         statusDropdown.sendKeys(newStatus);
         statusDropdown.submit();
         Assert.assertTrue(isStatusSynchronized(), "Status is not synchronized after update.");
     }
 
     public boolean verifyTimestamp() {
-        WebElement timestampElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("timestamp")));
+        WebElement timestampElement = waitUntilElementVisible(By.id("timestamp"));
         String timestamp = timestampElement.getText();
         Assert.assertNotNull(timestamp, "Timestamp is null.");
-        // Logic to verify timestamp with current time
-        return true;
+        return true; // Logic to verify timestamp with current time
     }
 
     public void refreshPage() {
@@ -67,15 +62,15 @@ public class ShipmentTrackingPage {
     }
 
     public void logOutAndLogIn() {
-        WebElement logoutButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("logoutButton")));
+        WebElement logoutButton = waitUntilElementClickable(By.id("logoutButton"));
         logoutButton.click();
-        WebElement loginButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("loginButton")));
+        WebElement loginButton = waitUntilElementClickable(By.id("loginButton"));
         loginButton.click();
         Assert.assertTrue(isTrackingPageDisplayed(), "Login failed.");
     }
 
     public boolean areNotificationsEnabled() {
-        WebElement notificationsCheckbox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("notificationsCheckbox")));
+        WebElement notificationsCheckbox = waitUntilElementVisible(By.id("notificationsCheckbox"));
         boolean isSelected = notificationsCheckbox.isSelected();
         Assert.assertTrue(isSelected, "Notifications are not enabled.");
         return isSelected;
@@ -87,15 +82,13 @@ public class ShipmentTrackingPage {
     }
 
     public boolean isNetworkIssueHandled() {
-        // Logic to verify network issue handling
-        return true;
+        return true; // Logic to verify network issue handling
     }
 
     public boolean verifyShipmentHistoryLog() {
-        WebElement historyLog = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("historyLog")));
-        // Logic to verify shipment history log
+        WebElement historyLog = waitUntilElementVisible(By.id("historyLog"));
         Assert.assertNotNull(historyLog, "Shipment history log is null.");
-        return true;
+        return true; // Logic to verify shipment history log
     }
 
     public boolean hasErrorMessages() {
@@ -111,13 +104,11 @@ public class ShipmentTrackingPage {
     }
 
     public boolean isStatusSynchronized() {
-        // Logic to verify status synchronization
-        return true;
+        return true; // Logic to verify status synchronization
     }
 
     public boolean verifyMobileStatusConsistency() {
-        // Logic to verify mobile status consistency
-        return true;
+        return true; // Logic to verify mobile status consistency
     }
 
     public void rebootSystem() {
@@ -128,5 +119,13 @@ public class ShipmentTrackingPage {
     public void closeBrowser() {
         driver.quit();
         Assert.assertNull(driver, "Browser did not close properly.");
+    }
+
+    private WebElement waitUntilElementVisible(By locator) {
+        return new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    private WebElement waitUntilElementClickable(By locator) {
+        return new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(locator));
     }
 }
