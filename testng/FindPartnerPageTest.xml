@@ -1,0 +1,7 @@
+<suite name="PartnerPageTestSuite">
+    <test name="FindPartnerPageTest">
+        <classes>
+            <class name="com.qt.tests.FindPartnerPageTest"/>
+        </classes>
+    </test>
+</suite>
