@@ -10,16 +10,11 @@ import org.testng.Assert;
 
 public class OrdersPage {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
-
     protected By ordersModule = By.id("ordersModule");
     protected By orderDetails = By.id("orderDetails");
     protected By shipmentStatusDropdown = By.id("shipmentStatus");
 
-    public OrdersPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10);
+    public OrdersPage() {
         PageFactory.initElements(driver, this);
     }
 
@@ -93,7 +88,7 @@ public class OrdersPage {
      * Waits until the specified element is visible.
      * @param locator The locator of the element to wait for.
      */
-    private void waitUntilElementVisible(By locator) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public void waitUntilElementVisible(By locator) {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 }
