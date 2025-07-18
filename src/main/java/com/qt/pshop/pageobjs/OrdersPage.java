@@ -1,99 +1,183 @@
 package com.qt.pshop.pageobjs;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import .util.List;
 
 public class OrdersPage {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
+    protected By btnProceedToCheckout = By.id("proceedToCheckout");
+    protected By txtFullName = By.id("fullName");
+    protected By txtAddress = By.id("address");
+    protected By txtCity = By.id("city");
+    protected By txtPostalCode = By.id("postalCode");
+    protected By txtPhone = By.id("phone");
+    protected By paymentMethodDropdown = By.id("paymentMethod");
+    protected By txtCardNumber = By.id("cardNumber");
+    protected By txtExpiryDate = By.id("expiryDate");
+    protected By txtCVV = By.id("cvv");
+    protected By btnPlaceOrder = By.id("placeOrder");
+    protected By orderConfirmationMessage = By.id("orderConfirmationMessage");
+    protected By btnPayWithPayPal = By.id("payWithPayPal");
+    protected By btnLoginToPayPal = By.id("paypalLogin");
+    protected By btnConfirmPayPalPayment = By.id("confirmPaypalPayment");
+    protected By orderDetailsSection = By.id("orderDetailsSection");
+    protected By wishlistLink = By.id("wishlistLink");
+    protected By wishlistItems = By.cssSelector(".wishlist-item");
 
-    protected By ordersModule = By.id("ordersModule");
-    protected By orderDetails = By.id("orderDetails");
-    protected By shipmentStatusDropdown = By.id("shipmentStatus");
-
-    public OrdersPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10);
+    public OrdersPage() {
         PageFactory.initElements(driver, this);
     }
 
-    /**
-     * Navigates to the Orders Module.
-     */
     public void navigateToOrdersModule() {
-        waitUntilElementVisible(ordersModule);
-        driver.findElement(ordersModule).click();
+        waitUntilElementVisible(wishlistLink);
+        clickElement(wishlistLink);
     }
 
-    /**
-     * Checks if the Orders Module is displayed.
-     * @return true if displayed, false otherwise.
-     */
     public boolean isOrdersModuleDisplayed() {
-        waitUntilElementVisible(ordersModule);
-        boolean isDisplayed = driver.findElement(ordersModule).isDisplayed();
+        waitUntilElementVisible(wishlistLink);
+        boolean isDisplayed = elementVisible(wishlistLink);
         Assert.assertTrue(isDisplayed, "Orders Module is not displayed.");
         return isDisplayed;
     }
 
-    /**
-     * Selects an order by its ID.
-     * @param orderId The ID of the order to select.
-     */
     public void selectOrderById(String orderId) {
-        By orderLocator = By.id(orderId);
+        By orderLocator = specificOrder(orderId);
         waitUntilElementVisible(orderLocator);
-        driver.findElement(orderLocator).click();
+        clickElement(orderLocator);
     }
 
-    /**
-     * Checks if the order details are displayed for a given order ID.
-     * @param orderId The ID of the order to check.
-     * @return true if order details are displayed, false otherwise.
-     */
     public boolean isOrderDetailsDisplayed(String orderId) {
-        waitUntilElementVisible(orderDetails);
-        String detailsText = driver.findElement(orderDetails).getText();
-        boolean isDisplayed = detailsText.contains(orderId);
-        Assert.assertTrue(isDisplayed, "Order details are not displayed for order ID: " + orderId);
-        return isDisplayed;
+        waitUntilElementVisible(orderDetailsSection);
+        boolean isVisible = elementVisible(orderDetailsSection);
+        Assert.assertTrue(isVisible, "Order details are not displayed for order ID: " + orderId);
+        return isVisible;
     }
 
-    /**
-     * Updates the shipment status.
-     * @param status The new shipment status to set.
-     */
     public void updateShipmentStatus(String status) {
-        waitUntilElementVisible(shipmentStatusDropdown);
-        WebElement dropdown = driver.findElement(shipmentStatusDropdown);
-        dropdown.sendKeys(status);
-        Assert.assertEquals(dropdown.getText(), status, "Shipment status was not updated to: " + status);
+        waitUntilElementVisible(paymentMethodDropdown);
+        selectByValue(paymentMethodDropdown, status);
+        Assert.assertEquals(getTextFromElement(paymentMethodDropdown), status, "Shipment status was not updated to: " + status);
     }
 
-    /**
-     * Checks if the shipment status is updated.
-     * @param status The expected shipment status.
-     * @return true if the shipment status is updated, false otherwise.
-     */
     public boolean isShipmentStatusUpdated(String status) {
-        waitUntilElementVisible(shipmentStatusDropdown);
-        String currentStatus = driver.findElement(shipmentStatusDropdown).getText();
+        waitUntilElementVisible(paymentMethodDropdown);
+        String currentStatus = getTextFromElement(paymentMethodDropdown);
         boolean isUpdated = currentStatus.equals(status);
         Assert.assertTrue(isUpdated, "Shipment status is not updated to: " + status);
         return isUpdated;
     }
 
-    /**
-     * Waits until the specified element is visible.
-     * @param locator The locator of the element to wait for.
-     */
+    public void proceedToCheckout() {
+        waitUntilElementVisible(btnProceedToCheckout);
+        clickElement(btnProceedToCheckout);
+    }
+
+    public void enterShippingDetails(String fullName, String address, String city, String postalCode, String phone) {
+        waitUntilElementVisible(txtFullName);
+        enterText(txtFullName, fullName);
+        enterText(txtAddress, address);
+        enterText(txtCity, city);
+        enterText(txtPostalCode, postalCode);
+        enterText(txtPhone, phone);
+    }
+
+    public void selectPaymentMethod(String method) {
+        waitUntilElementVisible(paymentMethodDropdown);
+        selectByValue(paymentMethodDropdown, method);
+    }
+
+    public void enterCreditCardDetails(String cardNumber, String expiryDate, String cvv) {
+        waitUntilElementVisible(txtCardNumber);
+        enterText(txtCardNumber, cardNumber);
+        enterText(txtExpiryDate, expiryDate);
+        enterText(txtCVV, cvv);
+    }
+
+    public void placeOrder() {
+        waitUntilElementVisible(btnPlaceOrder);
+        clickElement(btnPlaceOrder);
+    }
+
+    public void verifyOrderConfirmation(String expectedMessage) {
+        waitUntilElementVisible(orderConfirmationMessage);
+        String actualMessage = getTextFromElement(orderConfirmationMessage);
+        Assert.assertEquals(actualMessage, expectedMessage, "Order confirmation message does not match.");
+    }
+
+    public void verifyOrderDetailsDisplayed() {
+        waitUntilElementVisible(orderDetailsSection);
+        boolean isVisible = elementVisible(orderDetailsSection);
+        Assert.assertTrue(isVisible, "Order details are not displayed.");
+    }
+
+    public void addProductToWishlist() {
+        waitUntilElementVisible(wishlistLink);
+        clickElement(wishlistLink);
+    }
+
+    public boolean isWishlistNotEmpty() {
+        waitUntilElementVisible(wishlistItems);
+        List<WebElement> items = getWebElementList(wishlistItems);
+        boolean isNotEmpty = !items.isEmpty();
+        Assert.assertTrue(isNotEmpty, "Wishlist is empty.");
+        return isNotEmpty;
+    }
+
+    public void verifyWishlistContainsItems() {
+        Assert.assertTrue(isWishlistNotEmpty(), "Wishlist is empty.");
+    }
+
+    public void removeProductFromWishlist(String productName) {
+        By removeButton = removeWishlistItem(productName);
+        waitUntilElementVisible(removeButton);
+        clickElement(removeButton);
+    }
+
+    public void verifyProductRemoved(String productName) {
+        By productLocator = removeWishlistItem(productName);
+        boolean isProductPresent = elementVisible(productLocator);
+        Assert.assertFalse(isProductPresent, "Product was not removed from the wishlist.");
+    }
+
     private void waitUntilElementVisible(By locator) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    private void clickElement(By locator) {
+        driver.findElement(locator).click();
+    }
+
+    private void enterText(By locator, String text) {
+        driver.findElement(locator).sendKeys(text);
+    }
+
+    private void selectByValue(By locator, String value) {
+        WebElement dropdown = driver.findElement(locator);
+        dropdown.sendKeys(value);
+    }
+
+    private String getTextFromElement(By locator) {
+        return driver.findElement(locator).getText();
+    }
+
+    private boolean elementVisible(By locator) {
+        return driver.findElement(locator).isDisplayed();
+    }
+
+    private List<WebElement> getWebElementList(By locator) {
+        return driver.findElements(locator);
+    }
+
+    private By specificOrder(String orderId) {
+        return By.id(orderId);
+    }
+
+    private By removeWishlistItem(String productName) {
+        return By.xpath("//div[@class='wishlist-item' and contains(text(), '" + productName + "')]/following-sibling::button[@class='remove']");
     }
 }
