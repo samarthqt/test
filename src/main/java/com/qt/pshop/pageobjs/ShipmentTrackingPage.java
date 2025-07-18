@@ -12,9 +12,6 @@ import .util.List;
 
 public class ShipmentTrackingPage {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
-
     public ShipmentTrackingPage() {
         PageFactory.initElements(driver, this);
         wait = new WebDriverWait(driver, 10);
@@ -34,7 +31,7 @@ public class ShipmentTrackingPage {
         trackingField.clear();
         trackingField.sendKeys(shipmentID);
         trackingField.submit();
-        Assert.assertTrue(hasErrorMessages(), "Error messages found after entering shipment ID.");
+        Assert.assertFalse(hasErrorMessages(), "Error messages found after entering shipment ID.");
     }
 
     public String getShipmentStatus() {
@@ -105,24 +102,9 @@ public class ShipmentTrackingPage {
         return hasErrors;
     }
 
-    public void updateStatusFromDifferentDevice() {
-        // Logic to update status from a different device
-        Assert.assertTrue(isStatusSynchronized(), "Status is not synchronized across devices.");
-    }
-
     public boolean isStatusSynchronized() {
         // Logic to verify status synchronization
         return true;
-    }
-
-    public boolean verifyMobileStatusConsistency() {
-        // Logic to verify mobile status consistency
-        return true;
-    }
-
-    public void rebootSystem() {
-        // Logic to reboot system
-        Assert.assertTrue(isTrackingPageDisplayed(), "System reboot failed.");
     }
 
     public void closeBrowser() {
