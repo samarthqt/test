@@ -8,49 +8,50 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+/**
+ * Represents the Alert Page in the application.
+ */
 public class AlertPage {
-
-    private WebDriver driver;
-    private WebDriverWait wait;
 
     protected By outgoingAlerts = By.id("outgoingAlerts");
     protected By alertMessage = By.id("alertMessage");
 
-    public AlertPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10);
+    /**
+     * Initializes the page elements using PageFactory.
+     */
+    public AlertPage() {
         PageFactory.initElements(driver, this);
     }
 
     /**
-     * Clicks on the outgoing alerts element.
+     * Checks the outgoing alerts by clicking the element.
      */
     public void checkOutgoingAlerts() {
-        WebElement element = waitUntilElementVisible(outgoingAlerts);
+        WebElement element = waitUntilElementVisible(outgoingAlerts, 10);
         element.click();
     }
 
     /**
-     * Checks if an alert has been sent to the specified email.
-     * 
-     * @param email The email to check for.
-     * @return True if the alert has been sent, false otherwise.
+     * Verifies if an alert has been sent to the specified email.
+     *
+     * @param email The email to check for alert sending.
+     * @return True if the alert is sent, false otherwise.
      */
     public boolean isAlertSent(String email) {
-        WebElement element = waitUntilElementVisible(outgoingAlerts);
+        WebElement element = waitUntilElementVisible(outgoingAlerts, 10);
         boolean isSent = element.getText().contains(email);
         Assert.assertTrue(isSent, "Alert not sent to the specified email.");
         return isSent;
     }
 
     /**
-     * Verifies if the alert message received matches the expected message.
-     * 
+     * Verifies if the alert received matches the expected message.
+     *
      * @param expectedMessage The expected alert message.
      * @return True if the alert message matches, false otherwise.
      */
     public boolean verifyAlertReceived(String expectedMessage) {
-        WebElement element = waitUntilElementVisible(alertMessage);
+        WebElement element = waitUntilElementVisible(alertMessage, 10);
         String actualMessage = element.getText();
         boolean isReceived = actualMessage.equals(expectedMessage);
         Assert.assertTrue(isReceived, "Alert message does not match the expected message.");
@@ -59,11 +60,13 @@ public class AlertPage {
 
     /**
      * Waits until the specified element is visible.
-     * 
-     * @param locator The locator of the element to wait for.
+     *
+     * @param locator The locator of the element.
+     * @param timeOutInSeconds The timeout in seconds.
      * @return The visible WebElement.
      */
-    private WebElement waitUntilElementVisible(By locator) {
+    public WebElement waitUntilElementVisible(By locator, long timeOutInSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 }
