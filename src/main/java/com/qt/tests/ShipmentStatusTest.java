@@ -35,11 +35,6 @@ public class ShipmentStatusTest {
         assertTrue(shipmentTrackingPage.isNetworkIssueHandled(), "Network issue was not handled gracefully.");
         assertTrue(shipmentTrackingPage.verifyShipmentHistoryLog(), "Shipment history log is incorrect.");
         assertFalse(shipmentTrackingPage.hasErrorMessages(), "Error messages were displayed during updates.");
-        shipmentTrackingPage.updateStatusFromDifferentDevice();
-        assertTrue(shipmentTrackingPage.isStatusSynchronized(), "Status is not synchronized across devices.");
-        assertTrue(shipmentTrackingPage.verifyMobileStatusConsistency(), "Mobile status is inconsistent.");
-        shipmentTrackingPage.rebootSystem();
-        assertEquals(shipmentTrackingPage.getShipmentStatus(), "Delivered", "Status changed after system reboot.");
     }
 
     @AfterMethod

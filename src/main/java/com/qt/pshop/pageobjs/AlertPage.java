@@ -10,15 +10,10 @@ import org.testng.Assert;
 
 public class AlertPage {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
-
     protected By outgoingAlerts = By.id("outgoingAlerts");
     protected By alertMessage = By.id("alertMessage");
 
-    public AlertPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10);
+    public AlertPage() {
         PageFactory.initElements(driver, this);
     }
 
@@ -63,7 +58,7 @@ public class AlertPage {
      * @param locator The locator of the element to wait for.
      * @return The visible WebElement.
      */
-    private WebElement waitUntilElementVisible(By locator) {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public WebElement waitUntilElementVisible(By locator) {
+        return new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 }
