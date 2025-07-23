@@ -1,0 +1,7 @@
+<suite name="ProductCatalogSortingSuite">
+    <test name="ProductCatalogSortingTest">
+        <classes>
+            <class name="com.qt.tests.ProductCatalogSortingTest"/>
+        </classes>
+    </test>
+</suite>

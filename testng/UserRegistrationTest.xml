@@ -1,0 +1,7 @@
+<suite name="UserRegistrationSuite">
+    <test name="UserRegistrationTests">
+        <classes>
+            <class name="com.qt.tests.UserRegistrationTest"/>
+        </classes>
+    </test>
+</suite>
