@@ -1,7 +1,0 @@
-<suite name="UserLoginSuite">
-  <test name="UserLoginTest">
-    <classes>
-      <class name="com.qt.tests.UserLoginTest"/>
-    </classes>
-  </test>
-</suite>
