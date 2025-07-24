@@ -1,10 +1,20 @@
 <testng>
-    <suite name="ShipmentTrackingSuite">
-        <test name="ShipmentTrackingTests">
+    <suite name="TestSuite">
+        <test name="ShipmentTests">
             <classes>
                 <class name="com.qt.tests.RealTimeShipmentStatusUpdatesTest"/>
                 <class name="com.qt.tests.LiveTrackingTest"/>
                 <class name="com.qt.tests.InstantShipmentTrackingAlertTest"/>
+            </classes>
+        </test>
+        <test name="PartnerTests">
+            <classes>
+                <class name="com.qt.tests.FindPartnerTest"/>
+            </classes>
+        </test>
+        <test name="AgileTests">
+            <classes>
+                <class name="com.qt.tests.AgileTestingTest"/>
             </classes>
         </test>
     </suite>
