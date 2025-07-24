@@ -1,6 +1,7 @@
 package com.qt.pshop.pageobjs;
 import org.openqa.selenium.By;
 import com.framework.reusable.WebReusableComponents;
+import org.openqa.selenium.support.PageFactory;
 
 public class AlertSystemPage extends WebReusableComponents {
 

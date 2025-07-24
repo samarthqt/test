@@ -1,15 +1,16 @@
 package com.qt.pshop.pageobjs;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import com.framework.reusable.WebReusableComponents;
 
 public class LiveTrackingPage extends WebReusableComponents {
 
     private By trackingField = By.id("trackingField");
-    private By currentLocation = By.id("currentLocation");
-    private By estimatedDeliveryTime = By.id("estimatedDeliveryTime");
+    private By currentStatus = By.id("currentStatus");
+    private By latestStatusTimestamp = By.id("latestStatusTimestamp");
     private By notificationSettings = By.id("notificationSettings");
-    private By trackingHistoryLog = By.id("trackingHistoryLog");
+    private By shipmentHistoryLog = By.id("shipmentHistoryLog");
 
     public LiveTrackingPage() {
         PageFactory.initElements(driver, this);
@@ -23,69 +24,64 @@ public class LiveTrackingPage extends WebReusableComponents {
     public void enterShipmentId(String shipmentId) {
         waitUntilElementVisible(trackingField, 3);
         enterText(trackingField, shipmentId);
-        Assert.assertTrue(getTextFromElement(currentLocation).contains("Location"), "Live tracking details are not displayed.");
+        Assert.assertTrue(getTextFromElement(currentStatus).contains("Status"), "Shipment status details are not displayed.");
     }
 
-    public void verifyCurrentLocation() {
-        Assert.assertTrue(getTextFromElement(currentLocation).contains("Current Location"), "Current location is not displayed.");
+    public void checkCurrentStatus() {
+        Assert.assertTrue(getTextFromElement(currentStatus).contains("Current Status"), "Current status is not displayed.");
     }
 
-    public void simulateLocationChange() {
-        // Simulate location change logic
-        Assert.assertTrue(getTextFromElement(currentLocation).contains("Updated Location"), "Location did not update in real-time.");
+    public void simulateStatusUpdate(String status) {
+        // Simulate status update logic
+        Assert.assertTrue(getTextFromElement(currentStatus).contains(status), "Status did not update correctly.");
     }
 
-    public void verifyEstimatedDeliveryTime() {
-        Assert.assertTrue(getTextFromElement(estimatedDeliveryTime).contains("Estimated Delivery Time"), "Estimated delivery time is not displayed accurately.");
+    public void verifyLatestStatusTimestamp() {
+        Assert.assertTrue(getTextFromElement(latestStatusTimestamp).contains("Timestamp"), "Latest status timestamp is not displayed accurately.");
     }
 
     public void refreshPage() {
         driver.navigate().refresh();
-        Assert.assertTrue(getTextFromElement(currentLocation).contains("Location"), "Live tracking information is not consistent after refresh.");
+        Assert.assertTrue(getTextFromElement(currentStatus).contains("Status"), "Shipment status information is not consistent after refresh.");
     }
 
     public void logOutAndLogIn() {
         // Log out and log in logic
-        Assert.assertTrue(getTextFromElement(currentLocation).contains("Location"), "Live tracking information is not available after log in.");
+        Assert.assertTrue(getTextFromElement(currentStatus).contains("Status"), "Shipment status information is not available after log in.");
     }
 
     public void checkNotificationSettings() {
         waitUntilElementVisible(notificationSettings, 3);
-        Assert.assertTrue(getTextFromElement(notificationSettings).contains("Enabled"), "Notifications are not enabled for live tracking updates.");
+        Assert.assertTrue(getTextFromElement(notificationSettings).contains("Enabled"), "Notifications are not enabled for shipment updates.");
     }
 
     public void simulateNetworkIssue() {
         // Simulate network issue logic
-        Assert.assertTrue(getTextFromElement(currentLocation).contains("Location"), "System did not handle network issue gracefully.");
+        Assert.assertTrue(getTextFromElement(currentStatus).contains("Status"), "System did not handle network issue gracefully.");
     }
 
-    public void verifyTrackingHistoryLog() {
-        waitUntilElementVisible(trackingHistoryLog, 3);
-        Assert.assertTrue(getTextFromElement(trackingHistoryLog).contains("Location Updates"), "Tracking history log does not contain all updates.");
+    public void verifyShipmentHistoryLog() {
+        waitUntilElementVisible(shipmentHistoryLog, 3);
+        Assert.assertTrue(getTextFromElement(shipmentHistoryLog).contains("Status Updates"), "Shipment history log does not contain all updates.");
     }
 
     public void checkForErrorMessages() {
         // Check for error messages logic
-        Assert.assertFalse(driver.getPageSource().contains("Error"), "Error messages are displayed during location updates.");
+        Assert.assertFalse(driver.getPageSource().contains("Error"), "Error messages are displayed during status updates.");
     }
 
-    public void updateLocationFromDifferentDevice() {
-        // Update location from different device logic
-        Assert.assertTrue(getTextFromElement(currentLocation).contains("Synchronized"), "Location updates are not synchronized across devices.");
+    public void updateStatusFromDifferentDevice() {
+        // Update status from different device logic
+        Assert.assertTrue(getTextFromElement(currentStatus).contains("Synchronized"), "Status updates are not synchronized across devices.");
     }
 
-    public void verifyMobileTrackingConsistency() {
-        // Verify mobile tracking consistency logic
-        Assert.assertTrue(getTextFromElement(currentLocation).contains("Consistent"), "Tracking is not consistent with the desktop view.");
+    public void verifyShipmentStatusOnMobile() {
+        // Verify shipment status on mobile device logic
+        Assert.assertTrue(getTextFromElement(currentStatus).contains("Consistent"), "Shipment status is not consistent with the desktop view.");
     }
 
-    public void checkTrackingAfterReboot() {
-        // Check tracking after system reboot logic
-        Assert.assertTrue(getTextFromElement(currentLocation).contains("Available"), "Tracking information is not available after system reboot.");
-    }
-
-    public void verifyTrackingAccuracy() {
-        // Verify tracking accuracy logic
-        Assert.assertTrue(getTextFromElement(currentLocation).contains("Accurate"), "Live tracking information is not accurate and reliable.");
+    public void checkShipmentStatusAfterReboot() {
+        // Check shipment status after system reboot logic
+        Assert.assertTrue(getTextFromElement(currentStatus).contains("Available"), "Shipment status information is not available after system reboot.");
     }
 }

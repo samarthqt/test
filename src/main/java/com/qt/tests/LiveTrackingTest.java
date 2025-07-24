@@ -17,22 +17,22 @@ public class LiveTrackingTest {
     }
 
     @Test
-    public void testLiveTrackingForShipments() {
+    public void testShipmentStatusChanges() {
         liveTrackingPage.navigateToLiveTrackingPage();
-        liveTrackingPage.enterShipmentId("54321");
-        liveTrackingPage.verifyCurrentLocation();
-        liveTrackingPage.simulateLocationChange();
-        liveTrackingPage.verifyEstimatedDeliveryTime();
+        liveTrackingPage.enterShipmentId("12345");
+        liveTrackingPage.checkCurrentStatus();
+        liveTrackingPage.simulateStatusUpdate("Out for Delivery");
+        liveTrackingPage.simulateStatusUpdate("Delivered");
+        liveTrackingPage.verifyLatestStatusTimestamp();
         liveTrackingPage.refreshPage();
         liveTrackingPage.logOutAndLogIn();
         liveTrackingPage.checkNotificationSettings();
         liveTrackingPage.simulateNetworkIssue();
-        liveTrackingPage.verifyTrackingHistoryLog();
+        liveTrackingPage.verifyShipmentHistoryLog();
         liveTrackingPage.checkForErrorMessages();
-        liveTrackingPage.updateLocationFromDifferentDevice();
-        liveTrackingPage.verifyMobileTrackingConsistency();
-        liveTrackingPage.checkTrackingAfterReboot();
-        liveTrackingPage.verifyTrackingAccuracy();
+        liveTrackingPage.updateStatusFromDifferentDevice();
+        liveTrackingPage.verifyShipmentStatusOnMobile();
+        liveTrackingPage.checkShipmentStatusAfterReboot();
     }
 
     @AfterMethod

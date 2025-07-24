@@ -1,13 +1,14 @@
 package com.qt.pshop.pageobjs;
 import org.openqa.selenium.By;
 import com.framework.reusable.WebReusableComponents;
+import org.openqa.selenium.support.PageFactory;
 
 public class OrdersPage extends WebReusableComponents {
 
     private By ordersModule = By.id("ordersModule");
     private By orderDetails = By.id("orderDetails");
     private By shipmentStatusDropdown = By.id("shipmentStatus");
-    private By dispatchedOption = By.xpath("//option[text()='Dispatched']");
+    private By shippedOption = By.xpath("//option[text()='Shipped']");
 
     public OrdersPage() {
         PageFactory.initElements(driver, this);
@@ -30,11 +31,11 @@ public class OrdersPage extends WebReusableComponents {
         return isElementVisible(orderDetails, 5);
     }
 
-    public void updateShipmentStatusToDispatched() {
-        selectByVisibleText(shipmentStatusDropdown, "Dispatched");
+    public void updateShipmentStatusToShipped() {
+        selectByVisibleText(shipmentStatusDropdown, "Shipped");
     }
 
-    public boolean isShipmentStatusUpdatedToDispatched() {
-        return getSelectedOption(shipmentStatusDropdown).equals("Dispatched");
+    public boolean isShipmentStatusUpdatedToShipped() {
+        return getSelectedOption(shipmentStatusDropdown).equals("Shipped");
     }
 }
