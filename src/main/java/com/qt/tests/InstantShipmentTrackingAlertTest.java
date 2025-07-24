@@ -1,0 +1,48 @@
+package com.qt.tests;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import com.qt.pshop.pageobjs.LoginPage;
+import com.qt.pshop.pageobjs.OrdersPage;
+import com.qt.pshop.pageobjs.AlertSystemPage;
+import static org.testng.Assert.assertTrue;
+
+public class InstantShipmentTrackingAlertTest {
+
+    private LoginPage loginPage;
+    private OrdersPage ordersPage;
+    private AlertSystemPage alertSystemPage;
+
+    @BeforeMethod
+    public void setUp() {
+        loginPage = new LoginPage();
+        ordersPage = new OrdersPage();
+        alertSystemPage = new AlertSystemPage();
+    }
+
+    @Test
+    public void testInstantShipmentTrackingAlert() {
+        loginPage.login("validUsername", "validPassword");
+        assertTrue(loginPage.isDashboardDisplayed(), "Dashboard is not displayed.");
+
+        ordersPage.navigateToOrdersModule();
+        assertTrue(ordersPage.isOrdersModuleDisplayed(), "Orders module is not displayed.");
+
+        ordersPage.selectOrderById("12345");
+        assertTrue(ordersPage.isOrderDetailsDisplayed("12345"), "Order details for ID 12345 are not displayed.");
+
+        ordersPage.updateShipmentStatusToDispatched();
+        assertTrue(ordersPage.isShipmentStatusUpdatedToDispatched(), "Shipment status is not updated to 'Dispatched'.");
+
+        alertSystemPage.checkOutgoingAlerts();
+        assertTrue(alertSystemPage.isAlertSentToCustomer("customer@example.com"), "Alert is not sent to customer@example.com.");
+
+        assertTrue(alertSystemPage.verifyCustomerAlert("Your shipment has been dispatched."), "Customer did not receive the correct alert.");
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        // Code to close browser or clean up resources
+    }
+}
