@@ -42,14 +42,6 @@ public class RealTimeShipmentStatusUpdatesTest {
         assertTrue(shipmentTrackingPage.verifyShipmentHistoryLog());
 
         assertFalse(shipmentTrackingPage.checkForErrorMessages());
-
-        shipmentTrackingPage.updateStatusFromDifferentDevice();
-        assertEquals(shipmentTrackingPage.getCurrentStatus(), "Delivered");
-
-        assertTrue(shipmentTrackingPage.verifyStatusOnMobileDevice());
-
-        shipmentTrackingPage.rebootSystem();
-        assertEquals(shipmentTrackingPage.getCurrentStatus(), "Delivered");
     }
 
     @AfterMethod

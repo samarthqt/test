@@ -1,6 +1,7 @@
 package com.qt.pshop.pageobjs;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import com.framework.reusable.WebReusableComponents;
 import java.util.List;
 
@@ -62,19 +63,6 @@ public class ShipmentTrackingPage extends WebReusableComponents {
 
     public boolean checkForErrorMessages() {
         return driver.findElements(errorMessages).isEmpty();
-    }
-
-    public void updateStatusFromDifferentDevice() {
-        // Update status from different device logic
-    }
-
-    public boolean verifyStatusOnMobileDevice() {
-        // Verify status on mobile device logic
-        return true;
-    }
-
-    public void rebootSystem() {
-        // Reboot system logic
     }
 
     public void closeBrowser() {
