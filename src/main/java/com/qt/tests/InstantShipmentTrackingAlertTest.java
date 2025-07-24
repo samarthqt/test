@@ -29,16 +29,16 @@ public class InstantShipmentTrackingAlertTest {
         ordersPage.navigateToOrdersModule();
         assertTrue(ordersPage.isOrdersModuleDisplayed(), "Orders module is not displayed.");
 
-        ordersPage.selectOrderById("12345");
-        assertTrue(ordersPage.isOrderDetailsDisplayed("12345"), "Order details for ID 12345 are not displayed.");
+        ordersPage.selectOrderById("333");
+        assertTrue(ordersPage.isOrderDetailsDisplayed("333"), "Order details for ID 333 are not displayed.");
 
-        ordersPage.updateShipmentStatusToDispatched();
-        assertTrue(ordersPage.isShipmentStatusUpdatedToDispatched(), "Shipment status is not updated to 'Dispatched'.");
+        ordersPage.updateShipmentStatusToShipped();
+        assertTrue(ordersPage.isShipmentStatusUpdatedToShipped(), "Shipment status is not updated to 'Shipped'.");
 
         alertSystemPage.checkOutgoingAlerts();
-        assertTrue(alertSystemPage.isAlertSentToCustomer("customer@example.com"), "Alert is not sent to customer@example.com.");
+        assertTrue(alertSystemPage.isAlertSentToCustomer("customer@qualitest.com"), "Alert is not sent to customer@qualitest.com.");
 
-        assertTrue(alertSystemPage.verifyCustomerAlert("Your shipment has been dispatched."), "Customer did not receive the correct alert.");
+        assertTrue(alertSystemPage.verifyCustomerAlert("Your shipment has been shipped."), "Customer did not receive the correct alert.");
     }
 
     @AfterMethod

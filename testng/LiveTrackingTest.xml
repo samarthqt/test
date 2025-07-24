@@ -1,0 +1,14 @@
+<testng>
+    <suite name="TestSuite">
+        <test name="LiveTrackingTestSuite">
+            <classes>
+                <class name="com.qt.tests.LiveTrackingTest"/>
+            </classes>
+        </test>
+        <test name="InstantShipmentTrackingAlertTestSuite">
+            <classes>
+                <class name="com.qt.tests.InstantShipmentTrackingAlertTest"/>
+            </classes>
+        </test>
+    </suite>
+</testng>
