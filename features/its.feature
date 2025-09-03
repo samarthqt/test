@@ -17,3 +17,9 @@ Feature: Instant Shipment Tracking Alert for Dispatch
     Then the shipment status is updated to 'Dispatched'
     And an alert is sent to customer@example.com notifying them of the dispatch status
     Then the customer receives an alert with the message: 'Your shipment has been dispatched.'
+    And a shipment tracking number is generated for order ID 12345
+    And the shipment tracking number is visible in the order details
+    When the user updates the inventory for the dispatched item
+    Then inventory levels reflect the dispatched order correctly
+    When the user downloads the dispatch report for order ID 12345
+    Then the dispatch report contents are verified
