@@ -1,11 +1,11 @@
 package selenium1.page_objects;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 public class ShipmentPage {
@@ -30,9 +30,27 @@ public class ShipmentPage {
     protected By syncStatus = By.id("syncStatus");
     protected By mobileStatus = By.id("mobileStatus");
     protected By rebootButton = By.id("rebootButton");
+    protected By locationField = By.id("locationField");
+    protected By okButton = By.id("okButton");
+    protected By notificationSettings = By.id("notificationSettings");
 
     public ShipmentPage() {
         PageFactory.initElements(getDriver(), this);
+    }
+
+    public WebDriver getDriver() {
+        // Implement driver retrieval logic
+        return WebReusableComponents.getDriver();
+    }
+
+    public WebElement waitUntilElementVisible(By locator) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    public WebElement waitUntilElementClickable(By locator) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+        return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
     public void login(String userID) {
@@ -163,16 +181,23 @@ public class ShipmentPage {
         Assert.assertTrue(isTrackingPageDisplayed(), "System reboot failed, tracking page not displayed.");
     }
 
-    private WebElement waitUntilElementVisible(By locator) {
-        return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public void selectLocation(String location) {
+        WebElement locationFieldElement = waitUntilElementVisible(locationField);
+        locationFieldElement.clear();
+        locationFieldElement.sendKeys(location);
+        Assert.assertTrue(locationFieldElement.getAttribute("value").equals(location), "Location selection failed.");
     }
 
-    private WebElement waitUntilElementClickable(By locator) {
-        return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.elementToBeClickable(locator));
+    public void clickOkButton() {
+        WebElement okButtonElement = waitUntilElementClickable(okButton);
+        okButtonElement.click();
+        Assert.assertTrue(isTrackingPageDisplayed(), "Clicking OK button failed, tracking page not displayed.");
     }
 
-    private WebDriver getDriver() {
-        // Implement method to return WebDriver instance
-        return null;
+    public boolean verifyNotificationSettings() {
+        WebElement notificationSettingsElement = waitUntilElementVisible(notificationSettings);
+        boolean isVerified = notificationSettingsElement.isDisplayed();
+        Assert.assertTrue(isVerified, "Notification settings verification failed.");
+        return isVerified;
     }
 }

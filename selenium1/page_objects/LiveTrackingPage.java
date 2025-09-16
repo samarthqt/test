@@ -1,11 +1,10 @@
 package selenium1.page_objects;
 
 import com.framework.reusable.WebReusableComponents;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.openqa.selenium.support.PageFactory;
 
 public class LiveTrackingPage extends WebReusableComponents {
 
