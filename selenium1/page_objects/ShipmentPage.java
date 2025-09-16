@@ -1,14 +1,14 @@
 package selenium1.page_objects;
 
+import com.framework.reusable.WebReusableComponents;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-public class ShipmentPage {
+public class ShipmentPage extends WebReusableComponents {
 
     protected By trackingPage = By.id("trackingPage");
     protected By shipmentIDField = By.id("shipmentID");
@@ -171,8 +171,7 @@ public class ShipmentPage {
         return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.elementToBeClickable(locator));
     }
 
-    private WebDriver getDriver() {
-        // Implement method to return WebDriver instance
-        return null;
+    public WebDriver getDriver() {
+        return WebReusableComponents.getDriver();
     }
 }
