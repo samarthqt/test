@@ -36,53 +36,53 @@ public class ShipmentPage {
     }
 
     public void login(String userID) {
-        WebElement loginFieldElement = waitUntilElementVisible(loginField);
+        WebElement loginFieldElement = waitUntilElementVisible(loginField, 10);
         loginFieldElement.clear();
         loginFieldElement.sendKeys(userID);
-        WebElement loginButtonElement = waitUntilElementClickable(loginButton);
+        WebElement loginButtonElement = waitUntilElementClickable(loginButton, 10);
         loginButtonElement.click();
         Assert.assertTrue(isTrackingPageDisplayed(), "Login failed, tracking page not displayed.");
     }
 
     public void navigateToShipmentTrackingPage() {
-        WebElement trackingLinkElement = waitUntilElementClickable(trackingLink);
+        WebElement trackingLinkElement = waitUntilElementClickable(trackingLink, 10);
         trackingLinkElement.click();
         Assert.assertTrue(isTrackingPageDisplayed(), "Failed to navigate to shipment tracking page.");
     }
 
     public boolean isTrackingPageDisplayed() {
-        return waitUntilElementVisible(trackingPage).isDisplayed();
+        return waitUntilElementVisible(trackingPage, 10).isDisplayed();
     }
 
     public void enterShipmentID(String shipmentID) {
-        WebElement shipmentIDElement = waitUntilElementVisible(shipmentIDField);
+        WebElement shipmentIDElement = waitUntilElementVisible(shipmentIDField, 10);
         shipmentIDElement.clear();
         shipmentIDElement.sendKeys(shipmentID);
         Assert.assertTrue(isShipmentDetailsDisplayed(shipmentID), "Shipment details not displayed for ID: " + shipmentID);
     }
 
     public boolean isShipmentDetailsDisplayed(String shipmentID) {
-        WebElement shipmentDetailsElement = waitUntilElementVisible(shipmentDetails);
+        WebElement shipmentDetailsElement = waitUntilElementVisible(shipmentDetails, 10);
         return shipmentDetailsElement.getText().contains(shipmentID);
     }
 
     public String checkCurrentStatus() {
-        String status = waitUntilElementVisible(currentStatus).getText();
+        String status = waitUntilElementVisible(currentStatus, 10).getText();
         Assert.assertNotNull(status, "Current status is null.");
         return status;
     }
 
     public void simulateStatusUpdate(String newStatus) {
-        WebElement statusUpdateFieldElement = waitUntilElementVisible(statusUpdateField);
+        WebElement statusUpdateFieldElement = waitUntilElementVisible(statusUpdateField, 10);
         statusUpdateFieldElement.clear();
         statusUpdateFieldElement.sendKeys(newStatus);
-        WebElement updateButtonElement = waitUntilElementClickable(updateButton);
+        WebElement updateButtonElement = waitUntilElementClickable(updateButton, 10);
         updateButtonElement.click();
         Assert.assertEquals(checkCurrentStatus(), newStatus, "Status update failed.");
     }
 
     public String verifyLatestStatusTimestamp() {
-        String latestTimestamp = waitUntilElementVisible(timestamp).getText();
+        String latestTimestamp = waitUntilElementVisible(timestamp, 10).getText();
         Assert.assertNotNull(latestTimestamp, "Timestamp is null.");
         return latestTimestamp;
     }
@@ -100,79 +100,81 @@ public class ShipmentPage {
     }
 
     public void logout() {
-        WebElement logoutButtonElement = waitUntilElementClickable(logoutButton);
+        WebElement logoutButtonElement = waitUntilElementClickable(logoutButton, 10);
         logoutButtonElement.click();
         Assert.assertFalse(isTrackingPageDisplayed(), "Logout failed, tracking page still displayed.");
     }
 
     public boolean areNotificationsEnabled() {
-        boolean notificationsEnabled = waitUntilElementVisible(notifications).isDisplayed();
+        boolean notificationsEnabled = waitUntilElementVisible(notifications, 10).isDisplayed();
         Assert.assertTrue(notificationsEnabled, "Notifications are not enabled.");
         return notificationsEnabled;
     }
 
     public void simulateNetworkIssue() {
-        WebElement networkIssueButtonElement = waitUntilElementClickable(networkIssueButton);
+        WebElement networkIssueButtonElement = waitUntilElementClickable(networkIssueButton, 10);
         networkIssueButtonElement.click();
         Assert.assertTrue(isNetworkIssueHandledGracefully(), "Network issue not handled gracefully.");
     }
 
     public boolean isNetworkIssueHandledGracefully() {
-        WebElement networkErrorElement = waitUntilElementVisible(networkError);
+        WebElement networkErrorElement = waitUntilElementVisible(networkError, 10);
         boolean isHandled = networkErrorElement.isDisplayed();
         Assert.assertTrue(isHandled, "Network issue not handled gracefully.");
         return isHandled;
     }
 
     public boolean verifyShipmentHistoryLog() {
-        WebElement historyLogElement = waitUntilElementVisible(historyLog);
+        WebElement historyLogElement = waitUntilElementVisible(historyLog, 10);
         boolean isLogVerified = historyLogElement.isDisplayed();
         Assert.assertTrue(isLogVerified, "Shipment history log verification failed.");
         return isLogVerified;
     }
 
     public boolean areErrorMessagesDisplayed() {
-        boolean errorsDisplayed = waitUntilElementVisible(errorMessages).isDisplayed();
+        boolean errorsDisplayed = waitUntilElementVisible(errorMessages, 10).isDisplayed();
         Assert.assertTrue(errorsDisplayed, "Error messages are not displayed.");
         return errorsDisplayed;
     }
 
     public void updateStatusFromDifferentDevice() {
-        WebElement updateDeviceButtonElement = waitUntilElementClickable(updateDeviceButton);
+        WebElement updateDeviceButtonElement = waitUntilElementClickable(updateDeviceButton, 10);
         updateDeviceButtonElement.click();
         Assert.assertTrue(isStatusSynchronizedAcrossDevices(), "Status update from different device failed.");
     }
 
     public boolean isStatusSynchronizedAcrossDevices() {
-        WebElement syncStatusElement = waitUntilElementVisible(syncStatus);
+        WebElement syncStatusElement = waitUntilElementVisible(syncStatus, 10);
         boolean isSynchronized = syncStatusElement.isDisplayed();
         Assert.assertTrue(isSynchronized, "Status is not synchronized across devices.");
         return isSynchronized;
     }
 
     public boolean verifyStatusOnMobileDevice() {
-        WebElement mobileStatusElement = waitUntilElementVisible(mobileStatus);
+        WebElement mobileStatusElement = waitUntilElementVisible(mobileStatus, 10);
         boolean isVerified = mobileStatusElement.isDisplayed();
         Assert.assertTrue(isVerified, "Status verification on mobile device failed.");
         return isVerified;
     }
 
     public void rebootSystem() {
-        WebElement rebootButtonElement = waitUntilElementClickable(rebootButton);
+        WebElement rebootButtonElement = waitUntilElementClickable(rebootButton, 10);
         rebootButtonElement.click();
         Assert.assertTrue(isTrackingPageDisplayed(), "System reboot failed, tracking page not displayed.");
-    }
-
-    private WebElement waitUntilElementVisible(By locator) {
-        return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.visibilityOfElementLocated(locator));
-    }
-
-    private WebElement waitUntilElementClickable(By locator) {
-        return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.elementToBeClickable(locator));
     }
 
     private WebDriver getDriver() {
         // Implement method to return WebDriver instance
         return null;
+    }
+
+    private WebElement waitUntilElementVisible(By locator, int timeout) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), timeout);
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    private WebElement waitUntilElementClickable(By locator, int timeout) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), timeout);
+        return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 }
