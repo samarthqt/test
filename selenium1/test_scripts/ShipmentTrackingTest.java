@@ -26,6 +26,9 @@ public class ShipmentTrackingTest extends WebReusableComponents {
         assert alertSent : "Alert was not sent to the customer.";
         boolean alertReceived = shipmentTrackingPage.verifyAlertReceivedByCustomer("Your shipment has been dispatched.");
         assert alertReceived : "Customer did not receive the expected alert.";
+        shipmentTrackingPage.verifyOrderHistory("12345", "Shipment status updated to 'Dispatched'");
+        shipmentTrackingPage.checkAuditTrailLogs("12345");
+        shipmentTrackingPage.confirmStatusInCustomerPortal("12345", "Dispatched");
     }
 
     @AfterMethod
