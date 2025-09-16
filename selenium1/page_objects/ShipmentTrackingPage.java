@@ -1,13 +1,13 @@
 package selenium1.page_objects;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.WebElement;
+import .util.List;
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-import .util.List;
+import org.openqa.selenium.By;
 
 public class ShipmentTrackingPage {
 
@@ -57,13 +57,14 @@ public class ShipmentTrackingPage {
     }
 
     public boolean verifyAlertReceivedByCustomer(String expectedMessage) {
-        boolean alertReceived = true; // Placeholder for actual alert check logic
+        waitUntilElementVisible(alertSystem, 3);
+        boolean alertReceived = getTextFromElement(alertSystem).contains(expectedMessage);
         Assert.assertTrue(alertReceived, "Alert not received by customer: " + expectedMessage);
         return alertReceived;
     }
 
     public void waitUntilElementVisible(By locator, int timeout) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        new WebDriverWait(driver, timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public void clickElement(By locator) {
