@@ -1,0 +1,7 @@
+<suite name="LiveTrackingTestSuite">
+  <test name="LiveTrackingTests">
+    <classes>
+      <class name="com.qt.tests.LiveTrackingTest"/>
+    </classes>
+  </test>
+</suite>
