@@ -1,0 +1,7 @@
+<suite name="AgileTestingSuite">
+  <test name="AgileTestingTest">
+    <classes>
+      <class name="selenium1.test_scripts.AgileTestingTest"/>
+    </classes>
+  </test>
+</suite>

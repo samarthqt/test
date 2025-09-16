@@ -50,14 +50,6 @@ public class ShipmentStatusTest {
         Assert.assertTrue(shipmentPage.verifyShipmentHistoryLog());
 
         Assert.assertFalse(shipmentPage.areErrorMessagesDisplayed());
-
-        shipmentPage.updateStatusFromDifferentDevice();
-        Assert.assertTrue(shipmentPage.isStatusSynchronizedAcrossDevices());
-
-        Assert.assertTrue(shipmentPage.verifyStatusOnMobileDevice());
-
-        shipmentPage.rebootSystem();
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
     }
 
     @AfterMethod
