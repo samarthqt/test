@@ -1,18 +1,15 @@
 package selenium1.page_objects;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 import .util.List;
 
 public class ShipmentTrackingPage {
-
-    private final WebDriver driver;
-    private final WebDriverWait wait;
 
     private final By ordersModule = By.id("ordersModule");
     private final By orderList = By.cssSelector(".order-list");
@@ -20,9 +17,7 @@ public class ShipmentTrackingPage {
     private final By shipmentStatusDropdown = By.id("shipmentStatus");
     private final By alertSystem = By.id("alertSystem");
 
-    public ShipmentTrackingPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10);
+    public ShipmentTrackingPage() {
         PageFactory.initElements(driver, this);
     }
 
@@ -63,7 +58,7 @@ public class ShipmentTrackingPage {
     }
 
     public void waitUntilElementVisible(By locator, int timeout) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        new WebDriverWait(driver, timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public void clickElement(By locator) {
