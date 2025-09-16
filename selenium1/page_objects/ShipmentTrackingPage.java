@@ -7,12 +7,10 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
 import .util.List;
 
 public class ShipmentTrackingPage {
-
-    private final WebDriver driver;
-    private final WebDriverWait wait;
 
     private final By ordersModule = By.id("ordersModule");
     private final By orderList = By.cssSelector(".order-list");
@@ -20,9 +18,7 @@ public class ShipmentTrackingPage {
     private final By shipmentStatusDropdown = By.id("shipmentStatus");
     private final By alertSystem = By.id("alertSystem");
 
-    public ShipmentTrackingPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10);
+    public ShipmentTrackingPage() {
         PageFactory.initElements(driver, this);
     }
 
@@ -57,13 +53,14 @@ public class ShipmentTrackingPage {
     }
 
     public boolean verifyAlertReceivedByCustomer(String expectedMessage) {
-        boolean alertReceived = true; // Placeholder for actual alert check logic
+        waitUntilElementVisible(alertSystem, 3);
+        boolean alertReceived = getTextFromElement(alertSystem).contains(expectedMessage);
         Assert.assertTrue(alertReceived, "Alert not received by customer: " + expectedMessage);
         return alertReceived;
     }
 
     public void waitUntilElementVisible(By locator, int timeout) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        new WebDriverWait(driver, timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public void clickElement(By locator) {
