@@ -57,7 +57,7 @@ public class ShipmentTrackingPage {
     }
 
     public boolean verifyAlertReceivedByCustomer(String expectedMessage) {
-        boolean alertReceived = true; // Placeholder for actual alert check logic
+        boolean alertReceived = getTextFromElement(alertSystem).contains(expectedMessage);
         Assert.assertTrue(alertReceived, "Alert not received by customer: " + expectedMessage);
         return alertReceived;
     }
