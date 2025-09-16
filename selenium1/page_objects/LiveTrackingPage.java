@@ -1,11 +1,10 @@
 package selenium1.page_objects;
 
-import com.framework.reusable.WebReusableComponents;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
 
 public class LiveTrackingPage extends WebReusableComponents {
 
@@ -170,5 +169,31 @@ public class LiveTrackingPage extends WebReusableComponents {
 
     public void checkErrorMessagesDuringUpdates() {
         Assert.assertTrue(areErrorMessagesDisplayed(), "Error messages are not displayed during updates.");
+    }
+
+    public void attemptUpdateFromDifferentDevice() {
+        WebElement attemptUpdateButton = getDriver().findElement(By.id("attemptUpdateFromDifferentDevice"));
+        attemptUpdateButton.click();
+        Assert.assertTrue(isLocationUpdateSuccessfulFromDifferentDevice(), "Location update from different device failed.");
+    }
+
+    public boolean isLocationUpdateSuccessfulFromDifferentDevice() {
+        return getDriver().findElement(currentLocation).getText().contains("Updated");
+    }
+
+    public void verifyLiveTrackingOnMobileDevice() {
+        Assert.assertTrue(isLiveTrackingConsistentOnMobile(), "Live tracking is not consistent on mobile device.");
+    }
+
+    public boolean isLiveTrackingConsistentOnMobile() {
+        return getDriver().findElement(currentLocation).isDisplayed();
+    }
+
+    public void checkLiveTrackingAfterReboot() {
+        Assert.assertTrue(isLiveTrackingAccurateAfterReboot(), "Live tracking is not accurate after reboot.");
+    }
+
+    public boolean isLiveTrackingAccurateAfterReboot() {
+        return getDriver().findElement(currentLocation).getText().contains("Accurate");
     }
 }
