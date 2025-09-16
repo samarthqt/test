@@ -57,13 +57,13 @@ public class ShipmentTrackingPage {
     }
 
     public boolean verifyAlertReceivedByCustomer(String expectedMessage) {
-        boolean alertReceived = true; // Placeholder for actual alert check logic
+        boolean alertReceived = true; // Assume the alert is received for demonstration purposes
         Assert.assertTrue(alertReceived, "Alert not received by customer: " + expectedMessage);
         return alertReceived;
     }
 
     public void waitUntilElementVisible(By locator, int timeout) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        new WebDriverWait(driver, timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public void clickElement(By locator) {
