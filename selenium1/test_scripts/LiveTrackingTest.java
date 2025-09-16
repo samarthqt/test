@@ -56,7 +56,6 @@ public class LiveTrackingTest {
 
         assertTrue(liveTrackingPage.isLiveTrackingAccurate(), "Live tracking information is not accurate.");
 
-        // New test steps
         liveTrackingPage.checkNotificationSettings();
         assertTrue(liveTrackingPage.isNotificationSettingsCorrect(), "Notification settings for live tracking updates are incorrect.");
 
