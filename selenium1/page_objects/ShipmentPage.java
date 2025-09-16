@@ -163,16 +163,16 @@ public class ShipmentPage {
         Assert.assertTrue(isTrackingPageDisplayed(), "System reboot failed, tracking page not displayed.");
     }
 
-    private WebElement waitUntilElementVisible(By locator) {
+    public WebDriver getDriver() {
+        // Implement logic to return the WebDriver instance
+        return WebReusableComponents.getDriver();
+    }
+
+    public WebElement waitUntilElementVisible(By locator) {
         return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    private WebElement waitUntilElementClickable(By locator) {
+    public WebElement waitUntilElementClickable(By locator) {
         return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.elementToBeClickable(locator));
-    }
-
-    private WebDriver getDriver() {
-        // Implement method to return WebDriver instance
-        return null;
     }
 }
