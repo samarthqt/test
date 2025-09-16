@@ -20,8 +20,8 @@ public class ShipmentTrackingPage {
     private final By shipmentStatusDropdown = By.id("shipmentStatus");
     private final By alertSystem = By.id("alertSystem");
 
-    public ShipmentTrackingPage(WebDriver driver) {
-        this.driver = driver;
+    public ShipmentTrackingPage() {
+        this.driver = WebReusableComponents.getDriver();
         this.wait = new WebDriverWait(driver, 10);
         PageFactory.initElements(driver, this);
     }
@@ -57,13 +57,13 @@ public class ShipmentTrackingPage {
     }
 
     public boolean verifyAlertReceivedByCustomer(String expectedMessage) {
-        boolean alertReceived = true; // Placeholder for actual alert check logic
+        boolean alertReceived = getTextFromElement(alertSystem).contains(expectedMessage);
         Assert.assertTrue(alertReceived, "Alert not received by customer: " + expectedMessage);
         return alertReceived;
     }
 
     public void waitUntilElementVisible(By locator, int timeout) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        new WebDriverWait(driver, timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public void clickElement(By locator) {
