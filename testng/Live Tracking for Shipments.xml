@@ -1,0 +1,7 @@
+<suite name="RetailTestSuite">
+    <test name="CartManagementTests">
+        <classes>
+            <class name="com.tests.CartManagementTest"/>
+        </classes>
+    </test>
+</suite>
