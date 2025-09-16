@@ -58,6 +58,15 @@ public class ShipmentStatusTest {
 
         shipmentPage.rebootSystem();
         Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
+
+        // New test steps appended
+        shipmentPage.checkNotificationSettingsForShipmentUpdates();
+        shipmentPage.simulateNetworkIssueAndAttemptStatusUpdate();
+        shipmentPage.verifyShipmentHistoryLog();
+        shipmentPage.checkForErrorMessagesDuringStatusUpdates();
+        shipmentPage.attemptStatusUpdateFromDifferentDevice();
+        shipmentPage.verifyShipmentStatusUsingSMSOnMobileDevice();
+        shipmentPage.checkShipmentStatusAfterSystemReboot();
     }
 
     @AfterMethod
