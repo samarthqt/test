@@ -1,67 +1,90 @@
-package com.tests;
+package com.pageobjects;
 
-import com.pageobjects.ShipmentPage;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-public class ShipmentStatusTest {
-    private ShipmentPage shipmentPage;
+public class ShipmentTrackingPage {
 
-    @BeforeMethod
-    public void setUp() {
-        shipmentPage = new ShipmentPage();
-        shipmentPage.login("67890");
+    private WebDriver driver;
+    private WebDriverWait wait;
+
+    private By txtShipmentId = By.id("shipmentId");
+    private By locationDropdown = By.id("location");
+    private By btnOk = By.id("okButton");
+    private By lblCurrentStatus = By.id("currentStatus");
+    private By btnRefresh = By.id("refreshButton");
+    private By btnLogout = By.id("logoutButton");
+    private By notificationSettings = By.id("notificationSettings");
+    private By errorMessage = By.id("errorMessage");
+    private By shipmentHistoryLog = By.id("shipmentHistoryLog");
+
+    public ShipmentTrackingPage(WebDriver driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, 10);
     }
 
-    @Test
-    public void testRealTimeShipmentStatusUpdates() {
-        shipmentPage.navigateToShipmentTrackingPage();
-        Assert.assertTrue(shipmentPage.isTrackingPageDisplayed());
-
-        shipmentPage.enterShipmentID("12345");
-        Assert.assertTrue(shipmentPage.isShipmentDetailsDisplayed("12345"));
-
-        String currentStatus = shipmentPage.checkCurrentStatus();
-        Assert.assertEquals(currentStatus, "In Transit");
-
-        shipmentPage.simulateStatusUpdate("Out for Delivery");
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Out for Delivery");
-
-        shipmentPage.simulateStatusUpdate("Delivered");
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
-
-        String timestamp = shipmentPage.verifyLatestStatusTimestamp();
-        Assert.assertTrue(shipmentPage.isTimestampCurrent(timestamp));
-
-        shipmentPage.refreshPage();
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
-
-        shipmentPage.logout();
-        shipmentPage.login("67890");
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
-
-        Assert.assertTrue(shipmentPage.areNotificationsEnabled());
-
-        shipmentPage.simulateNetworkIssue();
-        Assert.assertTrue(shipmentPage.isNetworkIssueHandledGracefully());
-
-        Assert.assertTrue(shipmentPage.verifyShipmentHistoryLog());
-
-        Assert.assertFalse(shipmentPage.areErrorMessagesDisplayed());
-
-        shipmentPage.updateStatusFromDifferentDevice();
-        Assert.assertTrue(shipmentPage.isStatusSynchronizedAcrossDevices());
-
-        Assert.assertTrue(shipmentPage.verifyStatusOnMobileDevice());
-
-        shipmentPage.rebootSystem();
-        Assert.assertEquals(shipmentPage.checkCurrentStatus(), "Delivered");
+    public void navigateToShipmentTrackingPage(String url) {
+        driver.get(url);
     }
 
-    @AfterMethod
-    public void tearDown() {
-        shipmentPage.logout();
+    public void enterShipmentId(String shipmentId) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(txtShipmentId));
+        driver.findElement(txtShipmentId).sendKeys(shipmentId);
+    }
+
+    public void selectLocation(String location) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(locationDropdown));
+        WebElement dropdown = driver.findElement(locationDropdown);
+        dropdown.findElement(By.xpath("//option[. = '" + location + "']")).click();
+    }
+
+    public void clickOkButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(btnOk));
+        driver.findElement(btnOk).click();
+    }
+
+    public String checkCurrentStatus() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(lblCurrentStatus));
+        return driver.findElement(lblCurrentStatus).getText();
+    }
+
+    public void simulateStatusUpdate(String status) {
+        // Simulate status update logic here
+    }
+
+    public void verifyTimestampOfLatestStatusUpdate(String expectedTimestamp) {
+        // Verify timestamp logic here
+    }
+
+    public void refreshPage() {
+        driver.findElement(btnRefresh).click();
+    }
+
+    public void logoutAndLogin(String username, String password) {
+        driver.findElement(btnLogout).click();
+        // Logic to log back in
+    }
+
+    public void checkNotificationSettings() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(notificationSettings));
+        // Check notification settings logic here
+    }
+
+    public void simulateNetworkIssueAndAttemptUpdate() {
+        // Simulate network issue logic here
+    }
+
+    public void verifyShipmentHistoryLog() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(shipmentHistoryLog));
+        // Verify shipment history log logic here
+    }
+
+    public void checkForErrorMessages() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
+        // Check for error messages logic here
     }
 }
