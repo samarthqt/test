@@ -1,0 +1,84 @@
+package selenium1.page_objects;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
+import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
+
+public class AgileTestingPage extends WebReusableComponents {
+
+    protected By agileTestingSubMenu = By.id("agileTestingSubMenu");
+    protected By getFreeTrialButton = By.id("getFreeTrial");
+    protected By scaleAgileLearnMore = By.id("scaleAgileLearnMore");
+    protected By explorerTestingLearnMore = By.id("explorerTestingLearnMore");
+    protected By distributedTeamLearnMore = By.id("distributedTeamLearnMore");
+    protected By integrationAPIsLearnMore = By.id("integrationAPIsLearnMore");
+
+    public AgileTestingPage() {
+        PageFactory.initElements(driver, this);
+    }
+
+    public void openBrowser() {
+        driver.manage().window().maximize();
+    }
+
+    public void navigateToPlatformPage() {
+        driver.get("http://www.qasymphony.com/platform.html");
+    }
+
+    public void clickAgileTestingSubMenu() {
+        waitUntilElementVisible(agileTestingSubMenu, 3);
+        WebElement element = driver.findElement(agileTestingSubMenu);
+        element.click();
+        Assert.assertTrue(element.isDisplayed(), "Agile Testing SubMenu is not displayed.");
+    }
+
+    public void clickGetFreeTrial() {
+        waitUntilElementVisible(getFreeTrialButton, 3);
+        WebElement element = driver.findElement(getFreeTrialButton);
+        element.click();
+        Assert.assertTrue(element.isDisplayed(), "Get Free Trial button is not displayed.");
+    }
+
+    public boolean clickScaleAgileLearnMore() {
+        waitUntilElementVisible(scaleAgileLearnMore, 3);
+        WebElement element = driver.findElement(scaleAgileLearnMore);
+        element.click();
+        boolean isDisplayed = element.isDisplayed();
+        Assert.assertTrue(isDisplayed, "Scale Agile Learn More is not displayed.");
+        return isDisplayed;
+    }
+
+    public boolean clickExplorerTestingLearnMore() {
+        waitUntilElementVisible(explorerTestingLearnMore, 3);
+        WebElement element = driver.findElement(explorerTestingLearnMore);
+        element.click();
+        boolean isDisplayed = element.isDisplayed();
+        Assert.assertTrue(isDisplayed, "Explorer Testing Learn More is not displayed.");
+        return isDisplayed;
+    }
+
+    public boolean clickDistributedTeamLearnMore() {
+        waitUntilElementVisible(distributedTeamLearnMore, 3);
+        WebElement element = driver.findElement(distributedTeamLearnMore);
+        element.click();
+        boolean isDisplayed = element.isDisplayed();
+        Assert.assertTrue(isDisplayed, "Distributed Team Learn More is not displayed.");
+        return isDisplayed;
+    }
+
+    public boolean clickIntegrationAPIsLearnMore() {
+        waitUntilElementVisible(integrationAPIsLearnMore, 3);
+        WebElement element = driver.findElement(integrationAPIsLearnMore);
+        element.click();
+        boolean isDisplayed = element.isDisplayed();
+        Assert.assertTrue(isDisplayed, "Integration APIs Learn More is not displayed.");
+        return isDisplayed;
+    }
+
+    public void closeBrowser() {
+        driver.quit();
+    }
+}
