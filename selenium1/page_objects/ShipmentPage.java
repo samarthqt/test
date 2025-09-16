@@ -35,6 +35,11 @@ public class ShipmentPage {
         PageFactory.initElements(getDriver(), this);
     }
 
+    public WebDriver getDriver() {
+        // Implement logic to return WebDriver instance
+        return null; // Placeholder for actual WebDriver instance
+    }
+
     public void login(String userID) {
         WebElement loginFieldElement = waitUntilElementVisible(loginField);
         loginFieldElement.clear();
@@ -163,16 +168,11 @@ public class ShipmentPage {
         Assert.assertTrue(isTrackingPageDisplayed(), "System reboot failed, tracking page not displayed.");
     }
 
-    private WebElement waitUntilElementVisible(By locator) {
+    public WebElement waitUntilElementVisible(By locator) {
         return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    private WebElement waitUntilElementClickable(By locator) {
+    public WebElement waitUntilElementClickable(By locator) {
         return new WebDriverWait(getDriver(), 10).until(ExpectedConditions.elementToBeClickable(locator));
-    }
-
-    private WebDriver getDriver() {
-        // Implement method to return WebDriver instance
-        return null;
     }
 }
