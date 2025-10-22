@@ -36,4 +36,25 @@ public class OrderHistoryPage extends WebReusableComponents {
         boolean isVisible = elementVisible(orderDetailsSection);
         Assert.assertTrue(isVisible, "Order details are not displayed.");
     }
+
+    public void verifyOrderStatus(String orderID, String expectedStatus) {
+        By orderStatusLocator = By.xpath("//div[@data-order-id='" + orderID + "']//span[@class='status']");
+        waitUntilElementVisible(orderStatusLocator, 3);
+        String actualStatus = getTextFromElement(orderStatusLocator);
+        Assert.assertEquals(actualStatus, expectedStatus, "Order status does not match.");
+    }
+
+    public void selectTrackingLink(String orderID) {
+        By trackingLinkLocator = By.xpath("//div[@data-order-id='" + orderID + "']//a[@class='tracking-link']");
+        waitUntilElementVisible(trackingLinkLocator, 3);
+        clickElement(trackingLinkLocator);
+    }
+
+    public void verifyTrackingPageOpened() {
+        // Implement logic to verify tracking page is opened
+    }
+
+    public void verifySMSNotificationReceived(String notificationType) {
+        // Implement logic to verify SMS notification is received
+    }
 }
