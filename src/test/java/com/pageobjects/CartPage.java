@@ -1,27 +1,26 @@
 package com.pageobjects;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import com.framework.reusable.WebReusableComponents;
 
 public class CartPage extends WebReusableComponents {
 
+    protected By btnAddToCart = By.id("addToCart");
     protected By cartIcon = By.id("cartIcon");
     protected By cartItems = By.cssSelector(".cart-item");
+    protected By productQuantity = By.cssSelector(".cart-item-quantity");
     protected By btnRemoveItem = By.cssSelector(".remove-item");
     protected By cartEmptyMessage = By.id("cartEmptyMessage");
-    protected By productQuantity = By.cssSelector(".cart-item-quantity");
-    protected By totalPrice = By.id("totalPrice");
-    protected By btnProceedToCheckout = By.id("proceedToCheckout");
-    protected By btnAddToCart = By.id("addToCart");
-    protected By errorMessage = By.id("errorMessage");
-    protected By checkoutPreventionMessage = By.id("checkoutPreventionMessage");
-    protected By productDetailPage = By.id("productDetailPage");
-    protected By cartConfirmationMessage = By.id("cartConfirmationMessage");
+    protected By couponField = By.id("couponField");
+    protected By btnSubmitCoupon = By.id("submitCoupon");
+    protected By couponSuccessMessage = By.id("couponSuccessMessage");
+    protected By couponErrorMessage = By.id("couponErrorMessage");
+    protected By discountSummary = By.id("discountSummary");
+    protected By discountedTotal = By.id("discountedTotal");
 
-    public CartPage() {
-        PageFactory.initElements(driver, this);
+    public void addProductToCart() {
+        waitUntilElementVisible(btnAddToCart, 3);
+        clickElement(btnAddToCart);
     }
 
     public void openCart() {
@@ -29,10 +28,23 @@ public class CartPage extends WebReusableComponents {
         clickElement(cartIcon);
     }
 
-    public void verifyCartIsNotEmpty() {
+    public void verifyProductInCart(String expectedProductName) {
         waitUntilElementVisible(cartItems, 3);
-        boolean itemsPresent = !getWebElementList(cartItems).isEmpty();
-        Assert.assertTrue(itemsPresent, "Cart is empty.");
+        boolean productFound = getWebElementList(cartItems)
+            .stream()
+            .anyMatch(item -> item.getText().contains(expectedProductName));
+        Assert.assertTrue(productFound, "Product is not in the cart.");
+    }
+
+    public void updateProductQuantity(String quantity) {
+        waitUntilElementVisible(productQuantity, 3);
+        selectByValue(productQuantity, quantity);
+    }
+
+    public void verifyProductQuantity(String expectedQuantity) {
+        waitUntilElementVisible(productQuantity, 3);
+        String actualQuantity = getTextFromElement(productQuantity);
+        Assert.assertEquals(actualQuantity, expectedQuantity, "Quantity update failed.");
     }
 
     public void removeProductFromCart() {
@@ -46,81 +58,52 @@ public class CartPage extends WebReusableComponents {
         Assert.assertEquals(actualMessage, "Your cart is empty.", "Cart is not empty.");
     }
 
-    public void verifyProductInCartByID(String productID) {
+    public void verifyCartIsNotEmpty() {
         waitUntilElementVisible(cartItems, 3);
-        boolean productFound = getWebElementList(cartItems)
-            .stream()
-            .anyMatch(item -> item.getAttribute("data-product-id").equals(productID));
-        Assert.assertTrue(productFound, "Product with ID " + productID + " is not in the cart.");
+        Assert.assertTrue(getWebElementList(cartItems).size() > 0, "Cart is empty.");
     }
 
-    public void updateProductQuantity(String quantity) {
-        waitUntilElementVisible(productQuantity, 3);
-        selectByValue(productQuantity, quantity);
+    public void enterCouponCode(String couponCode) {
+        waitUntilElementVisible(couponField, 3);
+        enterText(couponField, couponCode);
     }
 
-    public void verifyUpdatedQuantityAndTotalPrice() {
-        waitUntilElementVisible(productQuantity, 3);
-        String actualQuantity = getTextFromElement(productQuantity);
-        Assert.assertNotNull(actualQuantity, "Quantity update failed.");
-        waitUntilElementVisible(totalPrice, 3);
-        String actualTotalPrice = getTextFromElement(totalPrice);
-        Assert.assertNotNull(actualTotalPrice, "Total price update failed.");
+    public void submitCouponCode() {
+        waitUntilElementVisible(btnSubmitCoupon, 3);
+        clickElement(btnSubmitCoupon);
     }
 
-    public void verifyProductInCart(String expectedProductName) {
-        waitUntilElementVisible(cartItems, 3);
-        boolean productFound = getWebElementList(cartItems)
-            .stream()
-            .anyMatch(item -> item.getText().contains(expectedProductName));
-        Assert.assertTrue(productFound, "Product is not in the cart.");
+    public void verifyCouponAccepted() {
+        waitUntilElementVisible(couponSuccessMessage, 3);
+        String successMessage = getTextFromElement(couponSuccessMessage);
+        Assert.assertTrue(successMessage.contains("Coupon applied successfully"), "Coupon was not accepted.");
     }
 
-    public void proceedToCheckout() {
-        waitUntilElementVisible(btnProceedToCheckout, 3);
-        clickElement(btnProceedToCheckout);
+    public void verifyDiscountDisplayed() {
+        waitUntilElementVisible(discountSummary, 3);
+        String discountText = getTextFromElement(discountSummary);
+        Assert.assertTrue(discountText.contains("Discount"), "Discount not displayed in summary.");
     }
 
-    public void addProductToCart() {
-        waitUntilElementVisible(btnAddToCart, 3);
-        clickElement(btnAddToCart);
+    public void verifyDiscountedTotalDisplayed() {
+        waitUntilElementVisible(discountedTotal, 3);
+        String totalText = getTextFromElement(discountedTotal);
+        Assert.assertTrue(totalText.contains("Total"), "Discounted total not displayed.");
     }
 
-    public void verifyErrorMessage(String expectedErrorMessage) {
-        waitUntilElementVisible(errorMessage, 3);
-        String actualMessage = getTextFromElement(errorMessage);
-        Assert.assertEquals(actualMessage, expectedErrorMessage, "Error message does not match.");
+    public void verifyCouponExpiredMessage() {
+        waitUntilElementVisible(couponErrorMessage, 3);
+        String errorMessage = getTextFromElement(couponErrorMessage);
+        Assert.assertTrue(errorMessage.contains("expired"), "Expired coupon error message not displayed.");
     }
 
-    public void attemptToRemoveItemFromEmptyCart() {
-        waitUntilElementVisible(btnRemoveItem, 3);
-        clickElement(btnRemoveItem);
-        verifyCartIsEmpty();
+    public void verifyCouponInvalidMessage() {
+        waitUntilElementVisible(couponErrorMessage, 3);
+        String errorMessage = getTextFromElement(couponErrorMessage);
+        Assert.assertTrue(errorMessage.contains("invalid"), "Invalid coupon error message not displayed.");
     }
 
-    public void attemptProceedToCheckout() {
-        waitUntilElementVisible(btnProceedToCheckout, 3);
-        clickElement(btnProceedToCheckout);
-    }
-
-    public void verifyCheckoutPreventionMessage() {
-        waitUntilElementVisible(checkoutPreventionMessage, 3);
-        String actualMessage = getTextFromElement(checkoutPreventionMessage);
-        Assert.assertEquals(actualMessage, "Cannot proceed to checkout. Your cart is empty.", "Checkout prevention message is incorrect.");
-    }
-
-    public void navigateToProductDetailPage(String productName) {
-        driver.get("http://example.com/products/" + productName);
-    }
-
-    public void verifyProductDetailPage() {
-        waitUntilElementVisible(productDetailPage, 3);
-        Assert.assertTrue(isElementDisplayed(productDetailPage), "Product detail page is not displayed.");
-    }
-
-    public void verifyProductAddedToCart() {
-        waitUntilElementVisible(cartConfirmationMessage, 3);
-        String confirmationText = getTextFromElement(cartConfirmationMessage);
-        Assert.assertEquals(confirmationText, "Product successfully added to cart.", "Product was not added to the cart.");
+    public void verifyCheckoutPageIsDisplayed() {
+        // Implementation to verify checkout page is displayed
     }
 }

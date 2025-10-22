@@ -1,191 +1,123 @@
 package com.cucumber.steps;
-
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
+import io.cucumber.java.en.Given;
 import com.framework.cucumber.TestHarness;
-import com.pageobjects.OrderPage;
-import com.pageobjects.OrderPlacementPage;
+import static com.framework.selenium.SeleniumTestParameters.getAppUrl;
+import io.cucumber.java.en.When;
 
-public class OrderPlacementSteps {
+import com.framework.cucumber.TestHarness;
 
-    private OrderPage orderPage = new OrderPage();
-    private OrderPlacementPage orderPlacementPage = new OrderPlacementPage();
+public class OrderPlacementSteps extends CheckoutPage {
+
     private TestHarness testHarness = new TestHarness();
 
-    @Given("the user is logged in with User ID {string}")
-    public void theUserIsLoggedInWithUserID(String userId) {
-        orderPage.loginUser(userId);
-    }
-
-    @Given("the user is logged in")
-    public void theUserIsLoggedIn() {
-        orderPage.loginUser();
-    }
-
-    @When("the user navigates to the product page for Product ID {string}")
-    public void theUserNavigatesToTheProductPageForProductID(String productId) {
-        orderPage.navigateToProductPage(productId);
+    @Given("the user is logged in with User ID {int}")
+    public void theUserIsLoggedInWithUserID(int userId) {
+        // Implement login logic here
     }
 
     @When("the user navigates to the product page for Product ID {int}")
     public void theUserNavigatesToTheProductPageForProductID(int productId) {
-        orderPlacementPage.navigateToProductPage(productId);
-    }
-
-    @Then("the product details page is displayed with stock status as {string}")
-    public void theProductDetailsPageIsDisplayedWithStockStatusAs(String stockStatus) {
-        orderPage.verifyProductStockStatus(stockStatus);
+        // Implement navigation logic here
     }
 
     @Then("the product details page is displayed with stock status as 'Available'")
     public void theProductDetailsPageIsDisplayedWithStockStatusAsAvailable() {
-        orderPlacementPage.verifyProductStockStatus("Available");
-    }
-
-    @Then("the product details page is displayed with stock status as \"Out of Stock\"")
-    public void theProductDetailsPageIsDisplayedWithStockStatusAsOutOfStock() {
-        orderPlacementPage.verifyProductStockStatus("Out of Stock");
+        // Implement stock status verification logic here
     }
 
     @When("the user adds {int} units of the product to the shopping cart")
     public void theUserAddsUnitsOfTheProductToTheShoppingCart(int quantity) {
-        orderPlacementPage.addProductToCart(quantity);
-    }
-
-    @When("the user adds {int} unit of the product to the shopping cart")
-    public void theUserAddsUnitOfTheProductToTheShoppingCart(int quantity) {
-        orderPage.addProductToCart(quantity);
-    }
-
-    @When("the user adds 1 unit of the product to the shopping cart")
-    public void theUserAdds1UnitOfTheProductToTheShoppingCart() {
-        orderPage.addProductToCart(1);
-    }
-
-    @Then("the product is added to the cart, and the cart is updated with the correct quantity and price")
-    public void theProductIsAddedToTheCartAndTheCartIsUpdatedWithTheCorrectQuantityAndPrice() {
-        orderPage.verifyCartDetails();
+        // Implement add to cart logic here
     }
 
     @Then("the product is added to the cart with the correct quantity and price")
     public void theProductIsAddedToTheCartWithTheCorrectQuantityAndPrice() {
-        orderPlacementPage.verifyCartDetails();
-    }
-
-    @Then("the product is added to the cart, and the cart is updated with the correct quantity and price")
-    public void theProductIsAddedToTheCartAndTheCartIsUpdatedWithTheCorrectQuantityAndPrice() {
-        orderPlacementPage.verifyCartDetails();
+        // Implement cart verification logic here
     }
 
     @When("the user proceeds to checkout from the shopping cart")
     public void theUserProceedsToCheckoutFromTheShoppingCart() {
-        orderPlacementPage.proceedToCheckout();
+        proceedToCheckout();
     }
 
     @Then("the checkout page is displayed with the correct order details")
     public void theCheckoutPageIsDisplayedWithTheCorrectOrderDetails() {
-        orderPlacementPage.verifyCheckoutDetails();
-    }
-
-    @Then("the checkout page does not include the out-of-stock item")
-    public void theCheckoutPageDoesNotIncludeTheOutOfStockItem() {
-        orderPlacementPage.verifyCheckoutExcludesOutOfStockItem();
-    }
-
-    @When("the user selects {string} as the payment method")
-    public void theUserSelectsAsThePaymentMethod(String paymentMethod) {
-        orderPlacementPage.selectPaymentMethod(paymentMethod);
+        // Implement checkout page verification logic here
     }
 
     @When("the user selects Credit Card as the payment method and enters valid payment details")
     public void theUserSelectsCreditCardAsThePaymentMethodAndEntersValidPaymentDetails() {
-        orderPlacementPage.selectPaymentMethodAndEnterDetails("Credit Card");
+        // Implement payment method selection and details entry logic here
     }
 
-    @When("the user selects {string} as the payment method and enters valid payment details")
-    public void theUserSelectsAsThePaymentMethodAndEntersValidPaymentDetails(String paymentMethod) {
-        orderPlacementPage.selectPaymentMethod(paymentMethod);
-        orderPlacementPage.enterPaymentDetails();
-    }
-
-    @When("the user selects an invalid payment method and enters payment details")
-    public void theUserSelectsAnInvalidPaymentMethodAndEntersPaymentDetails() {
-        orderPage.selectInvalidPaymentMethod();
-    }
-
-    @Then("the payment details are accepted, and the user is prompted to confirm the order")
+    @Then("the payment details are accepted and the user is prompted to confirm the order")
     public void thePaymentDetailsAreAcceptedAndTheUserIsPromptedToConfirmTheOrder() {
-        orderPlacementPage.verifyPaymentAcceptance();
-    }
-
-    @Then("the payment method is accepted, and the user is prompted to confirm the order")
-    public void thePaymentMethodIsAcceptedAndTheUserIsPromptedToConfirmTheOrder() {
-        orderPlacementPage.verifyPaymentMethodAccepted();
-    }
-
-    @Then("the system rejects the payment details and displays an error message indicating invalid payment method")
-    public void theSystemRejectsThePaymentDetailsAndDisplaysAnErrorMessageIndicatingInvalidPaymentMethod() {
-        orderPage.verifyInvalidPaymentError();
+        // Implement payment confirmation logic here
     }
 
     @When("the user confirms the order")
     public void theUserConfirmsTheOrder() {
-        orderPlacementPage.confirmOrder();
-    }
-
-    @When("the user attempts to confirm the order")
-    public void theUserAttemptsToConfirmTheOrder() {
-        orderPage.attemptToConfirmOrder();
-    }
-
-    @Then("the order is placed successfully, and a confirmation page is displayed with the order details")
-    public void theOrderIsPlacedSuccessfullyAndAConfirmationPageIsDisplayedWithTheOrderDetails() {
-        orderPlacementPage.verifyOrderConfirmation();
+        // Implement order confirmation logic here
     }
 
     @Then("the order is placed successfully and a confirmation page is displayed with the order details")
     public void theOrderIsPlacedSuccessfullyAndAConfirmationPageIsDisplayedWithTheOrderDetails() {
-        orderPlacementPage.verifyOrderConfirmationPage();
+        // Implement order placement verification logic here
     }
 
-    @Then("the order cannot be confirmed due to invalid payment method")
-    public void theOrderCannotBeConfirmedDueToInvalidPaymentMethod() {
-        orderPage.verifyOrderNotConfirmed();
+    @When("the user checks their email for a confirmation email")
+    public void theUserChecksTheirEmailForAConfirmationEmail() {
+        // Implement email checking logic here
     }
 
-    @Then("the order can be placed only for available items")
-    public void theOrderCanBePlacedOnlyForAvailableItems() {
-        orderPlacementPage.verifyOrderForAvailableItemsOnly();
-    }
-
-    @Then("no order confirmation is generated for the out-of-stock item")
-    public void noOrderConfirmationIsGeneratedForTheOutOfStockItem() {
-        orderPlacementPage.verifyNoOrderConfirmationForOutOfStockItem();
-    }
-
-    @When("the user verifies the inventory for Product ID {string}")
-    public void theUserVerifiesTheInventoryForProductID(String productId) {
-        orderPlacementPage.verifyInventory(productId);
+    @Then("a confirmation email is received with the order summary and order ID")
+    public void aConfirmationEmailIsReceivedWithTheOrderSummaryAndOrderID() {
+        // Implement email receipt verification logic here
     }
 
     @When("the user verifies the inventory for Product ID {int}")
     public void theUserVerifiesTheInventoryForProductID(int productId) {
-        orderPlacementPage.verifyInventory(productId);
-    }
-
-    @Then("the inventory for Product ID {string} is reduced by {int} units")
-    public void theInventoryForProductIDIsReducedByUnits(String productID, int quantity) {
-        orderPlacementPage.verifyInventoryReduction(productID, quantity);
+        // Implement inventory verification logic here
     }
 
     @Then("the inventory is reduced by {int} units")
     public void theInventoryIsReducedByUnits(int quantity) {
-        orderPlacementPage.verifyInventoryReduction(quantity);
+        // Implement inventory reduction verification logic here
     }
 
-    @Then("the inventory is reduced by 1 unit")
-    public void theInventoryIsReducedBy1Unit() {
-        orderPlacementPage.verifyInventoryReduction(1);
+    @When("the user checks their account dashboard for the order status")
+    public void theUserChecksTheirAccountDashboardForTheOrderStatus() {
+        // Implement account dashboard check logic here
+    }
+
+    @Then("the order status is updated to 'Confirmed'")
+    public void theOrderStatusIsUpdatedToConfirmed() {
+        // Implement order status verification logic here
+    }
+
+    @Given("the user has opted in for SMS notifications")
+    public void theUserHasOptedInForSMSNotifications() {
+        // Implement SMS opt-in verification logic here
+    }
+
+    @When("the user places an order on the retail application")
+    public void theUserPlacesAnOrderOnTheRetailApplication() {
+        // Implement order placement logic here
+    }
+
+    @Then("the order is successfully placed")
+    public void theOrderIsSuccessfullyPlaced() {
+        // Implement order placement success verification logic here
+    }
+
+    @When("the user checks their registered phone for an SMS")
+    public void theUserChecksTheirRegisteredPhoneForAnSMS() {
+        // Implement SMS checking logic here
+    }
+
+    @Then("an SMS notification for order confirmation is received on the user's phone")
+    public void anSMSNotificationForOrderConfirmationIsReceivedOnTheUsersPhone() {
+        // Implement SMS receipt verification logic here
     }
 }

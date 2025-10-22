@@ -19,3 +19,11 @@ Feature: Order Placement with Available Stock
     Then the inventory is reduced by 2 units
     When the user checks their account dashboard for the order status
     Then the order status is updated to 'Confirmed'
+
+  @TC-12
+  Scenario: Receive Order Confirmation SMS
+    Given the user has opted in for SMS notifications
+    When the user places an order on the retail application
+    Then the order is successfully placed
+    When the user checks their registered phone for an SMS
+    Then an SMS notification for order confirmation is received on the user's phone
