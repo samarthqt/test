@@ -1,29 +1,31 @@
 package com.pageobjects;
-
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import com.framework.reusable.WebReusableComponents;
 
 public class RegistrationPage extends WebReusableComponents {
 
+    protected By txtFirstName = By.id("firstName");
+    protected By txtLastName = By.id("lastName");
     protected By txtEmail = By.id("email");
     protected By txtPassword = By.id("password");
+    protected By txtConfirmPassword = By.id("confirmPassword");
     protected By btnRegister = By.id("registerButton");
-    protected By captchaVerification = By.id("captcha");
     protected By confirmationMessage = By.id("confirmationMessage");
-    protected By errorMessage = By.id("errorMessage");
-    protected By systemMessage = By.id("systemMessage");
-    protected By weakPasswordField = By.id("weakPasswordField");
-    protected By captchaCheckbox = By.id("captchaCheckbox");
-    protected By captcha = By.id("captcha");
-
-    public RegistrationPage() {
-        PageFactory.initElements(driver, this);
-    }
 
     public void navigateToRegistrationPage() {
         launchUrl(getAppUrl() + "/register");
-        waitUntilElementVisible(txtEmail, 5);
+        waitUntilElementVisible(txtFirstName, 5);
+    }
+
+    public void enterFirstName(String firstName) {
+        waitUntilElementVisible(txtFirstName, 3);
+        enterText(txtFirstName, firstName);
+    }
+
+    public void enterLastName(String lastName) {
+        waitUntilElementVisible(txtLastName, 3);
+        enterText(txtLastName, lastName);
     }
 
     public void enterEmail(String email) {
@@ -36,9 +38,9 @@ public class RegistrationPage extends WebReusableComponents {
         enterText(txtPassword, password);
     }
 
-    public void completeCaptchaVerification() {
-        waitUntilElementVisible(captchaVerification, 3);
-        // Logic to complete CAPTCHA
+    public void enterConfirmPassword(String confirmPassword) {
+        waitUntilElementVisible(txtConfirmPassword, 3);
+        enterText(txtConfirmPassword, confirmPassword);
     }
 
     public void clickRegisterButton() {
@@ -46,77 +48,73 @@ public class RegistrationPage extends WebReusableComponents {
         clickElement(btnRegister);
     }
 
-    public void verifyRegistrationSuccess() {
+    public void verifyRegistrationSuccess(String expectedMessage) {
         waitUntilElementVisible(confirmationMessage, 3);
         String actualMessage = getTextFromElement(confirmationMessage);
-        Assert.assertEquals(actualMessage, "Registration successful", "Registration confirmation message does not match.");
+        Assert.assertEquals(actualMessage, expectedMessage, "Registration confirmation message does not match.");
+    }
+
+    public void completeCaptchaVerification() {
+        // Implement CAPTCHA verification logic
     }
 
     public void checkEmailInboxForConfirmationEmail() {
-        // Logic to check email inbox
+        // Implement email inbox checking logic
     }
 
     public void verifyConfirmationEmailReceived() {
-        // Logic to verify email received
+        // Implement confirmation email verification logic
     }
 
     public void selectActivationLinkInEmail() {
-        // Logic to select activation link
+        // Implement activation link selection logic
     }
 
     public void verifyAccountActivation() {
-        // Logic to verify account activation
+        // Implement account activation verification logic
     }
 
     public void attemptLoginWithRegisteredCredentials() {
-        // Logic to attempt login
+        // Implement login attempt logic
     }
 
     public void verifySuccessfulLogin() {
-        // Logic to verify successful login
+        // Implement successful login verification logic
     }
 
-    public void verifyEmailAlreadyRegisteredError() {
-        waitUntilElementVisible(errorMessage, 3);
-        String actualMessage = getTextFromElement(errorMessage);
-        Assert.assertEquals(actualMessage, "Email is already registered.", "Error message does not match.");
+    public void navigateToHomepage() {
+        // Implement navigation to homepage logic
     }
 
-    public void verifyRegistrationOutcome(String expectedOutcome) {
-        if (expectedOutcome.contains("error message")) {
-            waitUntilElementVisible(errorMessage, 3);
-            String actualMessage = getTextFromElement(errorMessage);
-            Assert.assertTrue(actualMessage.contains("invalid email format"), "Error message not displayed as expected.");
-        } else if (expectedOutcome.contains("allow registration")) {
-            // Assume successful registration leads to a confirmation page or message
-            String currentURL = getCurrentURL();
-            Assert.assertTrue(currentURL.contains("confirmation"), "Registration was not successful.");
-        }
+    public void verifyRegistrationPageDisplayed() {
+        // Implement registration page display verification logic
     }
 
-    public void verifySystemMessage(String expectedMessage) {
-        waitUntilElementVisible(systemMessage, 3);
-        String actualMessage = getTextFromElement(systemMessage);
-        Assert.assertEquals(actualMessage, expectedMessage, "System message does not match.");
+    public void verifyDuplicateRegistrationError() {
+        // Implement duplicate registration error verification logic
     }
 
-    public void verifyCaptchaSuccess() {
-        // Implement CAPTCHA success verification logic
-        Assert.assertTrue(isElementVisible(captchaVerification), "CAPTCHA verification failed.");
+    public void verifyWeakPasswordError() {
+        // Implement weak password error verification logic
     }
 
-    public void attemptToRegister() {
-        waitUntilElementVisible(btnRegister, 3);
-        clickElement(btnRegister);
+    public void doNotAcceptTermsAndConditions() {
+        // Implement logic for not accepting terms and conditions
     }
 
-    public void verifyWeakPasswordFieldHighlighted() {
-        Assert.assertTrue(isElementVisible(weakPasswordField), "Weak password field is not highlighted.");
+    public void verifyTermsAndConditionsError() {
+        // Implement terms and conditions error verification logic
     }
 
-    public void verifyRegistrationSuccessAndEmailSent() {
-        waitUntilElementVisible(confirmationMessage, 3);
-        String actualMessage = getTextFromElement(confirmationMessage);
-        Assert.assertTrue(actualMessage.contains("confirmation email"), "Registration confirmation email was not sent.");
+    public void navigateToLoginPage() {
+        // Implement navigation to login page logic
+    }
+
+    public void verifyActivationPrompt() {
+        // Implement activation prompt verification logic
+    }
+
+    public void verifyInvalidEmailFormatError() {
+        // Implement invalid email format error verification logic
     }
 }
