@@ -1,0 +1,1106 @@
+Example Training Data for Script Generation:
+
+
+
+Input: BDD Test Case
+Feature: User Registration
+
+Scenario Outline: Successful user registration with valid details
+  Given the user is on the registration page
+  When the user enters "<First Name>" in the "First name" field
+  And the user enters "<Last Name>" in the "Last name" field
+  And the user enters "<Email>" in the "Email" field
+  And the user enters "<Password>" in the "Password" field
+  And the user enters "<Confirm Password>" in the "Confirm password" field
+  And the user clicks the "Register" button
+  Then the user should be successfully registered and see a confirmation message
+
+Examples:
+  | First Name | Last Name | Email               | Password   | Confirm Password |
+  | John       | Doe       | john.doe@test.com   | Pass@123   | Pass@123        |
+  | Alice      | Smith     | alice.smith@test.com | Alice@456  | Alice@456       |
+
+
+Output: Page Class (RegistrationPage.java)
+package com.pageobjects;
+
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
+
+public class RegistrationPage extends WebReusableComponents {
+
+    protected By txtFirstName = By.id("firstName");
+    protected By txtLastName = By.id("lastName");
+    protected By txtEmail = By.id("email");
+    protected By txtPassword = By.id("password");
+    protected By txtConfirmPassword = By.id("confirmPassword");
+    protected By btnRegister = By.id("registerButton");
+    protected By confirmationMessage = By.id("confirmationMessage");
+
+    public void navigateToRegistrationPage() {
+        launchUrl(getAppUrl() + "/register");
+        waitUntilElementVisible(txtFirstName, 5);
+    }
+
+    public void enterFirstName(String firstName) {
+        waitUntilElementVisible(txtFirstName, 3);
+        enterText(txtFirstName, firstName);
+    }
+
+    public void enterLastName(String lastName) {
+        waitUntilElementVisible(txtLastName, 3);
+        enterText(txtLastName, lastName);
+    }
+
+    public void enterEmail(String email) {
+        waitUntilElementVisible(txtEmail, 3);
+        enterText(txtEmail, email);
+    }
+
+    public void enterPassword(String password) {
+        waitUntilElementVisible(txtPassword, 3);
+        enterText(txtPassword, password);
+    }
+
+    public void enterConfirmPassword(String confirmPassword) {
+        waitUntilElementVisible(txtConfirmPassword, 3);
+        enterText(txtConfirmPassword, confirmPassword);
+    }
+
+    public void clickRegisterButton() {
+        waitUntilElementVisible(btnRegister, 3);
+        clickElement(btnRegister);
+    }
+
+    public void verifyRegistrationSuccess(String expectedMessage) {
+        waitUntilElementVisible(confirmationMessage, 3);
+        String actualMessage = getTextFromElement(confirmationMessage);
+        Assert.assertEquals(actualMessage, expectedMessage, "Registration confirmation message does not match.");
+    }
+}
+
+
+Output: Test Class (UserRegistrationSteps.java)
+package com.cucumber.steps;
+
+import com.framework.cucumber.TestHarness;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+public class UserRegistrationSteps extends RegistrationPage {
+
+    private TestHarness testHarness = new TestHarness();
+
+    @Given("the user is on the registration page")
+    public void theUserIsOnTheRegistrationPage() {
+        navigateToRegistrationPage();
+    }
+
+    @When("the user enters {string} in the {string} field")
+    public void theUserEntersValueInField(String value, String fieldName) {
+        switch (fieldName) {
+            case "First name":
+                enterFirstName(value);
+                break;
+            case "Last name":
+                enterLastName(value);
+                break;
+            case "Email":
+                enterEmail(value);
+                break;
+            case "Password":
+                enterPassword(value);
+                break;
+            case "Confirm password":
+                enterConfirmPassword(value);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown field: " + fieldName);
+        }
+    }
+
+    @When("the user clicks the {string} button")
+    public void theUserClicksTheButton(String buttonName) {
+        if (buttonName.equals("Register")) {
+            clickRegisterButton();
+        }
+    }
+
+    @Then("the user should be successfully registered and see a confirmation message")
+    public void theUserShouldBeSuccessfullyRegisteredAndSeeAConfirmationMessage() {
+        String expectedMessage = testHarness.getData("RegistrationData", "ExpectedConfirmationMessage");
+        verifyRegistrationSuccess(expectedMessage);
+    }
+}
+
+
+Input: BDD Test Case
+Feature: User Login
+
+Scenario: User successfully logs into the e-commerce application
+  Given the user is on the login page
+  When the user enters a valid username and password
+  And the user clicks the "Login" button
+  Then the user should be redirected to the homepage
+
+
+// Output: Page Class (LoginPage.java)
+package com.pageobjects;
+
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
+import static com.framework.selenium.SeleniumTestParameters.getAppUrl;
+
+public class LoginPage extends WebReusableComponents {
+
+    protected By txtUserName = By.id("username");
+    protected By txtPassword = By.id("password");
+    protected By btnLogin = By.id("loginButton");
+
+    public void enterUserName(String username) {
+        waitUntilElementVisible(txtUserName, 3);
+        enterText(txtUserName, username);
+    }
+
+    public void enterPassword(String password) {
+        waitUntilElementVisible(txtPassword, 3);
+        enterText(txtPassword, password);
+    }
+
+    public void clickLoginButton() {
+        waitUntilElementVisible(btnLogin, 3);
+        clickElement(btnLogin);
+    }
+
+    public void verifyHomePageRedirection(String expectedURL) {
+        String currentURL = getCurrentURL();
+        Assert.assertEquals(currentURL, expectedURL, "User is not redirected to the homepage.");
+    }
+}
+
+
+// Output: Test Class (UserLoginSteps.java)
+package com.cucumber.steps;
+
+import com.framework.cucumber.TestHarness;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+public class UserLoginSteps extends LoginPage {
+
+    private TestHarness testHarness = new TestHarness();
+
+    @Given("the user is on the login page")
+    public void theUserIsOnTheLoginPage() {
+        launchUrl(getAppUrl());
+        maximizeWindow();
+    }
+
+    @When("the user enters a valid username and password")
+    public void theUserEntersAValidUsernameAndPassword() {
+        String userName = testHarness.getData("LoginData", "UserName");
+        String password = testHarness.getData("LoginData", "Password");
+        enterUserName(userName);
+        enterPassword(password);
+    }
+
+    @When("the user clicks the {string} button")
+    public void theUserClicksTheButton(String buttonName) {
+        clickLoginButton();
+    }
+
+    @Then("the user should be redirected to the homepage")
+    public void theUserShouldBeRedirectedToTheHomepage() {
+        String expectedURL = testHarness.getData("LoginData", "ExpectedHomePageURL");
+        verifyHomePageRedirection(expectedURL);
+    }
+}
+
+
+# Input: BDD Test Case
+Feature: Checkout Process
+
+Scenario: User successfully completes checkout with valid details
+  Given the user has added items to the cart
+  When the user proceeds to checkout
+  And the user enters valid shipping details
+  And the user selects a payment method
+  And the user places the order
+  Then the user should see an order confirmation message
+
+
+// Output: Page Class (CheckoutPage.java)
+package com.pageobjects;
+
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
+
+public class CheckoutPage extends WebReusableComponents {
+
+    protected By btnProceedToCheckout = By.id("proceedToCheckout");
+    protected By txtFullName = By.id("fullName");
+    protected By txtAddress = By.id("address");
+    protected By txtCity = By.id("city");
+    protected By txtPostalCode = By.id("postalCode");
+    protected By txtPhone = By.id("phone");
+    protected By paymentMethodDropdown = By.id("paymentMethod");
+    protected By btnPlaceOrder = By.id("placeOrder");
+    protected By orderConfirmationMessage = By.id("confirmationMessage");
+
+    public void proceedToCheckout() {
+        waitUntilElementVisible(btnProceedToCheckout, 3);
+        clickElement(btnProceedToCheckout);
+    }
+
+    public void enterShippingDetails(String fullName, String address, String city, String postalCode, String phone) {
+        waitUntilElementVisible(txtFullName, 3);
+        enterText(txtFullName, fullName);
+        enterText(txtAddress, address);
+        enterText(txtCity, city);
+        enterText(txtPostalCode, postalCode);
+        enterText(txtPhone, phone);
+    }
+
+    public void selectPaymentMethod(String paymentMethod) {
+        waitUntilElementVisible(paymentMethodDropdown, 3);
+        selectByValue(paymentMethodDropdown, paymentMethod);
+    }
+
+    public void placeOrder() {
+        waitUntilElementVisible(btnPlaceOrder, 3);
+        clickElement(btnPlaceOrder);
+    }
+
+    public void verifyOrderConfirmation(String expectedMessage) {
+        waitUntilElementVisible(orderConfirmationMessage, 3);
+        String actualMessage = getTextFromElement(orderConfirmationMessage);
+        Assert.assertEquals(actualMessage, expectedMessage, "Order confirmation message does not match.");
+    }
+}
+
+
+
+// Output: Test Class (CheckoutSteps.java)
+package com.cucumber.steps;
+
+import com.framework.cucumber.TestHarness;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+public class CheckoutSteps extends CheckoutPage {
+
+    private TestHarness testHarness = new TestHarness();
+
+    @Given("the user has added items to the cart")
+    public void theUserHasAddedItemsToTheCart() {
+        String productName = testHarness.getData("CartData", "ProductName");
+        String quantity = testHarness.getData("CartData", "Quantity");
+        addProductToCart(productName, quantity);
+    }
+
+    @When("the user proceeds to checkout")
+    public void theUserProceedsToCheckout() {
+        proceedToCheckout();
+    }
+
+    @When("the user enters valid shipping details")
+    public void theUserEntersValidShippingDetails() {
+        String fullName = testHarness.getData("CheckoutData", "FullName");
+        String address = testHarness.getData("CheckoutData", "Address");
+        String city = testHarness.getData("CheckoutData", "City");
+        String postalCode = testHarness.getData("CheckoutData", "PostalCode");
+        String phone = testHarness.getData("CheckoutData", "Phone");
+        enterShippingDetails(fullName, address, city, postalCode, phone);
+    }
+
+    @When("the user selects a payment method")
+    public void theUserSelectsAPaymentMethod() {
+        String paymentMethod = testHarness.getData("CheckoutData", "PaymentMethod");
+        selectPaymentMethod(paymentMethod);
+    }
+
+    @When("the user places the order")
+    public void theUserPlacesTheOrder() {
+        placeOrder();
+    }
+
+    @Then("the user should see an order confirmation message")
+    public void theUserShouldSeeAnOrderConfirmationMessage() {
+        String expectedMessage = testHarness.getData("CheckoutData", "ExpectedConfirmationMessage");
+        verifyOrderConfirmation(expectedMessage);
+    }
+}
+
+
+# Input: BDD Test Case
+Feature: Cart Management
+
+Scenario: User adds a product to the cart and verifies it
+  Given the user is on the product details page
+  When the user adds the product to the cart
+  Then the cart should contain the added product
+
+Scenario: User updates the product quantity in the cart
+  Given the user has a product in the cart
+  When the user updates the quantity to "<Quantity>"
+  Then the cart should reflect the updated quantity
+
+Scenario: User removes a product from the cart
+  Given the user has a product in the cart
+  When the user removes the product from the cart
+  Then the cart should be empty
+
+
+
+// Output: Page Class (CartPage.java)
+package com.pageobjects;
+
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
+
+public class CartPage extends WebReusableComponents {
+
+    protected By btnAddToCart = By.id("addToCart");
+    protected By cartIcon = By.id("cartIcon");
+    protected By cartItems = By.cssSelector(".cart-item");
+    protected By productQuantity = By.cssSelector(".cart-item-quantity");
+    protected By btnRemoveItem = By.cssSelector(".remove-item");
+    protected By cartEmptyMessage = By.id("cartEmptyMessage");
+
+    public void addProductToCart() {
+        waitUntilElementVisible(btnAddToCart, 3);
+        clickElement(btnAddToCart);
+    }
+
+    public void openCart() {
+        waitUntilElementVisible(cartIcon, 3);
+        clickElement(cartIcon);
+    }
+
+    public void verifyProductInCart(String expectedProductName) {
+        waitUntilElementVisible(cartItems, 3);
+        boolean productFound = getWebElementList(cartItems)
+            .stream()
+            .anyMatch(item -> item.getText().contains(expectedProductName));
+        Assert.assertTrue(productFound, "Product is not in the cart.");
+    }
+
+    public void updateProductQuantity(String quantity) {
+        waitUntilElementVisible(productQuantity, 3);
+        selectByValue(productQuantity, quantity);
+    }
+
+    public void verifyProductQuantity(String expectedQuantity) {
+        waitUntilElementVisible(productQuantity, 3);
+        String actualQuantity = getTextFromElement(productQuantity);
+        Assert.assertEquals(actualQuantity, expectedQuantity, "Quantity update failed.");
+    }
+
+    public void removeProductFromCart() {
+        waitUntilElementVisible(btnRemoveItem, 3);
+        clickElement(btnRemoveItem);
+    }
+
+    public void verifyCartIsEmpty() {
+        waitUntilElementVisible(cartEmptyMessage, 3);
+        String actualMessage = getTextFromElement(cartEmptyMessage);
+        Assert.assertEquals(actualMessage, "Your cart is empty.", "Cart is not empty.");
+    }
+}
+
+// Output: Test Class (CartManagementSteps.java)
+package com.cucumber.steps;
+
+import com.framework.cucumber.TestHarness;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+public class CartManagementSteps extends CartPage {
+
+    private TestHarness testHarness = new TestHarness();
+
+    @Given("the user is on the product details page")
+    public void theUserIsOnTheProductDetailsPage() {
+        String productName = testHarness.getData("ProductData", "ProductName");
+        navigateToProductPage(productName);
+    }
+
+    @When("the user adds the product to the cart")
+    public void theUserAddsTheProductToTheCart() {
+        addProductToCart();
+    }
+
+    @Then("the cart should contain the added product")
+    public void theCartShouldContainTheAddedProduct() {
+        String expectedProductName = testHarness.getData("ProductData", "ProductName");
+        openCart();
+        verifyProductInCart(expectedProductName);
+    }
+
+    @Given("the user has a product in the cart")
+    public void theUserHasAProductInTheCart() {
+        String productName = testHarness.getData("ProductData", "ProductName");
+        addProductToCart();
+        openCart();
+        verifyProductInCart(productName);
+    }
+
+    @When("the user updates the quantity to {string}")
+    public void theUserUpdatesTheQuantityTo(String quantity) {
+        updateProductQuantity(quantity);
+    }
+
+    @Then("the cart should reflect the updated quantity")
+    public void theCartShouldReflectTheUpdatedQuantity() {
+        String expectedQuantity = testHarness.getData("CartData", "Quantity");
+        verifyProductQuantity(expectedQuantity);
+    }
+
+    @When("the user removes the product from the cart")
+    public void theUserRemovesTheProductFromTheCart() {
+        removeProductFromCart();
+    }
+
+    @Then("the cart should be empty")
+    public void theCartShouldBeEmpty() {
+        verifyCartIsEmpty();
+    }
+}
+
+
+# Input: BDD Test Case
+Feature: Order History
+
+Scenario: User views their past orders
+  Given the user is on the order history page
+  When the user views the list of past orders
+  Then the order history should display previous orders
+
+Scenario: User views the details of a specific order
+  Given the user is on the order history page
+  When the user selects an order with order ID "<OrderID>"
+  Then the user should see the details of the selected order
+
+
+// Output: Page Class (OrderHistoryPage.java)
+package com.pageobjects;
+
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
+import java.util.List;
+import org.openqa.selenium.WebElement;
+
+public class OrderHistoryPage extends WebReusableComponents {
+
+    protected By orderHistoryLink = By.id("orderHistory");
+    protected By orderList = By.cssSelector(".order-item");
+    protected By orderDetailsSection = By.id("orderDetails");
+    protected By specificOrder(String orderID) {
+        return By.xpath("//div[@data-order-id='" + orderID + "']");
+    }
+
+    public void navigateToOrderHistory() {
+        waitUntilElementVisible(orderHistoryLink, 3);
+        clickElement(orderHistoryLink);
+    }
+
+    public void verifyOrderHistoryDisplayed() {
+        waitUntilElementVisible(orderList, 3);
+        List<WebElement> orders = getWebElementList(orderList);
+        Assert.assertFalse(orders.isEmpty(), "No past orders are displayed.");
+    }
+
+    public void selectOrder(String orderID) {
+        By orderLocator = specificOrder(orderID);
+        waitUntilElementVisible(orderLocator, 3);
+        clickElement(orderLocator);
+    }
+
+    public void verifyOrderDetailsDisplayed() {
+        waitUntilElementVisible(orderDetailsSection, 3);
+        boolean isVisible = elementVisible(orderDetailsSection);
+        Assert.assertTrue(isVisible, "Order details are not displayed.");
+    }
+}
+
+
+// Output: Test Class (OrderHistorySteps.java)
+package com.cucumber.steps;
+
+import com.framework.cucumber.TestHarness;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+public class OrderHistorySteps extends OrderHistoryPage {
+
+    private TestHarness testHarness = new TestHarness();
+
+    @Given("the user is on the order history page")
+    public void theUserIsOnTheOrderHistoryPage() {
+        navigateToOrderHistory();
+    }
+
+    @When("the user views the list of past orders")
+    public void theUserViewsTheListOfPastOrders() {
+        verifyOrderHistoryDisplayed();
+    }
+
+    @Then("the order history should display previous orders")
+    public void theOrderHistoryShouldDisplayPreviousOrders() {
+        verifyOrderHistoryDisplayed();
+    }
+
+    @When("the user selects an order with order ID {string}")
+    public void theUserSelectsAnOrderWithOrderID(String orderID) {
+        selectOrder(orderID);
+    }
+
+    @Then("the user should see the details of the selected order")
+    public void theUserShouldSeeTheDetailsOfTheSelectedOrder() {
+        verifyOrderDetailsDisplayed();
+    }
+}
+
+
+# Input: BDD Test Case
+Feature: Wishlist Management
+
+Scenario: User adds a product to the wishlist
+  Given the user is on the product detail page
+  When the user clicks on the "Add to Wishlist" button
+  Then the product should be added to the wishlist
+
+Scenario: User views the wishlist
+  Given the user is on the wishlist page
+  When the user views the saved products
+  Then the wishlist should display all saved products
+
+Scenario: User removes a product from the wishlist
+  Given the user is on the wishlist page
+  When the user removes the product with name "<ProductName>"
+  Then the product should be removed from the wishlist
+
+// Output: Page Class (WishlistPage.java)
+package com.pageobjects;
+
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
+import java.util.List;
+import org.openqa.selenium.WebElement;
+
+public class WishlistPage extends WebReusableComponents {
+
+    protected By addToWishlistButton = By.id("addToWishlist");
+    protected By wishlistLink = By.id("wishlistLink");
+    protected By wishlistItems = By.cssSelector(".wishlist-item");
+
+    protected By removeWishlistItem(String productName) {
+        return By.xpath("//div[@class='wishlist-item' and contains(text(), '" + productName + "')]/following-sibling::button[@class='remove']");
+    }
+
+    public void addProductToWishlist() {
+        waitUntilElementVisible(addToWishlistButton, 3);
+        clickElement(addToWishlistButton);
+    }
+
+    public void navigateToWishlist() {
+        waitUntilElementVisible(wishlistLink, 3);
+        clickElement(wishlistLink);
+    }
+
+    public boolean isWishlistNotEmpty() {
+        waitUntilElementVisible(wishlistItems, 3);
+        List<WebElement> items = getWebElementList(wishlistItems);
+        return !items.isEmpty();
+    }
+
+    public void verifyWishlistContainsItems() {
+        Assert.assertTrue(isWishlistNotEmpty(), "Wishlist is empty.");
+    }
+
+    public void removeProductFromWishlist(String productName) {
+        By removeButton = removeWishlistItem(productName);
+        waitUntilElementVisible(removeButton, 3);
+        clickElement(removeButton);
+    }
+
+    public void verifyProductRemoved(String productName) {
+        By productLocator = removeWishlistItem(productName);
+        boolean isProductPresent = elementVisible(productLocator);
+        Assert.assertFalse(isProductPresent, "Product was not removed from the wishlist.");
+    }
+}
+
+// Output: Test Class (WishlistSteps.java)
+package com.cucumber.steps;
+
+import com.framework.cucumber.TestHarness;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+public class WishlistSteps extends WishlistPage {
+
+    private TestHarness testHarness = new TestHarness();
+
+    @Given("the user is on the product detail page")
+    public void theUserIsOnTheProductDetailPage() {
+        String productDetailURL = testHarness.getData("WishlistData", "ProductDetailPageURL");
+        navigateToPage(productDetailURL);
+    }
+
+    @When("the user clicks on the {string} button")
+    public void theUserClicksOnTheButton(String buttonName) {
+        addProductToWishlist();
+    }
+
+    @Then("the product should be added to the wishlist")
+    public void theProductShouldBeAddedToTheWishlist() {
+        navigateToWishlist();
+        verifyWishlistContainsItems();
+    }
+
+    @Given("the user is on the wishlist page")
+    public void theUserIsOnTheWishlistPage() {
+        String wishlistURL = testHarness.getData("WishlistData", "WishlistPageURL");
+        navigateToPage(wishlistURL);
+    }
+
+    @When("the user views the saved products")
+    public void theUserViewsTheSavedProducts() {
+        verifyWishlistContainsItems();
+    }
+
+    @Then("the wishlist should display all saved products")
+    public void theWishlistShouldDisplayAllSavedProducts() {
+        verifyWishlistContainsItems();
+    }
+
+    @When("the user removes the product with name {string}")
+    public void theUserRemovesTheProductWithName(String productName) {
+        removeProductFromWishlist(productName);
+    }
+
+    @Then("the product should be removed from the wishlist")
+    public void theProductShouldBeRemovedFromTheWishlist() {
+        String productName = testHarness.getData("WishlistData", "ProductName");
+        verifyProductRemoved(productName);
+    }
+}
+
+
+
+# Input: BDD Test Case
+Feature: Address Book Management
+
+Scenario: User adds a new address
+  Given the user is on the address book page
+  When the user adds a new address with "<AddressLine1>", "<City>", "<State>", "<PostalCode>", "<Country>"
+  Then the new address should be saved in the address book
+
+Scenario: User views saved addresses
+  Given the user is on the address book page
+  When the user views all saved addresses
+  Then the address book should display all saved addresses
+
+Scenario: User removes an address
+  Given the user is on the address book page
+  When the user removes the address with "<AddressLine1>"
+  Then the address should be removed from the address book
+
+
+// Output: Page Class (AddressBookPage.java)
+package com.pageobjects;
+
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
+import java.util.List;
+import org.openqa.selenium.WebElement;
+
+public class AddressBookPage extends WebReusableComponents {
+
+    protected By addressBookLink = By.id("addressBook");
+    protected By addAddressButton = By.id("addAddress");
+    protected By txtAddressLine1 = By.id("addressLine1");
+    protected By txtCity = By.id("city");
+    protected By txtState = By.id("state");
+    protected By txtPostalCode = By.id("postalCode");
+    protected By txtCountry = By.id("country");
+    protected By saveAddressButton = By.id("saveAddress");
+    protected By addressEntries = By.cssSelector(".address-entry");
+    protected By removeAddressButton(String addressLine1) {
+        return By.xpath("//div[contains(text(), '" + addressLine1 + "')]/following-sibling::button[@class='remove']");
+    }
+
+    public void navigateToAddressBook() {
+        waitUntilElementVisible(addressBookLink, 3);
+        clickElement(addressBookLink);
+    }
+
+    public void addNewAddress(String addressLine1, String city, String state, String postalCode, String country) {
+        waitUntilElementVisible(addAddressButton, 3);
+        clickElement(addAddressButton);
+        enterText(txtAddressLine1, addressLine1);
+        enterText(txtCity, city);
+        enterText(txtState, state);
+        enterText(txtPostalCode, postalCode);
+        enterText(txtCountry, country);
+        clickElement(saveAddressButton);
+    }
+
+    public void verifyAddressSaved() {
+        waitUntilElementVisible(addressEntries, 3);
+        List<WebElement> addresses = getWebElementList(addressEntries);
+        Assert.assertFalse(addresses.isEmpty(), "No addresses found in the address book.");
+    }
+
+    public void removeAddress(String addressLine1) {
+        By removeButton = removeAddressButton(addressLine1);
+        waitUntilElementVisible(removeButton, 3);
+        clickElement(removeButton);
+    }
+
+    public void verifyAddressRemoved(String addressLine1) {
+        By addressLocator = removeAddressButton(addressLine1);
+        boolean isAddressPresent = elementVisible(addressLocator);
+        Assert.assertFalse(isAddressPresent, "Address was not removed from the address book.");
+    }
+}
+
+
+// Output: Test Class (AddressBookSteps.java)
+package com.cucumber.steps;
+
+import com.framework.cucumber.TestHarness;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+public class AddressBookSteps extends AddressBookPage {
+
+    private TestHarness testHarness = new TestHarness();
+
+    @Given("the user is on the address book page")
+    public void theUserIsOnTheAddressBookPage() {
+        navigateToAddressBook();
+    }
+
+    @When("the user adds a new address with {string}, {string}, {string}, {string}, {string}")
+    public void theUserAddsANewAddressWith(String addressLine1, String city, String state, String postalCode, String country) {
+        addNewAddress(addressLine1, city, state, postalCode, country);
+    }
+
+    @Then("the new address should be saved in the address book")
+    public void theNewAddressShouldBeSavedInTheAddressBook() {
+        verifyAddressSaved();
+    }
+
+    @When("the user views all saved addresses")
+    public void theUserViewsAllSavedAddresses() {
+        verifyAddressSaved();
+    }
+
+    @Then("the address book should display all saved addresses")
+    public void theAddressBookShouldDisplayAllSavedAddresses() {
+        verifyAddressSaved();
+    }
+
+    @When("the user removes the address with {string}")
+    public void theUserRemovesTheAddressWith(String addressLine1) {
+        removeAddress(addressLine1);
+    }
+
+    @Then("the address should be removed from the address book")
+    public void theAddressShouldBeRemovedFromTheAddressBook() {
+        verifyAddressRemoved(testHarness.getData("AddressBookData", "AddressLine1"));
+    }
+}
+
+
+# Input: BDD Test Case
+Feature: Payment Methods Management
+
+Scenario: User adds a new payment method
+  Given the user is on the payment methods page
+  When the user adds a new card with "<CardNumber>", "<CardHolderName>", "<ExpiryDate>", "<CVV>"
+  Then the new payment method should be saved successfully
+
+Scenario: User views saved payment methods
+  Given the user is on the payment methods page
+  When the user views all saved payment methods
+  Then the payment methods section should display all saved payment methods
+
+Scenario: User removes a saved payment method
+  Given the user is on the payment methods page
+  When the user removes the card ending with "<LastFourDigits>"
+  Then the card should be removed from the saved payment methods
+
+
+// Output: Page Class (PaymentMethodsPage.java)
+package com.pageobjects;
+
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
+import java.util.List;
+import org.openqa.selenium.WebElement;
+
+public class PaymentMethodsPage extends WebReusableComponents {
+
+    protected By paymentMethodsLink = By.id("paymentMethods");
+    protected By addPaymentMethodButton = By.id("addPaymentMethod");
+    protected By txtCardNumber = By.id("cardNumber");
+    protected By txtCardHolderName = By.id("cardHolderName");
+    protected By txtExpiryDate = By.id("expiryDate");
+    protected By txtCVV = By.id("cvv");
+    protected By savePaymentMethodButton = By.id("savePaymentMethod");
+    protected By savedCards = By.cssSelector(".saved-card");
+    protected By removeCardButton(String lastFourDigits) {
+        return By.xpath("//div[contains(text(), '**** **** **** " + lastFourDigits + "')]/following-sibling::button[@class='remove']");
+    }
+
+    public void navigateToPaymentMethods() {
+        waitUntilElementVisible(paymentMethodsLink, 3);
+        clickElement(paymentMethodsLink);
+    }
+
+    public void addNewPaymentMethod(String cardNumber, String cardHolderName, String expiryDate, String cvv) {
+        waitUntilElementVisible(addPaymentMethodButton, 3);
+        clickElement(addPaymentMethodButton);
+        enterText(txtCardNumber, cardNumber);
+        enterText(txtCardHolderName, cardHolderName);
+        enterText(txtExpiryDate, expiryDate);
+        enterText(txtCVV, cvv);
+        clickElement(savePaymentMethodButton);
+    }
+
+    public void verifyPaymentMethodSaved() {
+        waitUntilElementVisible(savedCards, 3);
+        List<WebElement> cards = getWebElementList(savedCards);
+        Assert.assertFalse(cards.isEmpty(), "No saved payment methods found.");
+    }
+
+    public void removePaymentMethod(String lastFourDigits) {
+        By removeButton = removeCardButton(lastFourDigits);
+        waitUntilElementVisible(removeButton, 3);
+        clickElement(removeButton);
+    }
+
+    public void verifyPaymentMethodRemoved(String lastFourDigits) {
+        By cardLocator = removeCardButton(lastFourDigits);
+        boolean isCardPresent = elementVisible(cardLocator);
+        Assert.assertFalse(isCardPresent, "Card was not removed from saved payment methods.");
+    }
+}
+
+
+// Output: Test Class (PaymentMethodsSteps.java)
+package com.cucumber.steps;
+
+import com.framework.cucumber.TestHarness;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+public class PaymentMethodsSteps extends PaymentMethodsPage {
+
+    private TestHarness testHarness = new TestHarness();
+
+    @Given("the user is on the payment methods page")
+    public void theUserIsOnThePaymentMethodsPage() {
+        navigateToPaymentMethods();
+    }
+
+    @When("the user adds a new card with {string}, {string}, {string}, {string}")
+    public void theUserAddsANewCardWith(String cardNumber, String cardHolderName, String expiryDate, String cvv) {
+        addNewPaymentMethod(cardNumber, cardHolderName, expiryDate, cvv);
+    }
+
+    @Then("the new payment method should be saved successfully")
+    public void theNewPaymentMethodShouldBeSavedSuccessfully() {
+        verifyPaymentMethodSaved();
+    }
+
+    @When("the user views all saved payment methods")
+    public void theUserViewsAllSavedPaymentMethods() {
+        verifyPaymentMethodSaved();
+    }
+
+    @Then("the payment methods section should display all saved payment methods")
+    public void thePaymentMethodsSectionShouldDisplayAllSavedPaymentMethods() {
+        verifyPaymentMethodSaved();
+    }
+
+    @When("the user removes the card ending with {string}")
+    public void theUserRemovesTheCardEndingWith(String lastFourDigits) {
+        removePaymentMethod(lastFourDigits);
+    }
+
+    @Then("the card should be removed from the saved payment methods")
+    public void theCardShouldBeRemovedFromTheSavedPaymentMethods() {
+        verifyPaymentMethodRemoved(testHarness.getData("PaymentMethodsData", "LastFourDigits"));
+    }
+}
+
+
+# Input: BDD Test Case
+Feature: Checkout Process
+
+Scenario: User completes checkout using a credit card
+  Given the user has added items to the cart
+  And the user proceeds to checkout
+  When the user enters shipping details "<FullName>", "<Address>", "<City>", "<PostalCode>", "<Phone>"
+  And the user selects "Credit Card" as the payment method
+  And the user enters card details "<CardNumber>", "<ExpiryDate>", "<CVV>"
+  And the user places the order
+  Then the order should be confirmed with a confirmation message
+
+Scenario: User completes checkout using PayPal
+  Given the user has added items to the cart
+  And the user proceeds to checkout
+  When the user selects "PayPal" as the payment method
+  And the user logs into PayPal and completes the payment
+  And the user places the order
+  Then the order should be confirmed with a confirmation message
+
+
+// Output: Page Class (CheckoutPage.java)
+package com.pageobjects;
+
+import org.openqa.selenium.By;
+import org.testng.Assert;
+import com.framework.reusable.WebReusableComponents;
+
+public class CheckoutPage extends WebReusableComponents {
+
+    protected By btnProceedToCheckout = By.id("proceedToCheckout");
+    protected By txtFullName = By.id("fullName");
+    protected By txtAddress = By.id("address");
+    protected By txtCity = By.id("city");
+    protected By txtPostalCode = By.id("postalCode");
+    protected By txtPhone = By.id("phone");
+    protected By paymentMethodDropdown = By.id("paymentMethod");
+    protected By txtCardNumber = By.id("cardNumber");
+    protected By txtExpiryDate = By.id("expiryDate");
+    protected By txtCVV = By.id("cvv");
+    protected By btnPlaceOrder = By.id("placeOrder");
+    protected By orderConfirmationMessage = By.id("orderConfirmationMessage");
+    protected By btnPayWithPayPal = By.id("payWithPayPal");
+    protected By btnLoginToPayPal = By.id("paypalLogin");
+    protected By btnConfirmPayPalPayment = By.id("confirmPaypalPayment");
+
+    public void proceedToCheckout() {
+        waitUntilElementVisible(btnProceedToCheckout, 3);
+        clickElement(btnProceedToCheckout);
+    }
+
+    public void enterShippingDetails(String fullName, String address, String city, String postalCode, String phone) {
+        waitUntilElementVisible(txtFullName, 3);
+        enterText(txtFullName, fullName);
+        enterText(txtAddress, address);
+        enterText(txtCity, city);
+        enterText(txtPostalCode, postalCode);
+        enterText(txtPhone, phone);
+    }
+
+    public void selectPaymentMethod(String method) {
+        waitUntilElementVisible(paymentMethodDropdown, 3);
+        selectByValue(paymentMethodDropdown, method);
+    }
+
+    public void enterCreditCardDetails(String cardNumber, String expiryDate, String cvv) {
+        waitUntilElementVisible(txtCardNumber, 3);
+        enterText(txtCardNumber, cardNumber);
+        enterText(txtExpiryDate, expiryDate);
+        enterText(txtCVV, cvv);
+    }
+
+    public void placeOrder() {
+        waitUntilElementVisible(btnPlaceOrder, 3);
+        clickElement(btnPlaceOrder);
+    }
+
+    public void verifyOrderConfirmation(String expectedMessage) {
+        waitUntilElementVisible(orderConfirmationMessage, 3);
+        String actualMessage = getTextFromElement(orderConfirmationMessage);
+        Assert.assertEquals(actualMessage, expectedMessage, "Order confirmation message does not match.");
+    }
+
+    public void payWithPayPal() {
+        waitUntilElementVisible(btnPayWithPayPal, 3);
+        clickElement(btnPayWithPayPal);
+        waitUntilElementVisible(btnLoginToPayPal, 3);
+        clickElement(btnLoginToPayPal);
+        waitUntilElementVisible(btnConfirmPayPalPayment, 3);
+        clickElement(btnConfirmPayPalPayment);
+    }
+}
+
+// Output: Test Class (CheckoutSteps.java)
+package com.cucumber.steps;
+
+import com.framework.cucumber.TestHarness;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+public class CheckoutSteps extends CheckoutPage {
+
+    private TestHarness testHarness = new TestHarness();
+
+    @Given("the user has added items to the cart")
+    public void theUserHasAddedItemsToTheCart() {
+        proceedToCheckout();
+    }
+
+    @Given("the user proceeds to checkout")
+    public void theUserProceedsToCheckout() {
+        proceedToCheckout();
+    }
+
+    @When("the user enters shipping details {string}, {string}, {string}, {string}, {string}")
+    public void theUserEntersShippingDetails(String fullName, String address, String city, String postalCode, String phone) {
+        enterShippingDetails(fullName, address, city, postalCode, phone);
+    }
+
+    @When("the user selects {string} as the payment method")
+    public void theUserSelectsAsThePaymentMethod(String method) {
+        selectPaymentMethod(method);
+    }
+
+    @When("the user enters card details {string}, {string}, {string}")
+    public void theUserEntersCardDetails(String cardNumber, String expiryDate, String cvv) {
+        enterCreditCardDetails(cardNumber, expiryDate, cvv);
+    }
+
+    @When("the user places the order")
+    public void theUserPlacesTheOrder() {
+        placeOrder();
+    }
+
+    @Then("the order should be confirmed with a confirmation message")
+    public void theOrderShouldBeConfirmedWithAConfirmationMessage() {
+        String expectedMessage = testHarness.getData("CheckoutData", "ExpectedOrderConfirmationMessage");
+        verifyOrderConfirmation(expectedMessage);
+    }
+
+    @When("the user logs into PayPal and completes the payment")
+    public void theUserLogsIntoPayPalAndCompletesThePayment() {
+        payWithPayPal();
+    }
+}
+
+
+
