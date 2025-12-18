@@ -1,0 +1,27 @@
+<suite name="TestSuite">
+    <test name="CartManagementTests">
+        <classes>
+            <class name="com.test_scripts.AddProductToCartTest"/>
+            <class name="com.test_scripts.RemoveProductFromCartTest"/>
+            <class name="com.test_scripts.ModifyProductQuantityTest"/>
+            <class name="com.test_scripts.DisplayProductDetailsInCartTest"/>
+        </classes>
+    </test>
+    <test name="CheckoutProcessTests">
+        <classes>
+            <class name="com.test_scripts.ProceedToCheckoutTest"/>
+            <class name="com.test_scripts.PaymentOptionsTest"/>
+            <class name="com.test_scripts.VerifySecureTransactionProcessingTest"/>
+            <class name="com.test_scripts.VerifyPaymentValidationRulesTest"/>
+            <class name="com.test_scripts.PaymentFailureTest"/>
+            <class name="com.test_scripts.VerifyFallbackMechanismsTest"/>
+            <class name="com.test_scripts.CheckoutTest"/>
+            <class name="com.test_scripts.RetrieveAndEditSavedInformationTest"/>
+            <class name="com.test_scripts.ValidationOfAddressAndPaymentDetailsTest"/>
+            <class name="com.test_scripts.SecurityMeasuresTest"/>
+            <class name="com.test_scripts.ErrorHandlingTest"/>
+            <class name="com.test_scripts.AutoFillOptionsTest"/>
+            <class name="com.test_scripts.NotificationsTest"/>
+        </classes>
+    </test>
+</suite>
