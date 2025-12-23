@@ -1,0 +1,15 @@
+
+@iOSAndriodEcommAppJourneys @iOS
+Scenario Outline: Verify user allows to make the payment and order successfully                       # src/test/resources/features/Mobile.feature:25
+  Given Launch the mobile app for the registered user for the hotel management app                    # com.cucumber.steps.MobileSteps.launch_Application()
+      java.lang.NullPointerException: Cannot invoke "io.appium.java_client.ios.IOSDriver.activateApp(String)" because "iosDriver" is null
+	at com.pageobjects.MobilePage.launchMobileAppRealDevice(MobilePage.java:146)
+	at com.cucumber.steps.MobileSteps.launch_Application(MobileSteps.java:55)
+	at ✽.Launch the mobile app for the registered user for the hotel management app(file:///Users/selvamohanchinnasamy/Downloads/qualiframev2/src/test/resources/features/Mobile.feature:18)
+
+
+    Embedding image [image/png 15866 bytes]
+
+  And I select the food available in the menu                                                         # com.cucumber.steps.MobileSteps.selectFoodInMenu()
+  When I able to enters the Credit card details "4382 6723 9075 8201", "Vin Diesel", "07/25", "07/29" # com.cucumber.steps.MobileSteps.enterCardPaymentDetails(java.lang.String,java.lang.String,java.lang.String,java.lang.String)
+  Then I should able to make the order successful                                                     # com.cucumber.steps.MobileSteps.verifyOrderSuccessMessage()

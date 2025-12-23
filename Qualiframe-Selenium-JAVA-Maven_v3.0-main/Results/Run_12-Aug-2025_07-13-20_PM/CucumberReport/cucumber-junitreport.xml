@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Cucumber" time="3.972" tests="1" skipped="0" failures="1" errors="0">
+<testcase classname="Modern Web Testing with Enhanced Selenium Features" name="Modern Shopping Cart with Relative Locators" time="3.787">
+<failure/>
+<system-out><![CDATA[
+Given the application is ready for testing..................................undefined
+When Launch Application using "ShoppingTest"................................skipped
+And User enters userCredentials in text field...............................skipped
+And User clicks Login button................................................skipped
+Then verify home page displayed successfully................................skipped
+When User clicks SauceLabBackPack button....................................skipped
+Then User should see SauceLabBackPack Page..................................skipped
+When User clicks AddToCart button...........................................skipped
+And User clicks Cart button.................................................skipped
+Then User should see SauceLabBackPack Product...............................skipped
+When User clicks Remove button..............................................skipped
+Then User should see NoProduct in Cart......................................skipped
+]]></system-out>
+</testcase>
+</testsuite>

@@ -1,0 +1,20 @@
+{
+  "content": "Your travel card has been successfully linked to your account. You can now use this card for transit services. Card Type: OMNY, Status: Linked. Reply STOP to unsubscribe.",
+  "from": "+1234567890",
+  "to": "+1987654321",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "carrier": "Verizon",
+  "message_id": "MSG123456789",
+  "status": "delivered",
+  "template": "travel_card_added_sms",
+  "placeholders": {
+    "card_type": "OMNY",
+    "status": "Linked",
+    "unsubscribe_code": "STOP"
+  },
+  "metadata": {
+    "character_count": 156,
+    "segments": 1,
+    "encoding": "GSM-7"
+  }
+}

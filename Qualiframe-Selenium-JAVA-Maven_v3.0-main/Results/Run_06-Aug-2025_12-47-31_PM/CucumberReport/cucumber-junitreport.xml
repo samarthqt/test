@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Cucumber" time="2.644" tests="1" skipped="0" failures="1" errors="0">
+<testcase classname="Modern Web Testing with Enhanced Selenium Features" name="Modern Login with Enhanced Features" time="2.493">
+<failure/>
+<system-out><![CDATA[
+Given the application is ready for testing..................................undefined
+When Launch Application using "LoginTest"...................................skipped
+Then verify login page displayed successfully...............................skipped
+When User enters userCredentials in text field..............................skipped
+And User clicks Login button................................................skipped
+Then verify home page displayed successfully................................skipped
+]]></system-out>
+</testcase>
+</testsuite>

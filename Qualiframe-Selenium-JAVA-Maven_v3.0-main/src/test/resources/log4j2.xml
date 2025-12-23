@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
+        <Property name="LOG_FILE_PATH">logs/qualiframe.log</Property>
+        <Property name="ERROR_LOG_FILE_PATH">logs/error.log</Property>
+        <Property name="PERFORMANCE_LOG_FILE_PATH">logs/performance.log</Property>
+    </Properties>
+    
+    <Appenders>
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+        
+        <!-- File Appender for all logs -->
+        <RollingFile name="FileAppender" fileName="${LOG_FILE_PATH}" 
+                     filePattern="logs/qualiframe-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+        <!-- Error Log Appender -->
+        <RollingFile name="ErrorFileAppender" fileName="${ERROR_LOG_FILE_PATH}" 
+                     filePattern="logs/error-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+        <!-- Performance Log Appender -->
+        <RollingFile name="PerformanceFileAppender" fileName="${PERFORMANCE_LOG_FILE_PATH}" 
+                     filePattern="logs/performance-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+        <!-- JSON Appender for structured logging -->
+        <RollingFile name="JsonFileAppender" fileName="logs/qualiframe-json.log" 
+                     filePattern="logs/qualiframe-json-%d{yyyy-MM-dd}-%i.log.gz">
+            <JsonLayout complete="false" compact="true" eventEol="true" objectMessageAsJsonObject="true">
+                <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd'T'HH:mm:ss.SSS'Z'}"/>
+                <KeyValuePair key="level" value="$${level}"/>
+                <KeyValuePair key="thread" value="$${thread}"/>
+                <KeyValuePair key="logger" value="$${logger}"/>
+            </JsonLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+    
+    <Loggers>
+        <!-- Framework specific loggers -->
+        <Logger name="com.framework" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="JsonFileAppender"/>
+        </Logger>
+        
+        <!-- Selenium specific logger -->
+        <Logger name="org.openqa.selenium" level="WARN" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        
+        <!-- WebDriver Manager logger -->
+        <Logger name="io.github.bonigarcia" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        
+        <!-- Performance logger -->
+        <Logger name="com.framework.performance" level="INFO" additivity="false">
+            <AppenderRef ref="PerformanceFileAppender"/>
+        </Logger>
+        
+        <!-- Error logger -->
+        <Logger name="com.framework.error" level="ERROR" additivity="false">
+            <AppenderRef ref="ErrorFileAppender"/>
+        </Logger>
+        
+        <!-- Root logger -->
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>

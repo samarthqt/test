@@ -1,0 +1,332 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0"
+      ],
+      "description": "File system operations for QualiFrame framework",
+      "env": {
+        "ALLOWED_PATHS": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0"
+      }
+    },
+    
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@executeautomation/playwright-mcp-server"
+      ],
+      "env": {
+        "PLAYWRIGHT_BROWSER": "firefox",
+        "PLAYWRIGHT_HEADLESS": "true"
+      },
+      "description": "Browser automation for web testing with Playwright (Firefox configured)"
+    },
+    
+    "selenium-mcp": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "mcp_selenium.server"
+      ],
+      "env": {
+        "SELENIUM_HUB_URL": "http://localhost:4444/wd/hub",
+        "DEFAULT_BROWSER": "firefox",
+        "DEFAULT_TIMEOUT": "30"
+      },
+      "description": "Selenium WebDriver integration for cross-browser automation"
+    },
+    
+    "git": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-git"
+      ],
+      "env": {
+        "GIT_DIR": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/.git"
+      },
+      "description": "Git version control operations"
+    },
+    
+    "docker": {
+      "command": "node",
+      "args": [
+        "/usr/local/bin/docker-mcp-server"
+      ],
+      "env": {
+        "DOCKER_HOST": "unix:///var/run/docker.sock",
+        "COMPOSE_FILE": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/docker-compose.yml"
+      },
+      "description": "Docker container management for Selenium Grid"
+    },
+    
+    "test-results": {
+      "command": "node",
+      "args": [
+        "/path/to/test-results-parser/index.js"
+      ],
+      "env": {
+        "RESULTS_DIR": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/Results",
+        "EXTENT_REPORTS": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/test-output/ExtentReport",
+        "CUCUMBER_REPORTS": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/target/cucumber-report"
+      },
+      "description": "Parse and analyze test execution results"
+    },
+    
+    "maven-executor": {
+      "command": "bash",
+      "args": [
+        "-c",
+        "cd /Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0 && mvn $@"
+      ],
+      "env": {
+        "MAVEN_HOME": "/usr/local/apache-maven-3.9.6",
+        "JAVA_HOME": "/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home",
+        "M2_HOME": "/usr/local/apache-maven-3.9.6"
+      },
+      "description": "Execute Maven commands for builds and tests"
+    },
+    
+    "code-analyzer": {
+      "command": "java",
+      "args": [
+        "-jar",
+        "/path/to/sonarqube-scanner-cli.jar"
+      ],
+      "env": {
+        "SONAR_PROJECT_KEY": "qualiframe-v3",
+        "SONAR_SOURCES": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/src",
+        "SONAR_HOST_URL": "http://localhost:9000"
+      },
+      "description": "Code quality analysis with SonarQube"
+    },
+    
+    "api-testing": {
+      "command": "node",
+      "args": [
+        "/path/to/rest-assured-mcp/index.js"
+      ],
+      "env": {
+        "BASE_URI": "https://api.example.com",
+        "API_TIMEOUT": "30000",
+        "API_KEY": "${API_KEY}"
+      },
+      "description": "REST API testing with RestAssured integration"
+    },
+    
+    "database-mcp": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "mcp_database"
+      ],
+      "env": {
+        "DB_TYPE": "postgresql",
+        "DB_HOST": "localhost",
+        "DB_PORT": "5432",
+        "DB_NAME": "testdb",
+        "DB_USER": "${DB_USER}",
+        "DB_PASSWORD": "${DB_PASSWORD}"
+      },
+      "description": "Database connectivity for test data operations"
+    },
+    
+    "performance-monitor": {
+      "command": "node",
+      "args": [
+        "/path/to/performance-monitor/index.js"
+      ],
+      "env": {
+        "METRICS_ENDPOINT": "http://localhost:9090/metrics",
+        "PROMETHEUS_ENABLED": "true",
+        "METRICS_INTERVAL": "5000"
+      },
+      "description": "Performance metrics collection and monitoring"
+    },
+    
+    "screenshot-diff": {
+      "command": "node",
+      "args": [
+        "/path/to/screenshot-diff-server/index.js"
+      ],
+      "env": {
+        "SCREENSHOT_DIR": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/Results",
+        "BASELINE_DIR": "/path/to/baselines",
+        "THRESHOLD": "0.01"
+      },
+      "description": "Visual regression testing with screenshot comparison"
+    },
+    
+    "log-analyzer": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "log_analyzer_mcp"
+      ],
+      "env": {
+        "LOG_DIR": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/logs",
+        "LOG_LEVEL": "INFO"
+      },
+      "description": "Analyze test execution logs for errors and patterns"
+    },
+    
+    "test-data-generator": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "test_data_generator_mcp"
+      ],
+      "env": {
+        "DATA_DIR": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/src/test/resources/datatables",
+        "TEMPLATE_DIR": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/src/test/resources/templates"
+      },
+      "description": "Generate test data for Excel, CSV, JSON formats"
+    },
+    
+    "cloud-execution": {
+      "command": "node",
+      "args": [
+        "/path/to/cloud-test-executor/index.js"
+      ],
+      "env": {
+        "CLOUD_PROVIDER": "lambdatest",
+        "LAMBDATEST_USERNAME": "${LAMBDATEST_USERNAME}",
+        "LAMBDATEST_ACCESS_KEY": "${LAMBDATEST_ACCESS_KEY}",
+        "BROWSERSTACK_USER": "${BROWSERSTACK_USER}",
+        "BROWSERSTACK_KEY": "${BROWSERSTACK_KEY}"
+      },
+      "description": "Execute tests on cloud platforms (LambdaTest, BrowserStack, Sauce Labs)"
+    },
+    
+    "security-scanner": {
+      "command": "java",
+      "args": [
+        "-jar",
+        "/opt/zap/ZAP_2.14.0/zap-cli.jar"
+      ],
+      "env": {
+        "ZAP_HOST": "localhost",
+        "ZAP_PORT": "8080",
+        "ZAP_API_KEY": "${ZAP_API_KEY}"
+      },
+      "description": "Security vulnerability scanning with OWASP ZAP"
+    },
+    
+    "accessibility-checker": {
+      "command": "node",
+      "args": [
+        "/path/to/axe-mcp-server/index.js"
+      ],
+      "env": {
+        "AXE_RULES": "wcag2a,wcag2aa,wcag21aa,wcag22aa",
+        "AXE_TAGS": "best-practice"
+      },
+      "description": "Accessibility testing with Axe Core (WCAG compliance)"
+    }
+  },
+  
+  "globalSettings": {
+    "timeout": 30000,
+    "retryAttempts": 3,
+    "enableLogging": true,
+    "logLevel": "INFO",
+    "workingDirectory": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0",
+    "frameworkRoot": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0",
+    "javaVersion": "17",
+    "mavenVersion": "3.9.6",
+    "seleniumVersion": "4.15.0",
+    "cucumberVersion": "7.11.2"
+  },
+  
+  "featureFlags": {
+    "enableAIFeatures": true,
+    "enableSecurityScanning": true,
+    "enablePerformanceMonitoring": true,
+    "enableCloudExecution": false,
+    "enableAccessibilityTesting": true,
+    "enableVisualRegression": true,
+    "enableParallelExecution": true,
+    "enableDockerExecution": true
+  },
+  
+  "testExecution": {
+    "defaultProfile": "runBDDTests",
+    "defaultTags": "@Smoke",
+    "parallelThreads": 4,
+    "testTimeout": 300000,
+    "retryOnFailure": true,
+    "retryCount": 2,
+    "screenshotOnFailure": true,
+    "videoRecording": false
+  },
+  
+  "reporting": {
+    "extentReports": {
+      "enabled": true,
+      "outputDir": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/test-output/ExtentReport",
+      "theme": "blue"
+    },
+    "allureReports": {
+      "enabled": true,
+      "outputDir": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/target/allure-results"
+    },
+    "cucumberReports": {
+      "enabled": true,
+      "outputDir": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/target/cucumber-report"
+    }
+  },
+  
+  "security": {
+    "credentialManager": {
+      "provider": "SecureCredentialManager",
+      "encryption": "AES-256-GCM",
+      "keystorePath": "/Users/selvamohanchinnasamy/.qualiframe/keystore.jks"
+    },
+    "auditLogging": true,
+    "environmentVariables": {
+      "enabled": true,
+      "prefix": "QUALIFRAME_"
+    }
+  },
+  
+  "performance": {
+    "monitoringEnabled": true,
+    "adaptiveTimeouts": true,
+    "smartWaiting": true,
+    "resourceTracking": true,
+    "baselineComparison": true
+  },
+  
+  "integrations": {
+    "ciCd": {
+      "jenkins": {
+        "enabled": false,
+        "webhookUrl": "${JENKINS_WEBHOOK_URL}"
+      },
+      "githubActions": {
+        "enabled": true,
+        "workflowPath": ".github/workflows"
+      },
+      "gitlabCi": {
+        "enabled": false,
+        "configPath": ".gitlab-ci.yml"
+      }
+    },
+    "notifications": {
+      "slack": {
+        "enabled": false,
+        "webhookUrl": "${SLACK_WEBHOOK_URL}"
+      },
+      "email": {
+        "enabled": false,
+        "smtpHost": "${SMTP_HOST}",
+        "recipients": "${EMAIL_RECIPIENTS}"
+      }
+    }
+  }
+}
+

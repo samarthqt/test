@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Cucumber" time="211.108" tests="2" skipped="0" failures="2" errors="0">
+<testcase classname="Modern Web Testing with Enhanced Selenium Features" name="Modern Shopping Cart with Relative Locators" time="105.854">
+<failure type="java.lang.AssertionError" message="expected [true] but found [false]">
+<![CDATA[java.lang.AssertionError: expected [true] but found [false]
+	at org.testng.Assert.fail(Assert.java:110)
+	at org.testng.Assert.failNotEquals(Assert.java:1577)
+	at org.testng.Assert.assertTrue(Assert.java:56)
+	at org.testng.Assert.assertTrue(Assert.java:66)
+	at com.pageobjects.WebPage.verifyEmptyCart(WebPage.java:142)
+	at com.cucumber.steps.WebSteps.user_should_see_no_product_in_cart(WebSteps.java:83)
+	at ✽.User should see NoProduct in Cart(file:///Users/selvamohanchinnasamy/Downloads/qualiframev2/src/test/resources/features/ModernWeb.feature:32)
+]]>
+</failure>
+<system-out><![CDATA[
+Given the application is ready for testing..................................passed
+When Launch Application using "ShoppingTest"................................passed
+And User enters userCredentials in text field...............................passed
+And User clicks Login button................................................passed
+Then verify home page displayed successfully................................passed
+When User clicks SauceLabBackPack button....................................passed
+Then User should see SauceLabBackPack Page..................................passed
+When User clicks AddToCart button...........................................passed
+And User clicks Cart button.................................................passed
+Then User should see SauceLabBackPack Product...............................passed
+When User clicks Remove button..............................................passed
+Then User should see NoProduct in Cart......................................failed
+]]></system-out>
+</testcase>
+<testcase classname="Web Demo Application" name="Web Demo App-TcID-88657060-Shopping Cart Product Management - Attempt to remove a product that is not in the Cart - Example #1.1" time="105.104">
+<failure type="java.lang.AssertionError" message="expected [true] but found [false]">
+<![CDATA[java.lang.AssertionError: expected [true] but found [false]
+	at org.testng.Assert.fail(Assert.java:110)
+	at org.testng.Assert.failNotEquals(Assert.java:1577)
+	at org.testng.Assert.assertTrue(Assert.java:56)
+	at org.testng.Assert.assertTrue(Assert.java:66)
+	at com.pageobjects.WebPage.verifyEmptyCart(WebPage.java:142)
+	at com.cucumber.steps.WebSteps.user_should_see_no_product_in_cart(WebSteps.java:83)
+	at ✽.User should see NoProduct in Cart(file:///Users/selvamohanchinnasamy/Downloads/qualiframev2/src/test/resources/features/Web.feature:19)
+]]>
+</failure>
+<system-out><![CDATA[
+Given Launch Application using "SeleniumPracticeTest4"......................passed
+Then verify login page displayed successfully...............................passed
+When User enters userCredentials in text field..............................passed
+And User clicks Login button................................................passed
+Then verify home page displayed successfully................................passed
+When User clicks SauceLabBackPack button....................................passed
+Then User should see SauceLabBackPack Page..................................passed
+When User clicks AddToCart button...........................................passed
+And User clicks Cart button.................................................passed
+Then User should see SauceLabBackPack Product...............................passed
+When User clicks Remove button..............................................passed
+Then User should see NoProduct in Cart......................................failed
+]]></system-out>
+</testcase>
+</testsuite>

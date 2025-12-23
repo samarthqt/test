@@ -1,0 +1,1075 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com-qualiframe</groupId>
+	<artifactId>qualiframe-maven-testng</artifactId>
+	<version>3.0.0</version>
+	<packaging>jar</packaging>
+	<name>Qualiframe Automation Framework</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<dataproviderthreadcount>1</dataproviderthreadcount>
+		<org.apache.maven.plugins.maven-compiler-plugin.version>3.8.1
+		</org.apache.maven.plugins.maven-compiler-plugin.version>
+		<org.apache.maven.plugins.maven-antrun-plugin.version>3.0.0
+		</org.apache.maven.plugins.maven-antrun-plugin.version>
+		<aspectj.version>1.9.19</aspectj.version>
+		<extent.report>1.1.0</extent.report>
+		<rest-assured>5.3.0</rest-assured>
+		<qualiframe-components>3.0</qualiframe-components>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<dataproviderthreadcount>1</dataproviderthreadcount>
+		<selenium.standalone>4.28.1</selenium.standalone>
+		<java.client.appium>9.4.0</java.client.appium>
+		<io.cucumber>7.11.2</io.cucumber>
+		<org.testng>7.7.1</org.testng>
+		<org.apache.maven.plugins.maven-compiler-plugin.version>3.8.1
+		</org.apache.maven.plugins.maven-compiler-plugin.version>
+		<org.apache.maven.plugins.maven-surefire-plugin.version>3.0.0-M5
+		</org.apache.maven.plugins.maven-surefire-plugin.version>
+		<org.apache.maven.plugins.maven-antrun-plugin.version>3.0.0
+		</org.apache.maven.plugins.maven-antrun-plugin.version>
+		<com.aventstack.extentreports-cucumber4-adapter>1.2.2</com.aventstack.extentreports-cucumber4-adapter>
+		<org.apache.poi>5.2.4</org.apache.poi>
+		<org.apache.poi.schemas>4.1.2</org.apache.poi.schemas>
+		<stax.stax-api>1.0.1</stax.stax-api>
+		<org.apache.xmlbeans.xmlbeans>5.0.2</org.apache.xmlbeans.xmlbeans>
+		<io.github.bonigarcia.webdrivermanager>5.7.0</io.github.bonigarcia.webdrivermanager>
+		<aspectj.version>1.9.19</aspectj.version>
+		<skipTests>false</skipTests>
+		<TestConfiguration>Default</TestConfiguration>
+		<software.aws>2.20.46</software.aws>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+	</properties>
+
+	<profiles>
+
+		<!-- To run modular/keyword Tests -->
+		<profile>
+			<id>runTestNGTests</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<testNG.suiteXmlFile>src/test/resources/TestNGHybrid.xml</testNG.suiteXmlFile>
+			</properties>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-antrun-plugin</artifactId>
+							<version>${org.apache.maven.plugins.maven-antrun-plugin.version}</version>
+							<executions>
+								<execution>
+									<id>generate-sources</id>
+									<phase>generate-sources</phase>
+									<configuration>
+										<tasks>
+											<mkdir dir="./target/Reports" />
+										</tasks>
+									</configuration>
+									<goals>
+										<goal>run</goal>
+									</goals>
+								</execution>
+							</executions>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-compiler-plugin</artifactId>
+							<version>${org.apache.maven.plugins.maven-compiler-plugin.version}</version>
+							<configuration>
+								<encoding>UTF-8</encoding>
+								<source>17</source>
+								<target>17</target>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-surefire-plugin</artifactId>
+							<version>${org.apache.maven.plugins.maven-surefire-plugin.version}</version>
+							<configuration>
+								<suiteXmlFiles>
+									<suiteXmlFile>${testNG.suiteXmlFile}</suiteXmlFile>
+								</suiteXmlFiles>
+								<argLine>
+									-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+									-Dwebdriver.http.factory=jdk-http-client
+									-Dselenium.http.factory=jdk-http-client
+								</argLine>
+								<systemPropertyVariables>
+									<webdriver.http.factory>jdk-http-client</webdriver.http.factory>
+									<selenium.http.factory>jdk-http-client</selenium.http.factory>
+								</systemPropertyVariables>
+							</configuration>
+							<dependencies>
+								<dependency>
+									<groupId>org.aspectj</groupId>
+									<artifactId>aspectjweaver</artifactId>
+									<version>${aspectj.version}</version>
+								</dependency>
+							</dependencies>
+							<executions>
+								<execution>
+									<phase>integration-test</phase>
+									<goals>
+										<goal>test</goal>
+									</goals>
+									<configuration>
+										<systemProperties>
+											<systemProperty>
+												<key>ReportPath</key>
+												<value>${project.build.directory}\Reports</value>
+											</systemProperty>
+										</systemProperties>
+									</configuration>
+								</execution>
+							</executions>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+
+		<!-- To run cucumber BDD Tests -->
+		<profile>
+			<id>runBDDTests</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-compiler-plugin</artifactId>
+							<version>${org.apache.maven.plugins.maven-compiler-plugin.version}</version>
+							<configuration>
+								<source>17</source>
+								<target>17</target>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-surefire-plugin</artifactId>
+							<version>${org.apache.maven.plugins.maven-surefire-plugin.version}</version>
+							<configuration>
+								<includes>
+									<include>**/CucumberRunner.java</include>
+								</includes>
+								<argLine>
+									-Dwebdriver.http.factory=jdk-http-client
+									-Dselenium.http.factory=jdk-http-client
+								</argLine>
+								<systemPropertyVariables>
+									<TestConfiguration>${TestConfiguration}</TestConfiguration>
+									<webdriver.http.factory>jdk-http-client</webdriver.http.factory>
+									<selenium.http.factory>jdk-http-client</selenium.http.factory>
+								</systemPropertyVariables>
+								<testFailureIgnore>true</testFailureIgnore>
+								<useFile>false</useFile>
+							</configuration>
+							<dependencies>
+								<dependency>
+									<groupId>org.apache.maven.surefire</groupId>
+									<artifactId>surefire-testng</artifactId>
+									<version>${org.apache.maven.plugins.maven-surefire-plugin.version}</version>
+								</dependency>
+							</dependencies>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+			</build>
+		</profile>
+	</profiles>
+	
+	<dependencies>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+		<!-- Selenium Dependency -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${selenium.standalone}</version>
+		</dependency>
+
+		<!-- Selenium DevTools Protocol (CDP) Dependencies -->
+		<!-- These dependencies resolve CDP version mismatch warnings -->
+		<!-- For Chrome 142, we use the highest available CDP versions for Selenium 4.28.1 -->
+		<!-- Note: Chrome 142 is very new - exact CDP match may not exist yet, but Selenium will use the closest available version -->
+		<!-- The warning may still appear but is harmless - tests will run successfully -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-devtools-v132</artifactId>
+			<version>${selenium.standalone}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-devtools-v131</artifactId>
+			<version>${selenium.standalone}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-devtools-v130</artifactId>
+			<version>${selenium.standalone}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+			<version>${io.github.bonigarcia.webdrivermanager}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>31.1-jre</version>
+		</dependency>
+		<dependency>
+			<groupId>com.codeborne</groupId>
+			<artifactId>phantomjsdriver</artifactId>
+			<version>1.5.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.saucelabs/sauce_testng -->
+		<dependency>
+			<!-- https://mvnrepository.com/artifact/com.saucelabs/sauce_bindings -->
+			<groupId>com.saucelabs</groupId>
+			<artifactId>sauce_bindings</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+
+		<!-- Appium Dependency -->
+		<dependency>
+			<groupId>io.appium</groupId>
+			<artifactId>java-client</artifactId>
+			<version>${java.client.appium}</version>
+		</dependency>
+
+		<!-- Appli Tools Dependency -->
+		<!-- https://mvnrepository.com/artifact/com.applitools/eyes-selenium-java3 -->
+		<dependency>
+			<groupId>com.applitools</groupId>
+			<artifactId>eyes-selenium-java3</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+		<!-- Cucumber Dependencies -->
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-testng</artifactId>
+			<version>${io.cucumber}</version>
+			<exclusions>
+				<!-- Exclude old Groovy versions that might conflict -->
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy-xml</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>${io.cucumber}</version>
+			<exclusions>
+				<!-- Exclude old Groovy versions that might conflict -->
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy-xml</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- TestNG Dependency -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>${org.testng}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Apache POI Dependency -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${org.apache.poi}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${org.apache.poi}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>${org.apache.poi.schemas}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>stax</groupId>
+			<artifactId>stax-api</artifactId>
+			<version>${stax.stax-api}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.xmlbeans</groupId>
+			<artifactId>xmlbeans</artifactId>
+			<version>${org.apache.xmlbeans.xmlbeans}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-jvm -->
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-jvm</artifactId>
+			<version>${io.cucumber}</version>
+			<type>pom</type>
+			<exclusions>
+				<!-- Exclude old Groovy versions that might conflict -->
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy-xml</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.cucumber/gherkin -->
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>gherkin</artifactId>
+			<version>26.2.0</version>
+			<exclusions>
+				<!-- Exclude old Groovy versions that might conflict -->
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy-xml</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Miscellaneous Dependency -->
+		<!-- dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId>
+			<version>1.2.17</version> </dependency -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>1.7.36</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.4.14</version>
+		</dependency>
+		<dependency>
+			<groupId>net.logstash.logback</groupId>
+			<artifactId>logstash-logback-encoder</artifactId>
+			<version>7.4</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+		<!-- dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.17.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.17.1</version>
+		</dependency-->
+
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>2.0.12</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple >
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.33</version>
+			<scope>test</scope>
+		</dependency-->
+
+		<!-- Using PicoContainer to share state between steps in a scenario -->
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-picocontainer</artifactId>
+			<version>${io.cucumber}</version>
+			<scope>test</scope>
+			<exclusions>
+				<!-- Exclude old Groovy versions that might conflict -->
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy-xml</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Extent Report Dependency -->
+		<dependency>
+			<groupId>tech.grasshopper</groupId>
+			<artifactId>extentreports-cucumber7-adapter</artifactId>
+			<version>1.14.0</version>
+			<scope>test</scope>
+			<exclusions>
+				<!-- Exclude old Groovy versions that might conflict -->
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy-xml</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>2.7.2</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.healthmarketscience.jackcess/jackcess -->
+		<dependency>
+			<groupId>com.healthmarketscience.jackcess</groupId>
+			<artifactId>jackcess</artifactId>
+			<version>2.1.9</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/net.sf.ucanaccess/ucanaccess -->
+		<dependency>
+			<groupId>net.sf.ucanaccess</groupId>
+			<artifactId>ucanaccess</artifactId>
+			<version>4.0.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/ru.yandex.qatools.ashot/ashot -->
+		<dependency>
+			<groupId>ru.yandex.qatools.ashot</groupId>
+			<artifactId>ashot</artifactId>
+			<version>1.5.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-testng</artifactId>
+			<version>2.24.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-cucumber-jvm</artifactId>
+			<version>2.17.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>12.4.2.jre8</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+			<exclusions>
+				<!-- Exclude old Groovy versions that might conflict -->
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy-xml</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-remote-driver</artifactId>
+			<version>${selenium.standalone}</version>
+			<exclusions>
+				<!-- Exclude any Netty HTTP client dependencies to prevent ServiceLoader from discovering NettyClient$Factory -->
+				<exclusion>
+					<groupId>io.netty</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Selenium HTTP Client - Required for HTTP client factory in Selenium 4.x -->
+		<!-- This includes both Netty and JDK HTTP client implementations -->
+		<!-- We only use JDK HTTP client, but selenium-http includes both -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-http</artifactId>
+			<version>${selenium.standalone}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.everit.json/org.everit.json.schema -->
+		<dependency>
+			<groupId>org.everit.json</groupId>
+			<artifactId>org.everit.json.schema</artifactId>
+			<version>1.5.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path -->
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>2.9.0</version>
+			<exclusions>
+				<!-- Exclude old Groovy versions that might conflict -->
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy-xml</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-all -->
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+			<version>1.3</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>${rest-assured}</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- Explicitly add Groovy 4.0.6 to force version and prevent conflicts -->
+		<!-- RestAssured 5.3.0 uses Groovy 4.0.6, so we need to ensure all Groovy modules use this version -->
+		<!-- Note: Groovy 4.x uses org.apache.groovy groupId -->
+		<dependency>
+			<groupId>org.apache.groovy</groupId>
+			<artifactId>groovy</artifactId>
+			<version>4.0.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.groovy</groupId>
+			<artifactId>groovy-xml</artifactId>
+			<version>4.0.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.groovy</groupId>
+			<artifactId>groovy-json</artifactId>
+			<version>4.0.6</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.20.0-rc1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>regions</artifactId>
+			<version>${software.aws}</version>
+		</dependency>
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>aws-sdk-java</artifactId>
+			<version>${software.aws}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-devicefarm -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-devicefarm</artifactId>
+			<version>1.12.500</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/sts -->
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>sts</artifactId>
+			<version>${software.aws}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- Removed log4j-to-slf4j to avoid multiple SLF4J bindings; using Logback as the sole backend -->
+
+		<!-- Netty All - Complete Netty library to ensure all Netty classes are available -->
+		<!-- This is needed because selenium-http declares NettyClient$Factory as a service provider -->
+		<!-- ServiceLoader tries to load it before checking the system property -->
+		<!-- Even though we use JDK HTTP client, ServiceLoader still needs to be able to load Netty classes -->
+		<!-- Using version 4.1.100.Final to match selenium-http 4.28.1 requirements -->
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>4.1.100.Final</version>
+		</dependency>
+		
+		<!-- Explicitly add Netty HTTP client dependencies to ensure NettyClient$Factory can be loaded -->
+		<!-- These are required by selenium-http's Netty HTTP client implementation -->
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-handler</artifactId>
+			<version>4.1.100.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-codec-http</artifactId>
+			<version>4.1.100.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-codec</artifactId>
+			<version>4.1.100.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-transport</artifactId>
+			<version>4.1.100.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-buffer</artifactId>
+			<version>4.1.100.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-common</artifactId>
+			<version>4.1.100.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-resolver</artifactId>
+			<version>4.1.100.Final</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+		<dependency>
+		    <groupId>org.postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <version>42.7.1</version>
+		</dependency>
+
+		<!-- Gson for JSON handling in Smart Test Selector -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.13.1</version>
+		</dependency>
+
+		<!-- Docker Java Client for containerization -->
+		<dependency>
+			<groupId>com.github.docker-java</groupId>
+			<artifactId>docker-java</artifactId>
+			<version>3.5.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.docker-java</groupId>
+			<artifactId>docker-java-transport-zerodep</artifactId>
+			<version>3.5.3</version>
+		</dependency>
+
+		<!-- Metrics for performance monitoring -->
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+			<version>4.2.19</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-jvm</artifactId>
+			<version>4.2.19</version>
+		</dependency>
+
+
+
+		<!-- Removed Log4j 2 core/api to prevent conflicting bindings with SLF4J 2.0; Logback is the chosen backend -->
+
+		<!-- Test Data Factory for better test data generation -->
+		<dependency>
+			<groupId>com.github.javafaker</groupId>
+			<artifactId>javafaker</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+
+		<!-- API Contract Testing with OpenAPI -->
+		<dependency>
+			<groupId>io.swagger.parser.v3</groupId>
+			<artifactId>swagger-parser</artifactId>
+			<version>2.1.16</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-core</artifactId>
+			<version>2.2.8</version>
+		</dependency>
+
+
+
+		<!-- Enhanced Applitools Integration -->
+		<dependency>
+			<groupId>com.applitools</groupId>
+			<artifactId>eyes-selenium-java5</artifactId>
+			<version>5.66.0</version>
+		</dependency>
+
+		<!-- Load Testing Integration -->
+		<dependency>
+			<groupId>org.apache.jmeter</groupId>
+			<artifactId>ApacheJMeter_core</artifactId>
+			<version>5.6.2</version>
+			<exclusions>
+				<!-- Exclude all Groovy 3.x dependencies that conflict with RestAssured's Groovy 4.0.6 -->
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.jmeter</groupId>
+			<artifactId>ApacheJMeter_http</artifactId>
+			<version>5.6.2</version>
+		</dependency>
+
+		<!-- Security Testing with OWASP ZAP -->
+		<dependency>
+			<groupId>org.zaproxy</groupId>
+			<artifactId>zap-clientapi</artifactId>
+			<version>1.12.0</version>
+		</dependency>
+
+		<!-- Accessibility Testing -->
+		<dependency>
+			<groupId>com.deque.html.axe-core</groupId>
+			<artifactId>selenium</artifactId>
+			<version>4.7.0</version>
+		</dependency>
+
+		<!-- Enhanced Performance Monitoring -->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-core</artifactId>
+			<version>1.12.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<version>1.12.0</version>
+		</dependency>
+
+		<!-- Enhanced Page Object Model -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-support</artifactId>
+			<version>${selenium.standalone}</version>
+		</dependency>
+
+		<!-- Screenplay Pattern Support -->
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-core</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.serenity-bdd</groupId>
+			<artifactId>serenity-junit</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+
+		<!-- AI-Powered Test Generation -->
+		<dependency>
+			<groupId>com.theokanning.openai-gpt3-java</groupId>
+			<artifactId>service</artifactId>
+			<version>0.18.2</version>
+		</dependency>
+
+		<!-- Natural Language Processing -->
+		<dependency>
+			<groupId>edu.stanford.nlp</groupId>
+			<artifactId>stanford-corenlp</artifactId>
+			<version>4.5.4</version>
+		</dependency>
+
+		<!-- Machine Learning Support -->
+		<dependency>
+			<groupId>org.deeplearning4j</groupId>
+			<artifactId>deeplearning4j-core</artifactId>
+			<version>1.0.0-M2.1</version>
+		</dependency>
+
+		<!-- GraphQL Support -->
+		<dependency>
+			<groupId>com.graphql-java</groupId>
+			<artifactId>graphql-java</artifactId>
+			<version>21.3</version>
+		</dependency>
+
+		<!-- WebSocket Support -->
+		<dependency>
+			<groupId>org.java-websocket</groupId>
+			<artifactId>Java-WebSocket</artifactId>
+			<version>1.5.3</version>
+		</dependency>
+
+		<!-- gRPC Support -->
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-netty-shaded</artifactId>
+			<version>1.58.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-protobuf</artifactId>
+			<version>1.58.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-stub</artifactId>
+			<version>1.58.0</version>
+		</dependency>
+
+		<!-- Blockchain Testing Support -->
+		<dependency>
+			<groupId>org.web3j</groupId>
+			<artifactId>core</artifactId>
+			<version>4.9.8</version>
+		</dependency>
+
+		<!-- IoT Testing Support -->
+		<dependency>
+			<groupId>org.eclipse.paho</groupId>
+			<artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+			<version>1.2.5</version>
+		</dependency>
+
+		<!-- AR/VR Testing Support - Placeholder for future implementation -->
+		<!-- https://mvnrepository.com/artifact/com.google.ar/core -->
+		<!-- <dependency>
+			<groupId>com.google.ar</groupId>
+			<artifactId>core</artifactId>
+			<version>1.40.0</version>
+		</dependency> -->
+
+		<!-- Quantum Computing Simulation - Placeholder for future implementation -->
+		<!-- <dependency>
+			<groupId>org.quantum</groupId>
+			<artifactId>quantum-core</artifactId>
+			<version>1.0.0</version>
+		</dependency> -->
+
+		<!-- Edge Computing Support -->
+		<dependency>
+			<groupId>io.kubernetes</groupId>
+			<artifactId>client-java</artifactId>
+			<version>18.0.1</version>
+		</dependency>
+
+		<!-- Microservices Testing -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter</artifactId>
+			<version>4.0.4</version>
+		</dependency>
+
+		<!-- Event-Driven Architecture -->
+		<dependency>
+			<groupId>org.apache.kafka</groupId>
+			<artifactId>kafka-clients</artifactId>
+			<version>3.5.1</version>
+		</dependency>
+
+		<!-- Serverless Testing -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-lambda-java-core</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<!-- Chaos Engineering - Placeholder for future implementation -->
+		<!-- <dependency>
+			<groupId>io.chaos</groupId>
+			<artifactId>chaos-monkey</artifactId>
+			<version>2.0.0</version>
+		</dependency> -->
+
+		<!-- Observability -->
+		<!-- OpenTelemetry dependencies are managed by Selenium 4.28.1 transitively -->
+		<!-- Explicit versions cause NoSuchMethodError - let Selenium manage compatible versions -->
+		<!--
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-api</artifactId>
+			<version>1.32.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-sdk</artifactId>
+			<version>1.32.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-sdk-trace</artifactId>
+			<version>1.32.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.opentelemetry</groupId>
+			<artifactId>opentelemetry-exporter-logging</artifactId>
+			<version>1.32.0</version>
+		</dependency>
+		-->
+
+		<!-- Zero Trust Security -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.12.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.12.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.12.5</version>
+		</dependency>
+
+		<!-- Healenium - Self-Healing Test Automation -->
+		<dependency>
+			<groupId>com.epam.healenium</groupId>
+			<artifactId>healenium-web</artifactId>
+			<version>3.4.7</version>
+		</dependency>
+	</dependencies>
+
+	<!-- Repositories section moved to correct location -->
+	<repositories>
+		<repository>
+			<id>google</id>
+			<url>https://dl.google.com/dl/android/maven2/</url>
+		</repository>
+		<repository>
+			<id>central</id>
+			<url>https://repo1.maven.org/maven2/</url>
+		</repository>
+	</repositories>
+
+	<!-- Build configuration -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
+				<configuration>
+					<source>17</source>
+					<target>17</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.1.2</version>
+				<configuration>
+					<skipTests>false</skipTests>
+					<testFailureIgnore>true</testFailureIgnore>
+					<useFile>false</useFile>
+					<suiteXmlFiles>
+						<suiteXmlFile>src/test/resources/TestNGHybrid.xml</suiteXmlFile>
+					</suiteXmlFiles>
+					<argLine>
+						-Dwebdriver.http.factory=jdk-http-client
+						-Dselenium.http.factory=jdk-http-client
+					</argLine>
+					<systemPropertyVariables>
+						<webdriver.http.factory>jdk-http-client</webdriver.http.factory>
+						<selenium.http.factory>jdk-http-client</selenium.http.factory>
+					</systemPropertyVariables>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-testng</artifactId>
+						<version>3.1.2</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.3.1</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>a0r860tji6jbe-artifactory-primary-0-snapshots</name>
+			<url>https://qualitestautomationcoe.jfrog.io/artifactory/qualiframe-libs-snapshot-local</url>
+		</snapshotRepository>
+	</distributionManagement>
+</project>

@@ -1,0 +1,62 @@
+# OrangeModularScenario.xls Structure
+
+This file describes the required structure for the OrangeModularScenario.xls Excel file.
+
+## Required Sheets and Columns
+
+### 1. Environment Sheet
+| Column A | Column B |
+|----------|----------|
+| MSD_CRM_URL | http://ussanenyccrw21.ctslab.local/EIL2NextContact2/main.aspx?web=true&page=SRCH&area=cMyWork#667322543 |
+
+### 2. OMNY_Card Sheet
+| Column A | Column B |
+|----------|----------|
+| CardNumber | [Valid unregistered OMNY card number - e.g., 1234567890123456] |
+| ExpirationDate | [Card expiration date - e.g., 12/25] |
+
+### 3. Customer Sheet
+| Column A | Column B |
+|----------|----------|
+| CustomerIdentifier | [Customer ID, email, or phone - e.g., john.doe@example.com] |
+| SearchType | [Search method - e.g., Email] |
+
+### 4. Verification Sheet
+| Column A | Column B |
+|----------|----------|
+| Method | [Verification method - e.g., Email] |
+| Value | [Verification value - e.g., verification code] |
+
+### 5. Notifications Sheet
+| Column A | Column B |
+|----------|----------|
+| SMS_Enabled | [true or false] |
+
+## Sample Data Values
+
+### Environment
+- MSD_CRM_URL: http://ussanenyccrw21.ctslab.local/EIL2NextContact2/main.aspx?web=true&page=SRCH&area=cMyWork#667322543
+
+### OMNY_Card
+- CardNumber: 1234567890123456
+- ExpirationDate: 12/25
+
+### Customer
+- CustomerIdentifier: john.doe@example.com
+- SearchType: Email
+
+### Verification
+- Method: Email
+- Value: VERIFY123
+
+### Notifications
+- SMS_Enabled: true
+
+## Notes
+
+1. Create this as an Excel .xls file
+2. Place it in src/test/resources/datatables/
+3. Update the Global Settings.properties to reference this file:
+   DataTable=OrangeModularScenario
+4. Ensure all required sheets exist with exact names
+5. Test data should be realistic but not contain actual production data

@@ -1,0 +1,51 @@
+
+@ModernWeb @Shopping
+Scenario: Modern Shopping Cart with Relative Locators # src/test/resources/features/ModernWeb.feature:21
+  Given the application is ready for testing          # com.cucumber.steps.WebSteps.the_application_is_ready_for_testing()
+
+    Embedding image [image/png 15960 bytes]
+
+  When Launch Application using "ShoppingTest"        # com.cucumber.steps.WebSteps.launch_Application(java.lang.String)
+
+    Embedding image [image/png 75200 bytes]
+
+  And User enters userCredentials in text field       # com.cucumber.steps.WebSteps.enterUserCredentials()
+
+    Embedding image [image/png 74102 bytes]
+
+  And User clicks Login button                        # com.cucumber.steps.WebSteps.clickLoginButton()
+
+    Embedding image [image/png 629836 bytes]
+
+  Then verify home page displayed successfully        # com.cucumber.steps.WebSteps.verifyhome()
+
+    Embedding image [image/png 629836 bytes]
+
+  When User clicks SauceLabBackPack button            # com.cucumber.steps.WebSteps.user_clicks_sauce_lab_back_pack_button()
+
+    Embedding image [image/png 306873 bytes]
+
+  Then User should see SauceLabBackPack Page          # com.cucumber.steps.WebSteps.user_should_see_sauce_lab_back_pack_page()
+
+    Embedding image [image/png 306873 bytes]
+
+  When User clicks AddToCart button                   # com.cucumber.steps.WebSteps.user_clicks_add_to_cart_button()
+
+    Embedding image [image/png 306351 bytes]
+
+  And User clicks Cart button                         # com.cucumber.steps.WebSteps.user_clicks_cart_button()
+
+    Embedding image [image/png 111554 bytes]
+
+  Then User should see SauceLabBackPack Product       # com.cucumber.steps.WebSteps.user_should_see_sauce_lab_back_pack_product()
+
+    Embedding image [image/png 111554 bytes]
+
+  When User clicks Remove button                      # com.cucumber.steps.WebSteps.user_clicks_remove_button()
+
+    Embedding image [image/png 73101 bytes]
+
+  Then User should see NoProduct in Cart              # com.cucumber.steps.WebSteps.user_should_see_no_product_in_cart()
+
+    Embedding image [image/png 73101 bytes]
+

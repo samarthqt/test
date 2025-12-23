@@ -1,0 +1,9 @@
+{
+  "launch": "https://www.saucedemo.com/",
+  "LoginTest": [
+    "//input[@id='user-name']::click",
+    "//input[@id='password']::click",
+    "//input[@id='login-button']::click"
+  ]
+}
+

@@ -1,0 +1,29 @@
+
+@ModernWeb @Shopping
+Scenario: Modern Shopping Cart with Relative Locators # src/test/resources/features/ModernWeb.feature:21
+  Given the application is ready for testing          # com.cucumber.steps.WebSteps.the_application_is_ready_for_testing()
+
+    Embedding image [image/png 15960 bytes]
+
+  When Launch Application using "ShoppingTest"        # com.cucumber.steps.WebSteps.launch_Application(java.lang.String)
+
+    Embedding image [image/png 75200 bytes]
+
+  And User enters userCredentials in text field       # com.cucumber.steps.WebSteps.enterUserCredentials()
+      com.framework.components.FrameworkException: Unable to read the data from Excel. Please check the data in excel sheet - General_Data Test case ID - ShoppingTest Key - UserName
+	at com.framework.cucumber.TestHarness.getData(TestHarness.java:343)
+	at com.cucumber.steps.WebSteps.enterUserCredentials(WebSteps.java:40)
+	at ✽.User enters userCredentials in text field(file:///Users/selvamohanchinnasamy/Downloads/qualiframev2/src/test/resources/features/ModernWeb.feature:23)
+
+
+    Embedding image [image/png 75200 bytes]
+
+  And User clicks Login button                        # com.cucumber.steps.WebSteps.clickLoginButton()
+  Then verify home page displayed successfully        # com.cucumber.steps.WebSteps.verifyhome()
+  When User clicks SauceLabBackPack button            # com.cucumber.steps.WebSteps.user_clicks_sauce_lab_back_pack_button()
+  Then User should see SauceLabBackPack Page          # com.cucumber.steps.WebSteps.user_should_see_sauce_lab_back_pack_page()
+  When User clicks AddToCart button                   # com.cucumber.steps.WebSteps.user_clicks_add_to_cart_button()
+  And User clicks Cart button                         # com.cucumber.steps.WebSteps.user_clicks_cart_button()
+  Then User should see SauceLabBackPack Product       # com.cucumber.steps.WebSteps.user_should_see_sauce_lab_back_pack_product()
+  When User clicks Remove button                      # com.cucumber.steps.WebSteps.user_clicks_remove_button()
+  Then User should see NoProduct in Cart              # com.cucumber.steps.WebSteps.user_should_see_no_product_in_cart()

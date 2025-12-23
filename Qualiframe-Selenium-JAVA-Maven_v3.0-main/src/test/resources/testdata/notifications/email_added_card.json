@@ -1,0 +1,17 @@
+{
+  "subject": "Your travel card has been added",
+  "body": "Dear Customer,\n\nYour travel card has been successfully linked to your account. You can now use this card for transit services.\n\nCard Details:\n- Card Type: OMNY\n- Status: Linked\n- Account: Active\n\nIf you have any questions, please contact our customer service.\n\nBest regards,\nTransit Authority Team",
+  "from": "noreply@transitauthority.com",
+  "to": "customer@example.com",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "format": "text/html",
+  "priority": "normal",
+  "template": "travel_card_added",
+  "placeholders": {
+    "customer_name": "John Doe",
+    "card_number": "****1234",
+    "card_type": "OMNY",
+    "link_date": "2024-01-15",
+    "transit_authority": "Transit Authority"
+  }
+}

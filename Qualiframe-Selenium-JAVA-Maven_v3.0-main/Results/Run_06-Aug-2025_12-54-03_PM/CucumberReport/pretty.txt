@@ -1,0 +1,102 @@
+
+@P1-High @88657060 @TS-10 @Remove-Product-NotInCart @QGen-29 @WebDemo
+Scenario Outline: Web Demo App-TcID-88657060-Shopping Cart Product Management - Attempt to remove a product that is not in the Cart # src/test/resources/features/Web.feature:24
+  Given Launch Application using "SeleniumPracticeTest4"                                                                            # com.cucumber.steps.WebSteps.launch_Application(java.lang.String)
+
+    Embedding image [image/png 77772 bytes]
+
+  Then verify login page displayed successfully                                                                                     # com.cucumber.steps.WebSteps.verify_login_page_displayed_successfully()
+
+    Embedding image [image/png 77772 bytes]
+
+  When User enters userCredentials in text field                                                                                    # com.cucumber.steps.WebSteps.enterUserCredentials()
+
+    Embedding image [image/png 76471 bytes]
+
+  And User clicks Login button                                                                                                      # com.cucumber.steps.WebSteps.clickLoginButton()
+
+    Embedding image [image/png 645361 bytes]
+
+  Then verify home page displayed successfully                                                                                      # com.cucumber.steps.WebSteps.verifyhome()
+
+    Embedding image [image/png 645361 bytes]
+
+  When User clicks SauceLabBackPack button                                                                                          # com.cucumber.steps.WebSteps.user_clicks_sauce_lab_back_pack_button()
+
+    Embedding image [image/png 306418 bytes]
+
+  Then User should see SauceLabBackPack Page                                                                                        # com.cucumber.steps.WebSteps.user_should_see_sauce_lab_back_pack_page()
+
+    Embedding image [image/png 306418 bytes]
+
+  When User clicks AddToCart button                                                                                                 # com.cucumber.steps.WebSteps.user_clicks_add_to_cart_button()
+
+    Embedding image [image/png 305847 bytes]
+
+  And User clicks Cart button                                                                                                       # com.cucumber.steps.WebSteps.user_clicks_cart_button()
+
+    Embedding image [image/png 114620 bytes]
+
+  Then User should see SauceLabBackPack Product                                                                                     # com.cucumber.steps.WebSteps.user_should_see_sauce_lab_back_pack_product()
+
+    Embedding image [image/png 114620 bytes]
+
+  When User clicks Remove button                                                                                                    # com.cucumber.steps.WebSteps.user_clicks_remove_button()
+
+    Embedding image [image/png 74101 bytes]
+
+  Then User should see NoProduct in Cart                                                                                            # com.cucumber.steps.WebSteps.user_should_see_no_product_in_cart()
+
+    Embedding image [image/png 74101 bytes]
+
+
+@P1-High @88657058 @TS-10 @Remove-Product @QGen-29 @WebDemo
+Scenario Outline: Web Demo App-TcID- 88657058-Remove from Cart # src/test/resources/features/Web.feature:65
+  Given Launch Application using "SeleniumPracticeTest4"       # com.cucumber.steps.WebSteps.launch_Application(java.lang.String)
+
+    Embedding image [image/png 77772 bytes]
+
+  Then verify login page displayed successfully                # com.cucumber.steps.WebSteps.verify_login_page_displayed_successfully()
+
+    Embedding image [image/png 77772 bytes]
+
+  When User enters userCredentials in text field               # com.cucumber.steps.WebSteps.enterUserCredentials()
+
+    Embedding image [image/png 76471 bytes]
+
+  And User clicks Login button                                 # com.cucumber.steps.WebSteps.clickLoginButton()
+
+    Embedding image [image/png 645361 bytes]
+
+  Then verify home page displayed successfully                 # com.cucumber.steps.WebSteps.verifyhome()
+
+    Embedding image [image/png 645361 bytes]
+
+  When User clicks SauceLabBackPack button                     # com.cucumber.steps.WebSteps.user_clicks_sauce_lab_back_pack_button()
+
+    Embedding image [image/png 306418 bytes]
+
+  Then User should see SauceLabBackPack Page                   # com.cucumber.steps.WebSteps.user_should_see_sauce_lab_back_pack_page()
+
+    Embedding image [image/png 306418 bytes]
+
+  When User clicks AddToCart button                            # com.cucumber.steps.WebSteps.user_clicks_add_to_cart_button()
+
+    Embedding image [image/png 305847 bytes]
+
+  And User clicks Cart button                                  # com.cucumber.steps.WebSteps.user_clicks_cart_button()
+
+    Embedding image [image/png 114620 bytes]
+
+  Then User should see SauceLabBackPack Product                # com.cucumber.steps.WebSteps.user_should_see_sauce_lab_back_pack_product()
+
+    Embedding image [image/png 114620 bytes]
+
+  When User clicks Remove button                               # com.cucumber.steps.WebSteps.user_clicks_remove_button()
+
+    Embedding image [image/png 74101 bytes]
+
+  Then User should see NoProduct in Cart                       # com.cucumber.steps.WebSteps.user_should_see_no_product_in_cart()
+
+    Embedding image [image/png 74101 bytes]
+

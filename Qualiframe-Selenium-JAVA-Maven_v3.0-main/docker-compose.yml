@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  # Selenium Grid Hub
+  selenium-hub:
+    image: selenium/hub:4.18.1
+    container_name: selenium-hub
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    environment:
+      - GRID_MAX_SESSION=16
+      - GRID_BROWSER_TIMEOUT=300
+      - GRID_TIMEOUT=300
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4444/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Chrome Node
+  chrome:
+    image: selenium/node-chrome:4.18.1
+    container_name: selenium-chrome
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=4
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+    volumes:
+      - /dev/shm:/dev/shm
+
+  # Firefox Node
+  firefox:
+    image: selenium/node-firefox:4.18.1
+    container_name: selenium-firefox
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=4
+      - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+    volumes:
+      - /dev/shm:/dev/shm
+
+  # QualiFrameV2 Application
+  qualiframe-app:
+    build: .
+    container_name: qualiframe-app
+    depends_on:
+      - selenium-hub
+    environment:
+      - SELENIUM_HUB_URL=http://selenium-hub:4444/wd/hub
+      - TEST_CONFIGURATION=REMOTE
+      - PARALLEL_EXECUTION=true
+      - THREAD_COUNT=4
+    volumes:
+      - ./Results:/app/Results
+      - ./logs:/app/logs
+      - ./downloads:/app/downloads
+      - ./src/test/resources/properties:/app/src/test/resources/properties
+    networks:
+      - qualiframe-network
+
+  # Allure Report Server
+  allure:
+    image: frankescobar/allure-docker-service
+    container_name: allure-server
+    ports:
+      - "5050:5050"
+    volumes:
+      - ./Results/allure-results:/app/allure-results
+      - ./Results/allure-reports:/app/default-reports
+    environment:
+      - CHECK_RESULTS_EVERY_SECONDS=1
+      - KEEP_HISTORY=1
+    depends_on:
+      - qualiframe-app
+
+networks:
+  qualiframe-network:
+    driver: bridge 

@@ -1,0 +1,18 @@
+
+@ModernWeb @Shopping
+Scenario: Modern Shopping Cart with Relative Locators # src/test/resources/features/ModernWeb.feature:21
+  Given the application is ready for testing
+
+    Embedding image [image/png 7536 bytes]
+
+  When Launch Application using "ShoppingTest"        # com.cucumber.steps.WebSteps.launch_Application(java.lang.String)
+  And User enters userCredentials in text field       # com.cucumber.steps.WebSteps.enterUserCredentials()
+  And User clicks Login button                        # com.cucumber.steps.WebSteps.clickLoginButton()
+  Then verify home page displayed successfully        # com.cucumber.steps.WebSteps.verifyhome()
+  When User clicks SauceLabBackPack button            # com.cucumber.steps.WebSteps.user_clicks_sauce_lab_back_pack_button()
+  Then User should see SauceLabBackPack Page          # com.cucumber.steps.WebSteps.user_should_see_sauce_lab_back_pack_page()
+  When User clicks AddToCart button                   # com.cucumber.steps.WebSteps.user_clicks_add_to_cart_button()
+  And User clicks Cart button                         # com.cucumber.steps.WebSteps.user_clicks_cart_button()
+  Then User should see SauceLabBackPack Product       # com.cucumber.steps.WebSteps.user_should_see_sauce_lab_back_pack_product()
+  When User clicks Remove button                      # com.cucumber.steps.WebSteps.user_clicks_remove_button()
+  Then User should see NoProduct in Cart              # com.cucumber.steps.WebSteps.user_should_see_no_product_in_cart()

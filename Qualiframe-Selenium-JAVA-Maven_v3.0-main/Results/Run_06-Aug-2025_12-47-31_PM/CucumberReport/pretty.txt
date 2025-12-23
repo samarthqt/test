@@ -1,0 +1,12 @@
+
+@ModernWeb @Login
+Scenario: Modern Login with Enhanced Features    # src/test/resources/features/ModernWeb.feature:13
+  Given the application is ready for testing
+
+    Embedding image [image/png 16016 bytes]
+
+  When Launch Application using "LoginTest"      # com.cucumber.steps.WebSteps.launch_Application(java.lang.String)
+  Then verify login page displayed successfully  # com.cucumber.steps.WebSteps.verify_login_page_displayed_successfully()
+  When User enters userCredentials in text field # com.cucumber.steps.WebSteps.enterUserCredentials()
+  And User clicks Login button                   # com.cucumber.steps.WebSteps.clickLoginButton()
+  Then verify home page displayed successfully   # com.cucumber.steps.WebSteps.verifyhome()

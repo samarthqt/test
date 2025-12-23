@@ -1,0 +1,266 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0"
+      ],
+      "description": "File system access for QualiFrame framework"
+    },
+    
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@executeautomation/playwright-mcp-server"
+      ],
+      "env": {
+        "PLAYWRIGHT_BROWSER": "firefox"
+      },
+      "description": "Browser automation for testing web applications with Playwright (Firefox)"
+    },
+    
+    "selenium": {
+      "command": "python3",
+      " месте": [
+        "-m",
+        "mcp_selenium"
+      ],
+      "env": {
+        "SELENIUM_HUB_URL": "http://localhost:4444",
+        "DEFAULT_BROWSER": "firefox"
+      },
+      "description": "Selenium WebDriver integration for cross-browser testing"
+    },
+    
+    "git": {
+      "command": "node",
+      "args": [
+        "/path/to/git-mcp-server/index.js"
+      ],
+      "description": "Git operations for version control"
+    },
+    
+    "maven": {
+      "command": "java",
+      "args": [
+        "-jar",
+        "/path/to/maven-mcp-server.jar"
+      ],
+      "env": {
+        "MAVEN_HOME": "/usr/local/apache-maven-3.9.6",
+        "JAVA_HOME": "/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home"
+      },
+      "description": "Maven build and dependency management"
+    },
+    
+    "java-analyzer": {
+      "command": "java",
+      "args": [
+        "-jar",
+        "/path/to/java-code-analyzer.jar"
+      ],
+      "description": "Java code analysis and metrics"
+    },
+    
+    "docker": {
+      "command": "node",
+      "args": [
+        "/path/to/docker-mcp-server/index.js"
+      ],
+      "env": {
+        "DOCKER_HOST": "unix:///var/run/docker.sock"
+      },
+      "description": "Docker container management for Selenium Grid"
+    },
+    
+    "test-reporting": {
+      "command": "node",
+      "args": [
+        "/path/to/test-reporting-mcp/index.js"
+      ],
+      "env": {
+        "REPORTS_DIR": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/Results",
+        "EXTENT_REPORTS_DIR": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/test-output"
+      },
+      "description": "Test report analysis and visualization"
+    },
+    
+    "database": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "mcp_database"
+      ],
+      "env": {
+        "DB_CONNECTION_STRING": "jdbc:postgresql://localhost:5432/testdb",
+        "DB_USER": "${DB_USER}",
+        "DB_PASSWORD": "${DB_PASSWORD}"
+      },
+      "description": "Database connectivity for test data management"
+    },
+    
+    "api-testing": {
+      "command": "node",
+      "args": [
+        "/path/to/rest-assured-mcp/index.js"
+      ],
+      "env": {
+        "BASE_URI": "https://api.example.com",
+        "API_KEY": "${API_KEY}"
+      },
+      "description": "REST API testing with RestAssured"
+    },
+    
+    "-smart-selector": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "ai_test_selector"
+      ],
+      "env": {
+        "MODEL_PATH": "/path/to/ai/models",
+        "HISTORY_FILE": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/test-execution-history.json"
+      },
+      "description": "AI-powered smart test selection based on historical data"
+    },
+    
+    "security-scanner": {
+      "command": "java",
+      "args": [
+        "-jar",
+        "/path/to/security-scanner.jar"
+      ],
+      "env": {
+        "OWASP_ZAP_PATH": "/opt/zap",
+        "SCAN_TARGET": "https://app.example.com"
+      },
+      "description": "Security vulnerability scanning with OWASP ZAP"
+    },
+    
+    "performance-monitor": {
+      "command": "node",
+      "args": [
+        "/path/to/performance-monitor/index.js"
+      ],
+      "env": {
+        "METRICS_ENDPOINT": "http://localhost:9090/metrics",
+        "PROMETHEUS_ENABLED": "true"
+      },
+      "description": "Performance monitoring and metrics collection"
+    },
+    
+    "cucumber-parser": {
+      "command": "java",
+      "args": [
+        "-cp",
+        "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/target/test-classes",
+        "com.framework.cucumber.FeatureParser"
+      ],
+      "description": "Cucumber feature file parsing and validation"
+    },
+    
+    "test-data-generator": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "test_data_generator"
+      ],
+      "env": {
+        "DATA_TEMPLATES_DIR": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/src/test/resources/datatables"
+      },
+      "description": "Generate test data for various data sources"
+    },
+    
+    "screenshot-comparison": {
+      "command": "node",
+      "args": [
+        "/path/to/screenshot-diff/index.js"
+      ],
+      "env": {
+        "SCREENSHOT_DIR": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Mavenworks_v3.0/Results/Run_*/ScreenShots",
+        "BASELINE_DIR": "/path/to/baseline/screenshots"
+      },
+      "description": "Visual regression testing with screenshot comparison"
+    },
+    
+    "cloud-execution": {
+      "command": "node",
+      "args": [
+        "/path/to/cloud-execution-mcp/index.js"
+      ],
+      "env": {
+        "LAMBDATEST_USERNAME": "${LAMBDATEST_USERNAME}",
+        "LAMBDATEST_ACCESS_KEY": "${LAMBDATEST_ACCESS_KEY}",
+        "BROWSERSTACK_USER": "${BROWSERSTACK_USER}",
+        "BROWSERSTACK_KEY": "${BROWSERSTACK_KEY}"
+      },
+      "description": "Cloud-based test execution on LambdaTest, BrowserStack, Sauce Labs"
+    },
+    
+    "accessibility-checker": {
+      "command": "node",
+      "args": [
+        "/path/to/axe-mcp-server/index.js"
+      ],
+      "env": {
+        "AXE_RULES": "wcag2a,wcag2aa,wcag21aa"
+      },
+      "description": "Accessibility testing with Axe Core"
+    },
+    
+    "log-analyzer": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "log_analyzer"
+      ],
+      "env": {
+        "LOG_DIR": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/logs",
+        "LOG_PATTERNS": "/path/to/log-patterns.json"
+      },
+      "description": "Test execution log analysis and error pattern detection"
+    }
+  },
+  
+  "globalSettings": {
+    "timeout": 30000,
+    "retryAttempts": 3,
+    "enableLogging": true,
+    "logLevel": "INFO",
+    "workingDirectory": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0",
+    "frameworkRoot": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0",
+    "testResultsDir": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/Results",
+    "reportsDir": "/Users/selvamohanchinnasamy/Downloads/Qualiframe-JAVA-Maven_v3.0/test-output"
+  },
+  
+  "featureFlags": {
+    "enableAIFeatures": true,
+    "enableSecurityScanning": true,
+    "enablePerformanceMonitoring": true,
+    "enableCloudExecution": true,
+    "enableAccessibilityTesting": true,
+    "enableVisualRegression": true,
+    "enableParallelExecution": true
+  },
+  
+  "customTools": {
+    docGenerator: {
+      command: "node",
+      args: ["-e", "console.log('Generating documentation...')"],
+      description: "Generate framework documentation from code"
+    },
+    testExecutor: {
+      command: "./scripts/execute-tests.sh",
+      description: "Execute test suites with custom configurations"
+    },
+    reportAggregator: {
+      command: "node",
+      args: ["/path/to/report-aggregator/index.js"],
+      description: "Aggregate test reports from multiple runs"
+    }
+  }
+}
+
